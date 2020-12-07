@@ -1,11 +1,5 @@
 <template>
-  <div>
-    <v-container class="d-flex flex-wrap justify-space-around lighten-4">
-      <v-card v-for="n in 8" :key="n" class="card pa-2" outlined tile>
-        Card {{ n }}
-      </v-card>
-    </v-container>
-  </div>
+  <div></div>
 </template>
 
 <!--<script>
