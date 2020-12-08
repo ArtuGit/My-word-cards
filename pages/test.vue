@@ -1,13 +1,15 @@
 <template>
-  <div></div>
+  <div>Test</div>
 </template>
 
-<!--<script>
-export default {
-  data: () => ({
-  }),
-}
-</script>-->
+<script>
+import { searchImages } from 'pixabay-api'
+const authKey = '19446257-b0025af71a07915d6889c5664'
+searchImages(authKey, 'puppy', { per_page: 3 }).then((r) =>
+  console.log(r.hits[0].largeImageURL)
+)
+export default {}
+</script>
 
 <style scoped lang="scss">
 @import '~vuetify/src/styles/settings/_variables';

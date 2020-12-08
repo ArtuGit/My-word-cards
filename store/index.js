@@ -1,4 +1,5 @@
 import Vuex from 'vuex'
+import { searchImages } from 'pixabay-api'
 
 const CreateStore = () => {
   return new Vuex.Store({
@@ -45,7 +46,12 @@ const CreateStore = () => {
         vuexContext.commit('setCards', cards)
       },
       addCard(vuexContext, card) {
-        vuexContext.commit('addCard', card)
+        const authKey = '19446257-b0025af71a07915d6889c5664'
+        searchImages(authKey, card.word, { per_page: 3 }).then((r) => {
+          card.image = r.hits[0].largeImageURL
+          console.log(r.hits[0].largeImageURL)
+          vuexContext.commit('addCard', card)
+        })
       },
     },
     getters: {

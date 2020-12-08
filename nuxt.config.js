@@ -48,7 +48,7 @@ export default {
   // uid-module module configuration
   'uid-module': {
     name: 'uid', // property name(option)
-    plugin: false,  // when to use vue-uid mixin(option)
+    plugin: true,  // when to use vue-uid mixin(option)
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)

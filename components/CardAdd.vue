@@ -47,7 +47,10 @@
 </template>
 
 <script>
+import { vueUidMixin } from 'vue-uid'
+
 export default {
+  mixins: [vueUidMixin],
   data() {
     return {
       valid: true,
@@ -69,17 +72,19 @@ export default {
       }
     },
   },
+  mounted() {
+    const uid = this.$_uid
+    console.log('UID:' + uid) // 1 (Number)
+  },
 
   methods: {
     submit() {
+      const uid = this.$_uid
+      console.log(uid)
       this.$store.dispatch('addCard', {
-        id: this.$_uid,
+        id: uid,
         word: this.word,
         translation: 'Trans Word',
-        image:
-          'https://picsum.photos/600/500' +
-          '?' +
-          Math.random().toString(36).substring(7),
       })
       this.dialog = false
       this.word = ''
