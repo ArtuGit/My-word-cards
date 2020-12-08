@@ -72,14 +72,15 @@ export default {
 
   methods: {
     submit() {
-      console.log(this.word)
-      console.log(this.$store)
-      // this.$store.commit('addCard', {
-      //   id: '1',
-      //   word: this.word,
-      //   translation: 'Trans Word',
-      //   image: 'https://picsum.photos/600/500?4',
-      // })
+      this.$store.dispatch('addCard', {
+        id: this.$_uid,
+        word: this.word,
+        translation: 'Trans Word',
+        image:
+          'https://picsum.photos/600/500' +
+          '?' +
+          Math.random().toString(36).substring(7),
+      })
       this.dialog = false
       this.word = ''
       this.valid = true

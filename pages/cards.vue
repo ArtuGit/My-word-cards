@@ -25,7 +25,6 @@
         </v-col>
       </v-row>
     </v-container>
-    {{ loadedCards }}
   </div>
 </template>
 
@@ -37,24 +36,10 @@ export default {
     Card,
     CardAdd,
   },
-  data() {
-    return {
-      myCards: [],
-    }
-  },
   computed: {
-    loadedCards() {
+    myCards() {
       return this.$store.getters.loadedCards
     },
-  },
-  created() {
-    this.$store.commit('index/setCards', {
-      id: '4',
-      word: 'This word',
-      translation: 'Trans Word',
-      image: 'https://picsum.photos/600/500?4',
-    })
-    this.myCards = this.$store.getters.loadedCards
   },
 }
 </script>

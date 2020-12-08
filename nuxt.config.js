@@ -39,10 +39,17 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    'nuxt-uid-module',
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
+
+  // uid-module module configuration
+  'uid-module': {
+    name: 'uid', // property name(option)
+    plugin: false,  // when to use vue-uid mixin(option)
+  },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
