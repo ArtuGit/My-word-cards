@@ -28,10 +28,16 @@ const CreateStore = () => {
       setCards(state, cards) {
         state.myCards = cards
       },
+      addCard(state, card) {
+        state.myCards.push(card)
+      },
     },
     actions: {
       setCards(vuexContext, cards) {
         vuexContext.commit('setCards', cards)
+      },
+      addCard(vuexContext, card) {
+        vuexContext.commit('addCard', card)
       },
     },
     getters: {
