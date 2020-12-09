@@ -1,92 +1,32 @@
 <template>
-  <v-card class="transparent">
-    <v-row justify="center">
-      <v-dialog v-model="dialog" persistent max-width="600px">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" v-bind="attrs" v-on="on"> Add Card </v-btn>
-        </template>
-        <v-card>
-          <v-card-title>
-            <span class="headline">New Card</span>
-          </v-card-title>
-          <v-card-text>
-            <v-form ref="form" v-model="valid" lazy-validation>
-              <v-container>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      v-model="word"
-                      :counter="100"
-                      :rules="wordRules"
-                      autofocus
-                      clearable
-                      validate-on-blur
-                      label="Word*"
-                      required
-                    ></v-text-field>
-                    <v-textarea
-                      v-model="annotation"
-                      name="Annotation"
-                      label="Annotation"
-                      hint="Translation, definition, comment and so on."
-                    ></v-textarea>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              :disabled="inputLength === 0"
-              text
-              @click="submit"
-            >
-              Add
-            </v-btn>
-            <v-btn color="primary" text @click="dialog = false"> Cancel </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
-  </v-card>
+  <div>
+    <v-card class="transparent">
+      <v-row justify="center">
+        <v-dialog v-model="dialog" persistent max-width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="primary" v-bind="attrs" v-on="on"> Add Card</v-btn>
+          </template>
+          <card-form @dialog-reverse="dialogReverse"></card-form>
+        </v-dialog>
+      </v-row>
+    </v-card>
+  </div>
 </template>
 
 <script>
+import CardForm from '@/components/CardForm'
 export default {
+  components: {
+    CardForm,
+  },
   data() {
     return {
-      valid: true,
       dialog: false,
-      word: '',
-      annotation: '',
-      wordRules: [
-        (v) => !!v || 'Word is required',
-        (v) =>
-          (v && v.length <= 100) || 'Word must be less than 100 characters',
-      ],
     }
   },
-  computed: {
-    inputLength() {
-      if (this.word) {
-        return this.word.length
-      } else {
-        return 0
-      }
-    },
-  },
   methods: {
-    submit() {
-      this.$store.dispatch('addCard', {
-        word: this.word,
-        annotation: this.annotation,
-      })
-      this.dialog = false
-      this.word = ''
-      this.annotation = ''
-      this.valid = true
+    dialogReverse() {
+      this.dialog = !this.dialog
     },
   },
 }
