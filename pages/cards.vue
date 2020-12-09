@@ -18,7 +18,7 @@
           <card
             :id="card.id"
             :word="card.word"
-            :translation="card.translation"
+            :annotation="card.annotation"
             :image="card.image"
           >
           </card>

@@ -10,23 +10,30 @@
             <span class="headline">New Card</span>
           </v-card-title>
           <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                    v-model="word"
-                    :counter="100"
-                    :rules="wordRules"
-                    autofocus
-                    clearable
-                    validate-on-blur
-                    label="Word*"
-                    required
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-            </v-container>
-            <small>*indicates required field</small>
+            <v-form ref="form" v-model="valid" lazy-validation>
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="word"
+                      :counter="100"
+                      :rules="wordRules"
+                      autofocus
+                      clearable
+                      validate-on-blur
+                      label="Word*"
+                      required
+                    ></v-text-field>
+                    <v-textarea
+                      v-model="annotation"
+                      name="Annotation"
+                      label="Annotation"
+                      hint="Translation, definition, comment and so on."
+                    ></v-textarea>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -47,15 +54,13 @@
 </template>
 
 <script>
-import { vueUidMixin } from 'vue-uid'
-
 export default {
-  mixins: [vueUidMixin],
   data() {
     return {
       valid: true,
       dialog: false,
       word: '',
+      annotation: '',
       wordRules: [
         (v) => !!v || 'Word is required',
         (v) =>
@@ -76,10 +81,11 @@ export default {
     submit() {
       this.$store.dispatch('addCard', {
         word: this.word,
-        translation: 'Trans Word',
+        annotation: this.annotation,
       })
       this.dialog = false
       this.word = ''
+      this.annotation = ''
       this.valid = true
     },
   },

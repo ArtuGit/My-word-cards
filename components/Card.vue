@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title> {{ word }} </v-card-title>
-    <v-card-subtitle> {{ translation }} </v-card-subtitle>
+    <v-card-subtitle> {{ annotation }} </v-card-subtitle>
     <v-img v-if="image" :src="image"></v-img>
   </v-card>
 </template>
@@ -17,7 +17,7 @@ export default {
       type: String,
       required: true,
     },
-    translation: {
+    annotation: {
       type: String,
       required: false,
       default: null,
