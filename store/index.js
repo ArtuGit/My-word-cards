@@ -47,11 +47,15 @@ const CreateStore = () => {
       },
       addCard(vuexContext, card) {
         const authKey = '19446257-b0025af71a07915d6889c5664'
+
+        card.id = Date.now().toString()
+        card.image = ''
         searchImages(authKey, card.word, { per_page: 3 }).then((r) => {
-          card.image = r.hits[0].largeImageURL
-          console.log(r.hits[0].largeImageURL)
-          vuexContext.commit('addCard', card)
+          if (r.total > 0) {
+            card.image = r.hits[0].largeImageURL
+          }
         })
+        vuexContext.commit('addCard', card)
       },
     },
     getters: {

@@ -72,17 +72,9 @@ export default {
       }
     },
   },
-  mounted() {
-    const uid = this.$_uid
-    console.log('UID:' + uid) // 1 (Number)
-  },
-
   methods: {
     submit() {
-      const uid = this.$_uid
-      console.log(uid)
       this.$store.dispatch('addCard', {
-        id: uid,
         word: this.word,
         translation: 'Trans Word',
       })
