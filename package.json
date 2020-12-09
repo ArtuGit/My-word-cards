@@ -27,7 +27,7 @@
     "nuxt": "^2.14.6",
     "nuxt-uid-module": "^0.2.0",
     "pixabay-api": "^1.0.4",
-    "uuid": "^8.3.1"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
