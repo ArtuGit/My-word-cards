@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <span class="headline">New Card</span>
+      <span class="headline">{{ cardTitle }}, ID: {{ id }}</span>
     </v-card-title>
     <v-card-text>
       <v-form ref="form" v-model="valid" lazy-validation>
@@ -32,7 +32,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="primary" :disabled="inputLength === 0" text @click="submit">
-        Add
+        {{ submitButtonName }}
       </v-btn>
       <v-btn color="primary" text @click="cancel"> Cancel </v-btn>
     </v-card-actions>
@@ -41,6 +41,13 @@
 
 <script>
 export default {
+  props: {
+    id: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
   data() {
     return {
       valid: true,
@@ -54,6 +61,20 @@ export default {
     }
   },
   computed: {
+    cardTitle() {
+      if (this.id) {
+        return this.word
+      } else {
+        return 'New Card'
+      }
+    },
+    submitButtonName() {
+      if (this.id) {
+        return 'Save'
+      } else {
+        return 'Add'
+      }
+    },
     inputLength() {
       if (this.word) {
         return this.word.length
@@ -63,19 +84,35 @@ export default {
     },
   },
   emits: ['dialog-reverse'],
+  created() {
+    if (this.id) {
+      const word = this.$store.getters.getCard(this.id)
+      this.word = word.word
+      this.annotation = word.annotation
+    }
+  },
   methods: {
-    cancel() {
-      this.$emit('dialog-reverse')
-    },
-    submit() {
-      this.$store.dispatch('addCard', {
-        word: this.word,
-        annotation: this.annotation,
-      })
+    clearForm() {
       this.word = ''
       this.annotation = ''
       this.valid = true
       this.$emit('dialog-reverse')
+    },
+    cancel() {
+      this.$emit('dialog-reverse')
+    },
+    submit() {
+      const card = {
+        word: this.word,
+        annotation: this.annotation,
+      }
+      if (this.id) {
+        card.id = this.id
+        this.$store.dispatch('saveCard', card)
+      } else {
+        this.$store.dispatch('addCard', card)
+      }
+      this.clearForm()
     },
   },
 }

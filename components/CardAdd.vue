@@ -6,7 +6,7 @@
           <template v-slot:activator="{ on, attrs }">
             <v-btn color="primary" v-bind="attrs" v-on="on"> Add Card</v-btn>
           </template>
-          <card-form @dialog-reverse="dialogReverse"></card-form>
+          <card-form @dialog-reverse="dialogReverse"> </card-form>
         </v-dialog>
       </v-row>
     </v-card>

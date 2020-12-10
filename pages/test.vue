@@ -1,8 +1,20 @@
 <template>
-  <div>Test</div>
+  <div>
+    <div>Test</div>
+    <v-btn color="primary" @click="submit"> Run</v-btn>
+  </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  methods: {
+    submit() {
+      const data = this.$store.getters.getCard('2')
+      console.log(data.word)
+    },
+  },
+}
+</script>
 
 <style scoped lang="scss">
 @import '~vuetify/src/styles/settings/_variables';

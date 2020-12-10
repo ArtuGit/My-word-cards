@@ -1,6 +1,8 @@
 import Vuex from 'vuex'
 import { searchImages } from 'pixabay-api'
 
+const pixabayKey = '19446257-b0025af71a07915d6889c5664'
+
 const CreateStore = () => {
   return new Vuex.Store({
     state: {
@@ -12,6 +14,10 @@ const CreateStore = () => {
       },
       addCard(state, card) {
         state.myCards.push(card)
+      },
+      saveCard(state, card) {
+        const index = state.myCards.findIndex((item) => item.id === card.id)
+        if (index !== -1) state.myCards.splice(index, 1, card)
       },
     },
     actions: {
@@ -46,21 +52,27 @@ const CreateStore = () => {
         vuexContext.commit('setCards', cards)
       },
       addCard(vuexContext, card) {
-        const authKey = '19446257-b0025af71a07915d6889c5664'
-
         card.id = Date.now().toString()
         card.image = ''
-        searchImages(authKey, card.word, { per_page: 3 }).then((r) => {
+        searchImages(pixabayKey, card.word, { per_page: 3 }).then((r) => {
           if (r.total > 0) {
             card.image = r.hits[0].largeImageURL
           }
         })
         vuexContext.commit('addCard', card)
       },
+      saveCard(vuexContext, card) {
+        vuexContext.commit('saveCard', card)
+      },
     },
     getters: {
       loadedCards(state) {
         return state.myCards
+      },
+      getCard: (state) => (id) => {
+        return state.myCards[
+          state.myCards.findIndex((element) => element.id === id)
+        ]
       },
     },
   })
