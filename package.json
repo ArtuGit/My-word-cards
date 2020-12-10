@@ -24,7 +24,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
     "core-js": "^3.6.5",
-    "nuxt": "^2.14.6",
+    "nuxt": "^2.14.11",
     "nuxt-uid-module": "^0.2.0",
     "pixabay-api": "^1.0.4",
     "uuid": "^8.3.1"
