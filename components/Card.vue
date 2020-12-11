@@ -1,10 +1,12 @@
 <template>
-  <v-card>
+  <v-card height="100%">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn v-bind="attrs" v-on="on">
-          <v-card-title> {{ word }} </v-card-title>
-        </v-btn>
+        <v-card-title>
+          <div text width="100%" v-bind="attrs" v-on="on">
+            {{ word }}
+          </div>
+        </v-card-title>
       </template>
       <card-form
         :id="id"
@@ -16,7 +18,9 @@
       </card-form>
     </v-dialog>
 
-    <v-card-subtitle v-if="annotation"> {{ annotation }} </v-card-subtitle>
+    <v-card-subtitle v-if="trimmedAnnotation">
+      {{ trimmedAnnotation }}
+    </v-card-subtitle>
     <v-img v-if="image" :src="image"></v-img>
   </v-card>
 </template>
@@ -51,6 +55,19 @@ export default {
     return {
       dialog: false,
     }
+  },
+  computed: {
+    trimmedAnnotation() {
+      if (this.annotation) {
+        if (this.annotation.length > 55) {
+          return this.annotation.substr(0, 50) + '...'
+        } else {
+          return this.annotation
+        }
+      } else {
+        return this.annotation
+      }
+    },
   },
   methods: {
     dialogReverse() {

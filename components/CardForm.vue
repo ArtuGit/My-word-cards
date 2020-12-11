@@ -12,14 +12,18 @@
                 v-model="word"
                 :counter="100"
                 :rules="wordRules"
-                autofocus
-                clearable
+                :autofocus="!id"
+                :clearable="!id"
                 validate-on-blur
                 label="Word*"
+                :readonly="id"
               ></v-text-field>
               <v-textarea
                 v-model="annotation"
                 name="Annotation"
+                auto-grow
+                :clearable="!id"
+                validate-on-blur
                 label="Annotation"
                 hint="Translation, definition, comment and so on."
               ></v-textarea>
