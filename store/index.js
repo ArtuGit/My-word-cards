@@ -1,4 +1,5 @@
 import Vuex from 'vuex'
+// import axios from 'axios'
 import { searchImages } from 'pixabay-api'
 
 const pixabayKey = '19446257-b0025af71a07915d6889c5664'
@@ -54,11 +55,14 @@ const CreateStore = () => {
       addCard(vuexContext, card) {
         card.id = Date.now().toString()
         card.image = ''
-        searchImages(pixabayKey, card.word, { per_page: 3 }).then((r) => {
-          if (r.total > 0) {
-            card.image = r.hits[0].largeImageURL
-          }
-        })
+        searchImages(pixabayKey, card.word, { per_page: 3 })
+          .then((r) => {
+            if (r.total > 0) {
+              card.image = r.hits[0].largeImageURL
+            }
+          })
+          // eslint-disable-next-line no-console
+          .catch((e) => console.error(e))
         vuexContext.commit('addCard', card)
       },
       saveCard(vuexContext, card) {

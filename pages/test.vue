@@ -10,6 +10,7 @@ export default {
   methods: {
     submit() {
       const data = this.$store.getters.getCard('2')
+      // eslint-disable-next-line no-console
       console.log(data.word)
     },
   },
