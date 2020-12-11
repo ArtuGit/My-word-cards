@@ -136,6 +136,10 @@ export default {
       this.$emit('dialog-reverse')
     },
     submit() {
+      if (!this.id) {
+        this.input.word = this.input.word.trimEnd()
+      }
+      this.input.annotation = this.input.annotation.trimEnd()
       const card = {
         word: this.input.word,
         annotation: this.input.annotation,

@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
         <v-card-title>
-          <div text width="100%" v-bind="attrs" v-on="on">
+          <div v-bind="attrs" v-on="on">
             {{ word }}
           </div>
         </v-card-title>
