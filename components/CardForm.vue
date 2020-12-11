@@ -14,9 +14,8 @@
                 :rules="wordRules"
                 autofocus
                 clearable
-                validate-on-blurdialog
+                validate-on-blur
                 label="Word*"
-                required
               ></v-text-field>
               <v-textarea
                 v-model="annotation"
@@ -47,12 +46,25 @@ export default {
       required: false,
       default: null,
     },
+    word: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    annotation: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    image: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
       valid: true,
-      word: '',
-      annotation: '',
       wordRules: [
         (v) => !!v || 'Word is required',
         (v) =>
@@ -84,15 +96,9 @@ export default {
     },
   },
   emits: ['dialog-reverse'],
-  created() {
-    if (this.id) {
-      const word = this.$store.getters.getCard(this.id)
-      this.word = word.word
-      this.annotation = word.annotation
-    }
-  },
   methods: {
     clearForm() {
+      this.id = ''
       this.word = ''
       this.annotation = ''
       this.valid = true
@@ -105,6 +111,7 @@ export default {
       const card = {
         word: this.word,
         annotation: this.annotation,
+        image: this.image,
       }
       if (this.id) {
         card.id = this.id

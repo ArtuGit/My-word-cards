@@ -6,11 +6,17 @@
           <v-card-title> {{ word }} </v-card-title>
         </v-btn>
       </template>
-      <card-form :id="id" :v-if="annotation" @dialog-reverse="dialogReverse">
+      <card-form
+        :id="id"
+        :word="word"
+        :annotation="annotation"
+        :image="image"
+        @dialog-reverse="dialogReverse"
+      >
       </card-form>
     </v-dialog>
 
-    <v-card-subtitle> {{ annotation }} </v-card-subtitle>
+    <v-card-subtitle v-if="annotation"> {{ annotation }} </v-card-subtitle>
     <v-img v-if="image" :src="image"></v-img>
   </v-card>
 </template>
