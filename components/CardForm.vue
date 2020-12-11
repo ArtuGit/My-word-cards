@@ -9,17 +9,17 @@
           <v-row>
             <v-col cols="12">
               <v-text-field
-                v-model="word"
+                v-model="input.word"
                 :counter="100"
                 :rules="wordRules"
                 :autofocus="!id"
                 :clearable="!id"
                 validate-on-blur
                 label="Word*"
-                :readonly="id"
+                :readonly="!!id"
               ></v-text-field>
               <v-textarea
-                v-model="annotation"
+                v-model="input.annotation"
                 name="Annotation"
                 auto-grow
                 :clearable="!id"
@@ -34,7 +34,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="primary" :disabled="inputLength === 0" text @click="submit">
+      <v-btn color="primary" :disabled="submitButtonState" text @click="submit">
         {{ submitButtonName }}
       </v-btn>
       <v-btn color="primary" text @click="cancel"> Cancel </v-btn>
@@ -68,11 +68,15 @@ export default {
   },
   data() {
     return {
+      input: {
+        word: '',
+        annotation: '',
+      },
       valid: true,
       wordRules: [
         (v) => !!v || 'Word is required',
         (v) =>
-          (v && v.length <= 100) || 'Word must be less than 100 characters',
+          (!!v && v.length <= 100) || 'Word must be less than 100 characters',
       ],
     }
   },
@@ -91,30 +95,50 @@ export default {
         return 'Add'
       }
     },
-    inputLength() {
-      if (this.word) {
-        return this.word.length
+    submitButtonState() {
+      if (this.id) {
+        if (this.input.annotation !== this.annotation) {
+          return false
+        } else {
+          return true
+        }
+      } else if (
+        this.input.word &&
+        this.input.word.length > 0 &&
+        this.input.word.length <= 100
+      ) {
+        return false
       } else {
-        return 0
+        return true
       }
     },
+  },
+  mounted() {
+    this.input.word = this.word
+    this.input.annotation = this.annotation
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.input.word = this.word
+    this.input.annotation = this.annotation
+    next()
   },
   emits: ['dialog-reverse'],
   methods: {
     clearForm() {
-      this.id = ''
-      this.word = ''
-      this.annotation = ''
       this.valid = true
       this.$emit('dialog-reverse')
+      if (!this.id) {
+        this.input.word = ''
+        this.input.annotation = ''
+      }
     },
     cancel() {
       this.$emit('dialog-reverse')
     },
     submit() {
       const card = {
-        word: this.word,
-        annotation: this.annotation,
+        word: this.input.word,
+        annotation: this.input.annotation,
         image: this.image,
       }
       if (this.id) {
