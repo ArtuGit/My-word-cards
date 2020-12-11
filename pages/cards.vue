@@ -23,6 +23,17 @@
           >
           </card>
         </v-col>
+        <v-col
+          v-if="myCards.length > 10"
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+          xl="2"
+          align-self="center"
+        >
+          <card-add></card-add>
+        </v-col>
       </v-row>
     </v-container>
   </div>
