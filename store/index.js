@@ -20,6 +20,10 @@ const CreateStore = () => {
         const index = state.myCards.findIndex((item) => item.id === card.id)
         if (index !== -1) state.myCards.splice(index, 1, card)
       },
+      deleteCard(state, card) {
+        const index = state.myCards.findIndex((item) => item.id === card.id)
+        if (index !== -1) state.myCards.splice(index, 1)
+      },
     },
     actions: {
       nuxtServerInit(vuexContext, context) {
@@ -62,7 +66,22 @@ const CreateStore = () => {
           .catch((e) => console.error(e))
       },
       saveCard(vuexContext, card) {
-        vuexContext.commit('saveCard', card)
+        // ToDo: Does not work
+        axios
+          .put(
+            'https://my-cards-2021-default-rtdb.firebaseio.com/words/' +
+              card.id +
+              '.json',
+            card
+          )
+          .then((res) => {
+            vuexContext.commit('saveCard', card)
+          })
+          // eslint-disable-next-line no-console
+          .catch((e) => console.error(e))
+      },
+      deleteCard(vuexContext, card) {
+        vuexContext.commit('deleteCard', card)
       },
     },
     getters: {
