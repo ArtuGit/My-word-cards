@@ -1,7 +1,21 @@
 <template>
   <div>
-    <div>Test</div>
-    <v-btn color="primary" @click="submit"> Run</v-btn>
+    <div>
+      <div>Test</div>
+      <v-btn color="primary" @click="submit"> Run</v-btn>
+    </div>
+    <v-menu>
+      <template v-slot:activator="{ on: menu1 }">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on: tooltip2 }">
+            <v-btn color="primary" dark v-on="{ ...tooltip2, ...menu1 }">
+              Dropdown w/ Tooltip
+            </v-btn>
+          </template>
+          <span>Im A ToolTip</span>
+        </v-tooltip>
+      </template>
+    </v-menu>
   </div>
 </template>
 

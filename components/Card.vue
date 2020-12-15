@@ -1,11 +1,26 @@
 <template>
   <v-card height="100%">
     <v-dialog v-model="dialog" persistent max-width="600px">
-      <template v-slot:activator="{ on, attrs }">
+      <template v-slot:activator="{ on: title, attrs2 }">
         <v-card-title>
-          <div v-bind="attrs" v-on="on">
-            {{ word }}
+          <div v-bind="attrs2" v-on="{ ...title }">
+            <span class="headline">{{ word }}</span>
           </div>
+          <v-spacer></v-spacer>
+          <v-menu bottom left>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn dark icon v-bind="attrs" v-on="on">
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item v-for="item in menuItems" :key="item.id">
+                <v-list-item-title @click="menuHandler(item)">
+                  {{ item.title }}
+                </v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-card-title>
       </template>
       <card-form
@@ -54,6 +69,10 @@ export default {
   data() {
     return {
       dialog: false,
+      menuItems: [
+        { id: 'edit', title: 'Edit' },
+        { id: 'delete', title: 'Delete' },
+      ],
     }
   },
   computed: {
@@ -72,6 +91,13 @@ export default {
   methods: {
     dialogReverse() {
       this.dialog = !this.dialog
+    },
+    menuHandler(item) {
+      if (item.id === 'edit') {
+        this.dialogReverse()
+      } else if (item.id === 'delete') {
+        this.$store.dispatch('deleteCard', this.id)
+      }
     },
   },
 }

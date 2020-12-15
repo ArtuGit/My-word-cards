@@ -20,8 +20,8 @@ const CreateStore = () => {
         const index = state.myCards.findIndex((item) => item.id === card.id)
         if (index !== -1) state.myCards.splice(index, 1, card)
       },
-      deleteCard(state, card) {
-        const index = state.myCards.findIndex((item) => item.id === card.id)
+      deleteCard(state, id) {
+        const index = state.myCards.findIndex((item) => item.id === id)
         if (index !== -1) state.myCards.splice(index, 1)
       },
     },
@@ -80,15 +80,15 @@ const CreateStore = () => {
           // eslint-disable-next-line no-console
           .catch((e) => console.error(e))
       },
-      deleteCard(vuexContext, card) {
+      deleteCard(vuexContext, id) {
         axios
           .delete(
             'https://my-cards-2021-default-rtdb.firebaseio.com/words/' +
-              card.id +
+              id +
               '.json'
           )
           .then((res) => {
-            vuexContext.commit('deleteCard', card)
+            vuexContext.commit('deleteCard', id)
           })
       },
     },
