@@ -81,7 +81,15 @@ const CreateStore = () => {
           .catch((e) => console.error(e))
       },
       deleteCard(vuexContext, card) {
-        vuexContext.commit('deleteCard', card)
+        axios
+          .delete(
+            'https://my-cards-2021-default-rtdb.firebaseio.com/words/' +
+              card.id +
+              '.json'
+          )
+          .then((res) => {
+            vuexContext.commit('deleteCard', card)
+          })
       },
     },
     getters: {
