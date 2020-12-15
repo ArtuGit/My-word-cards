@@ -96,7 +96,7 @@ export default {
       if (item.id === 'edit') {
         this.dialogReverse()
       } else if (item.id === 'delete') {
-        this.$store.dispatch('deleteCard', this.id)
+        this.$store.dispatch('cards/deleteCard', this.id)
       }
     },
   },

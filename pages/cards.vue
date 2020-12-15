@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     myCards() {
-      return this.$store.getters.loadedCards
+      return this.$store.getters['cards/loadedCards']
     },
   },
 }

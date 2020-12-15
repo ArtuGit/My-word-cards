@@ -149,9 +149,9 @@ export default {
       }
       if (this.id) {
         card.id = this.id
-        this.$store.dispatch('saveCard', card)
+        this.$store.dispatch('cards/saveCard', card)
       } else {
-        this.$store.dispatch('addCard', card)
+        this.$store.dispatch('cards/addCard', card)
       }
       this.clearForm()
     },
