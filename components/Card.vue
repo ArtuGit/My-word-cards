@@ -76,8 +76,8 @@ export default {
       dialog: false,
       menuItems: [
         { id: 'edit', title: 'Edit' },
+        { id: 'image', title: 'Change Image' },
         { id: 'delete', title: 'Delete' },
-        { id: 'test', title: 'Test' },
       ],
     }
   },

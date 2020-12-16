@@ -6,17 +6,22 @@ const { searchImages } = authenticate(pixabayKey)
 
 const firebaseURL = 'https://my-cards-2021-default-rtdb.firebaseio.com'
 
-async function getPixabayImages(phrase) {
+async function getPixabayImage(phrase, type = 'comments') {
   try {
     const data = await searchImages(phrase, { per_page: 200 })
-    let maxComments = 0
     let largeImageURL = ''
-    data.hits.forEach((item) => {
-      if (item.comments >= maxComments) {
-        maxComments = item.comments
-        largeImageURL = item.largeImageURL
-      }
-    })
+    if (type === 'comments') {
+      let maxComments = 0
+      data.hits.forEach((item) => {
+        if (item.comments >= maxComments) {
+          maxComments = item.comments
+          largeImageURL = item.largeImageURL
+        }
+      })
+    } else if (type === 'random') {
+      const index = Math.floor(Math.random() * data.hits.length)
+      largeImageURL = data.hits[index].largeImageURL
+    }
     return largeImageURL
   } catch (err) {
     // eslint-disable-next-line no-console
@@ -60,7 +65,7 @@ const cards = {
       vuexContext.commit('setCards', cards)
     },
     async addCard(vuexContext, card) {
-      card.image = await getPixabayImages(card.word)
+      card.image = await getPixabayImage(card.word)
       card.id = await firebasePut(card)
       vuexContext.commit('addCard', card)
     },
