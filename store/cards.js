@@ -4,6 +4,24 @@ import { searchImages } from 'pixabay-api'
 const pixabayKey = '19446257-b0025af71a07915d6889c5664'
 const firebaseURL = 'https://my-cards-2021-default-rtdb.firebaseio.com'
 
+const fakeRequest1 = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('Requested1!')
+      resolve()
+    }, 2000)
+  })
+}
+
+const fakeRequest2 = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('Requested2!')
+      resolve()
+    }, 2000)
+  })
+}
+
 const cards = {
   namespaced: true,
   state: {
@@ -64,7 +82,12 @@ const cards = {
         vuexContext.commit('deleteCard', id)
       })
     },
+    async testCard(vuexContext, id) {
+      await fakeRequest1()
+      await fakeRequest2()
+    },
   },
+
   getters: {
     loadedCards(state) {
       return state.myCards
