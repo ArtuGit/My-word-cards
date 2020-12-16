@@ -26,18 +26,6 @@ const cards = {
     },
   },
   actions: {
-    nuxtServerInit(vuexContext, context) {
-      return axios
-        .get(firebaseURL + '/words.json')
-        .then((res) => {
-          const cards = []
-          for (const key in res.data) {
-            cards.push({ ...res.data[key], id: key })
-          }
-          vuexContext.commit('setCards', cards)
-        })
-        .catch((e) => context.error(e))
-    },
     setCards(vuexContext, cards) {
       vuexContext.commit('setCards', cards)
     },
