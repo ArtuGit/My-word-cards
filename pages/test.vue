@@ -10,8 +10,9 @@
 <script>
 export default {
   methods: {
-    async submit() {
-      await this.$store.dispatch('cards/testPage', 0)
+    submit() {
+      // eslint-disable-next-line
+      console.log('Fired!')
     },
   },
 }
