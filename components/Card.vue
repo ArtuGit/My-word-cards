@@ -121,13 +121,15 @@ export default {
           break
         case 'image':
           this.toggleLoading()
-          this.$store
-            .dispatch('cards/setRandomImage', this.card)
-            .then(this.toggleLoading())
+          this.$store.dispatch('cards/setRandomImage', this.card).then(() => {
+            this.toggleLoading()
+          })
           break
         case 'test':
-          // eslint-disable-next-line
-          console.log('Test!')
+          this.toggleLoading()
+          this.$store.dispatch('cards/test', this.card).then(() => {
+            this.toggleLoading()
+          })
           break
       }
     },

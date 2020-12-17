@@ -6,6 +6,16 @@ const { searchImages } = authenticate(pixabayKey)
 
 const firebaseURL = 'https://my-cards-2021-default-rtdb.firebaseio.com'
 
+const fakeRequestPromise = (delay = 1000) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // eslint-disable-next-line
+      console.log('Requested Fake promise ...')
+      resolve()
+    }, delay)
+  })
+}
+
 async function getPixabayImage(phrase, type = 'comments') {
   try {
     const data = await searchImages(phrase, { per_page: 200 })
@@ -110,6 +120,9 @@ const cards = {
       const response = await firebaseOp(card, 'PATCH')
       vuexContext.commit('saveCard', card)
       return response
+    },
+    async test(vuexContext, card) {
+      await fakeRequestPromise(3000)
     },
   },
   getters: {
