@@ -76,13 +76,21 @@ export default {
       dialog: false,
       menuItems: [
         { id: 'edit', title: 'Edit' },
-        { id: 'image', title: 'Change Image' },
+        { id: 'image', title: 'Set random Image' },
         { id: 'delete', title: 'Delete' },
         { id: 'test', title: 'Test' },
       ],
     }
   },
   computed: {
+    card() {
+      return {
+        id: this.id,
+        word: this.word,
+        annotation: this.annotation,
+        image: this.image,
+      }
+    },
     trimmedAnnotation() {
       if (this.annotation) {
         if (this.annotation.length > 55) {
@@ -103,12 +111,24 @@ export default {
       this.loading = !this.loading
     },
     menuHandler(item) {
-      if (item.id === 'edit') {
-        this.dialogReverse()
-      } else if (item.id === 'delete') {
-        this.$store.dispatch('cards/deleteCard', this.id)
-      } else if (item.id === 'test') {
-        this.toggleLoading()
+      switch (item.id) {
+        case 'edit':
+          this.dialogReverse()
+          break
+        case 'delete':
+          this.toggleLoading()
+          this.$store.dispatch('cards/deleteCard', { id: this.id })
+          break
+        case 'image':
+          this.toggleLoading()
+          this.$store
+            .dispatch('cards/setRandomImage', this.card)
+            .then(this.toggleLoading())
+          break
+        case 'test':
+          // eslint-disable-next-line
+          console.log('Test!')
+          break
       }
     },
   },

@@ -21,6 +21,8 @@ async function getPixabayImage(phrase, type = 'comments') {
     } else if (type === 'random') {
       const index = Math.floor(Math.random() * data.hits.length)
       largeImageURL = data.hits[index].largeImageURL
+    } else if (type === 'first') {
+      largeImageURL = data.hits[0].largeImageURL
     }
     return largeImageURL
   } catch (err) {
@@ -29,10 +31,34 @@ async function getPixabayImage(phrase, type = 'comments') {
   }
 }
 
-async function firebaseOp(card) {
+async function firebaseOp(card, type) {
   try {
-    const res = await axios.post(firebaseURL + '/words.json', card)
-    return res.data.name
+    let response = ''
+    let result = ''
+    switch (type) {
+      case 'POST':
+        response = await axios.post(firebaseURL + '/words.json', card)
+        result = response.data.name
+        break
+      case 'PUT':
+        response = axios.put(firebaseURL + '/words/' + card.id + '.json', card)
+        result = response
+        break
+      case 'PATCH':
+        response = await axios.patch(
+          firebaseURL + '/words/' + card.id + '.json',
+          card
+        )
+        result = response
+        break
+      case 'DELETE':
+        response = await axios.delete(
+          firebaseURL + '/words/' + card.id + '.json'
+        )
+        result = response
+        break
+    }
+    return result
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error(err)
@@ -55,8 +81,8 @@ const cards = {
       const index = state.myCards.findIndex((item) => item.id === card.id)
       if (index !== -1) state.myCards.splice(index, 1, card)
     },
-    deleteCard(state, id) {
-      const index = state.myCards.findIndex((item) => item.id === id)
+    deleteCard(state, card) {
+      const index = state.myCards.findIndex((item) => item.id === card.id)
       if (index !== -1) state.myCards.splice(index, 1)
     },
   },
@@ -65,23 +91,25 @@ const cards = {
       vuexContext.commit('setCards', cards)
     },
     async addCard(vuexContext, card) {
-      card.image = await getPixabayImage(card.word)
-      card.id = await firebaseOp(card)
+      card.image = await getPixabayImage(card.word, 'first')
+      card.id = await firebaseOp(card, 'POST')
       vuexContext.commit('addCard', card)
     },
-    saveCard(vuexContext, card) {
-      axios
-        .put(firebaseURL + '/words/' + card.id + '.json', card)
-        .then((res) => {
-          vuexContext.commit('saveCard', card)
-        })
-        // eslint-disable-next-line no-console
-        .catch((e) => console.error(e))
+    async saveCard(vuexContext, card) {
+      const response = await firebaseOp(card, 'PUT')
+      vuexContext.commit('saveCard', card)
+      return response
     },
-    deleteCard(vuexContext, id) {
-      axios.delete(firebaseURL + '/words/' + id + '.json').then((res) => {
-        vuexContext.commit('deleteCard', id)
-      })
+    async deleteCard(vuexContext, card) {
+      const response = await firebaseOp(card, 'DELETE')
+      vuexContext.commit('deleteCard', card)
+      return response
+    },
+    async setRandomImage(vuexContext, card) {
+      card.image = await getPixabayImage(card.word, 'random')
+      const response = await firebaseOp(card, 'PATCH')
+      vuexContext.commit('saveCard', card)
+      return response
     },
   },
   getters: {
