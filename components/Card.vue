@@ -78,6 +78,7 @@ export default {
         { id: 'edit', title: 'Edit' },
         { id: 'image', title: 'Change Image' },
         { id: 'delete', title: 'Delete' },
+        { id: 'test', title: 'Test' },
       ],
     }
   },
@@ -98,16 +99,16 @@ export default {
     dialogReverse() {
       this.dialog = !this.dialog
     },
+    toggleLoading() {
+      this.loading = !this.loading
+    },
     menuHandler(item) {
       if (item.id === 'edit') {
         this.dialogReverse()
       } else if (item.id === 'delete') {
         this.$store.dispatch('cards/deleteCard', this.id)
       } else if (item.id === 'test') {
-        this.loading = !this.loading
-        this.$store.dispatch('cards/testCard', this.id).then(() => {
-          this.loading = !this.loading
-        })
+        this.toggleLoading()
       }
     },
   },

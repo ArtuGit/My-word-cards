@@ -29,7 +29,7 @@ async function getPixabayImage(phrase, type = 'comments') {
   }
 }
 
-async function firebasePut(card) {
+async function firebaseOp(card) {
   try {
     const res = await axios.post(firebaseURL + '/words.json', card)
     return res.data.name
@@ -66,7 +66,7 @@ const cards = {
     },
     async addCard(vuexContext, card) {
       card.image = await getPixabayImage(card.word)
-      card.id = await firebasePut(card)
+      card.id = await firebaseOp(card)
       vuexContext.commit('addCard', card)
     },
     saveCard(vuexContext, card) {
