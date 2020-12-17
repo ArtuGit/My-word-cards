@@ -1,8 +1,43 @@
 import axios from 'axios'
-import { searchImages } from 'pixabay-api'
 
+import { authenticate } from 'pixabay-api'
 const pixabayKey = '19446257-b0025af71a07915d6889c5664'
+const { searchImages } = authenticate(pixabayKey)
+
 const firebaseURL = 'https://my-cards-2021-default-rtdb.firebaseio.com'
+
+async function getPixabayImage(phrase, type = 'comments') {
+  try {
+    const data = await searchImages(phrase, { per_page: 200 })
+    let largeImageURL = ''
+    if (type === 'comments') {
+      let maxComments = 0
+      data.hits.forEach((item) => {
+        if (item.comments >= maxComments) {
+          maxComments = item.comments
+          largeImageURL = item.largeImageURL
+        }
+      })
+    } else if (type === 'random') {
+      const index = Math.floor(Math.random() * data.hits.length)
+      largeImageURL = data.hits[index].largeImageURL
+    }
+    return largeImageURL
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err)
+  }
+}
+
+async function firebaseOp(card) {
+  try {
+    const res = await axios.post(firebaseURL + '/words.json', card)
+    return res.data.name
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err)
+  }
+}
 
 const cards = {
   namespaced: true,
@@ -26,41 +61,13 @@ const cards = {
     },
   },
   actions: {
-    nuxtServerInit(vuexContext, context) {
-      return axios
-        .get(firebaseURL + '/words.json')
-        .then((res) => {
-          const cards = []
-          for (const key in res.data) {
-            cards.push({ ...res.data[key], id: key })
-          }
-          vuexContext.commit('setCards', cards)
-        })
-        .catch((e) => context.error(e))
-    },
     setCards(vuexContext, cards) {
       vuexContext.commit('setCards', cards)
     },
-    addCard(vuexContext, card) {
-      card.image = ''
-      searchImages(pixabayKey, card.word, { per_page: 3 })
-        .then((r) => {
-          if (r.total > 0) {
-            card.image = r.hits[0].largeImageURL
-            axios
-              .post(firebaseURL + '/words.json', card)
-              .then((result) => {
-                vuexContext.commit('addCard', {
-                  ...card,
-                  id: result.data.name,
-                })
-              })
-              // eslint-disable-next-line no-console
-              .catch((e) => console.log(e))
-          }
-        })
-        // eslint-disable-next-line no-console
-        .catch((e) => console.error(e))
+    async addCard(vuexContext, card) {
+      card.image = await getPixabayImage(card.word)
+      card.id = await firebaseOp(card)
+      vuexContext.commit('addCard', card)
     },
     saveCard(vuexContext, card) {
       axios

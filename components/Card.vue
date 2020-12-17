@@ -1,5 +1,5 @@
 <template>
-  <v-card height="100%">
+  <v-card :loading="loading" height="100%">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on: title, attrs2 }">
         <v-card-title>
@@ -14,7 +14,11 @@
               </v-btn>
             </template>
             <v-list>
-              <v-list-item v-for="item in menuItems" :key="item.id">
+              <v-list-item
+                v-for="item in menuItems"
+                :key="item.id"
+                class="menu-item"
+              >
                 <v-list-item-title @click="menuHandler(item)">
                   {{ item.title }}
                 </v-list-item-title>
@@ -68,10 +72,13 @@ export default {
   },
   data() {
     return {
+      loading: false,
       dialog: false,
       menuItems: [
         { id: 'edit', title: 'Edit' },
+        { id: 'image', title: 'Change Image' },
         { id: 'delete', title: 'Delete' },
+        { id: 'test', title: 'Test' },
       ],
     }
   },
@@ -92,13 +99,27 @@ export default {
     dialogReverse() {
       this.dialog = !this.dialog
     },
+    toggleLoading() {
+      this.loading = !this.loading
+    },
     menuHandler(item) {
       if (item.id === 'edit') {
         this.dialogReverse()
       } else if (item.id === 'delete') {
         this.$store.dispatch('cards/deleteCard', this.id)
+      } else if (item.id === 'test') {
+        this.toggleLoading()
       }
     },
   },
 }
 </script>
+
+<style scoped>
+.headline:hover {
+  cursor: pointer;
+}
+.menu-item:hover {
+  cursor: pointer;
+}
+</style>
