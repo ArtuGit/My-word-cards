@@ -9,6 +9,7 @@
           <v-row>
             <v-col cols="12">
               <v-text-field
+                v-if="!id"
                 v-model="input.word"
                 :counter="100"
                 :rules="wordRules"
