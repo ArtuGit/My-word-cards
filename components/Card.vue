@@ -75,7 +75,7 @@ export default {
       loading: false,
       dialog: false,
       menuItems: [
-        { id: 'edit', title: 'Edit' },
+        { id: 'edit', title: 'Edit annotation' },
         { id: 'image', title: 'Set random Image' },
         { id: 'delete', title: 'Delete' },
         { id: 'test', title: 'Test' },
