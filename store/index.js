@@ -1,5 +1,4 @@
 import Vuex from 'vuex'
-import axios from 'axios'
 import cards from './cards'
 
 const CreateStore = () => {
@@ -9,12 +8,12 @@ const CreateStore = () => {
     },
     actions: {
       nuxtServerInit(vuexContext, context) {
-        return axios
-          .get('https://my-cards-2021-default-rtdb.firebaseio.com/words.json')
-          .then((res) => {
+        return this.$axios
+          .$get('/words.json')
+          .then((data) => {
             const cards = []
-            for (const key in res.data) {
-              cards.push({ ...res.data[key], id: key })
+            for (const key in data) {
+              cards.push({ ...data[key], id: key })
             }
             vuexContext.commit('cards/setCards', cards)
           })
