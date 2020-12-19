@@ -6,3 +6,13 @@
     </v-row>
   </main>
 </template>
+
+<script>
+export default {
+  mounted() {
+    this.$nextTick(function () {
+      this.print('Test')
+    })
+  },
+}
+</script>
