@@ -1,16 +1,12 @@
-import axios from 'axios'
-
 import { authenticate } from 'pixabay-api'
 const pixabayKey = '19446257-b0025af71a07915d6889c5664'
 const { searchImages } = authenticate(pixabayKey)
-
-const firebaseURL = 'https://my-cards-2021-default-rtdb.firebaseio.com'
 
 const fakeRequestPromise = (delay = 1000) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       // eslint-disable-next-line
-      console.log('Requested Fake promise ...')
+      console.log('Requested Fake promise (for testing reason ) ...')
       resolve()
     }, delay)
   })
@@ -41,30 +37,28 @@ async function getPixabayImage(phrase, type = 'comments') {
   }
 }
 
-async function firebaseOp(card, type) {
+async function firebaseOp(card, type, axios) {
   try {
+    if (typeof axios !== 'function') {
+      throw new TypeError('Axios not available')
+    }
     let response = ''
     let result = ''
     switch (type) {
       case 'POST':
-        response = await axios.post(firebaseURL + '/words.json', card)
-        result = response.data.name
+        response = await axios.$post('/words.json', card)
+        result = response.name
         break
       case 'PUT':
-        response = axios.put(firebaseURL + '/words/' + card.id + '.json', card)
+        response = await axios.$put('/words/' + card.id + '.json', card)
         result = response
         break
       case 'PATCH':
-        response = await axios.patch(
-          firebaseURL + '/words/' + card.id + '.json',
-          card
-        )
+        response = await axios.$patch('/words/' + card.id + '.json', card)
         result = response
         break
       case 'DELETE':
-        response = await axios.delete(
-          firebaseURL + '/words/' + card.id + '.json'
-        )
+        response = await axios.$delete('/words/' + card.id + '.json')
         result = response
         break
     }
@@ -102,22 +96,22 @@ const cards = {
     },
     async addCard(vuexContext, card) {
       card.image = await getPixabayImage(card.word, 'first')
-      card.id = await firebaseOp(card, 'POST')
+      card.id = await firebaseOp(card, 'POST', this.$axios)
       vuexContext.commit('addCard', card)
     },
     async saveCard(vuexContext, card) {
-      const response = await firebaseOp(card, 'PUT')
+      const response = await firebaseOp(card, 'PATCH', this.$axios)
       vuexContext.commit('saveCard', card)
       return response
     },
     async deleteCard(vuexContext, card) {
-      const response = await firebaseOp(card, 'DELETE')
+      const response = await firebaseOp(card, 'DELETE', this.$axios)
       vuexContext.commit('deleteCard', card)
       return response
     },
     async setRandomImage(vuexContext, card) {
       card.image = await getPixabayImage(card.word, 'random')
-      const response = await firebaseOp(card, 'PATCH')
+      const response = await firebaseOp(card, 'PATCH', this.$axios)
       vuexContext.commit('saveCard', card)
       return response
     },
