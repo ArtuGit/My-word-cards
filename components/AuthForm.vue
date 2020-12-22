@@ -1,15 +1,8 @@
 <template>
   <div>
-    <v-tabs
-      v-model="tab"
-      show-arrows
-      background-color=""
-      icons-and-text
-      dark
-      grow
-    >
+    <v-tabs v-model="tab" show-arrows icons-and-text dark grow>
       <v-tabs-slider></v-tabs-slider>
-      <v-tab v-for="i in tabs" :key="i">
+      <v-tab v-for="i in tabs" :key="i.name">
         <v-icon large>{{ i.icon }}</v-icon>
         <div class="caption py-1">{{ i.name }}</div>
       </v-tab>
@@ -29,14 +22,14 @@
                 <v-col cols="12">
                   <v-text-field
                     v-model="loginPassword"
-                    :append-icon="show1 ? 'eye' : 'eye-off'"
+                    :append-icon="showPass ? 'eye' : 'eye-off'"
                     :rules="[rules.required, rules.min]"
-                    :type="show1 ? 'text' : 'password'"
+                    :type="showPass ? 'text' : 'password'"
                     name="input-10-1"
                     label="Password"
                     hint="At least 8 characters"
                     counter
-                    @click:append="show1 = !show1"
+                    @click:append="showPass = !showPass"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -86,27 +79,27 @@
                 <v-col cols="12">
                   <v-text-field
                     v-model="password"
-                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="[rules.required, rules.min]"
-                    :type="show1 ? 'text' : 'password'"
+                    :type="showPass ? 'text' : 'password'"
                     name="input-10-1"
                     label="Password"
                     hint="At least 8 characters"
                     counter
-                    @click:append="show1 = !show1"
+                    @click:append="showPass = !showPass"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
-                    v-model="verify"
+                    v-model="password2"
                     block
-                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="[rules.required, passwordMatch]"
-                    :type="show1 ? 'text' : 'password'"
+                    :type="showPass ? 'text' : 'password'"
                     name="input-10-1"
                     label="Confirm Password"
                     counter
-                    @click:append="show1 = !show1"
+                    @click:append="showPass = !showPass"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -140,9 +133,12 @@ export default {
     lastName: '',
     email: '',
     password: '',
-    verify: '',
-    loginPassword: '',
+    password2: '',
     loginEmail: '',
+    loginPassword: '',
+
+    showPass: false,
+
     loginEmailRules: [
       (v) => !!v || 'Required',
       (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
@@ -152,7 +148,6 @@ export default {
       (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
     ],
 
-    show1: false,
     rules: {
       required: (value) => !!value || 'Required.',
       min: (v) => (v && v.length >= 8) || 'Min 8 characters',
@@ -160,10 +155,13 @@ export default {
   }),
   computed: {
     passwordMatch() {
-      return () => this.password === this.verify || 'Password must match'
+      return () => this.password === this.password2 || 'Password must match'
     },
   },
   methods: {
+    cancel() {
+      this.$emit('dialog-reverse')
+    },
     validate() {
       if (this.$refs.loginForm.validate()) {
         // submit form to server/API here...
@@ -171,9 +169,6 @@ export default {
     },
     reset() {
       this.$refs.form.reset()
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation()
     },
   },
 }
