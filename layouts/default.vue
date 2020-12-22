@@ -23,6 +23,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <auth-links></auth-links>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
@@ -50,7 +51,11 @@
 </template>
 
 <script>
+import AuthLinks from '@/components/AuthLinks'
 export default {
+  components: {
+    AuthLinks,
+  },
   data() {
     return {
       clipped: false,
