@@ -7,13 +7,17 @@
           persistent
           max-width="600px"
           min-width="360px"
+          :retain-focus="false"
         >
           <template v-slot:activator="{ on, attrs }">
-            <div v-bind="attrs" v-on="on">
-              <v-list-item-title v-text="item.title" />
-            </div>
+            <v-list-item-title
+              v-bind="attrs"
+              v-on="on"
+              v-text="item.title + ' ' + item.tab"
+            />
           </template>
-          <auth-form @dialog-reverse="dialogReverse"></auth-form>
+          <auth-form :tab-init="item.tab" @dialog-reverse="dialogReverse">
+          </auth-form>
         </v-dialog>
       </v-list-item-content>
     </v-list-item>
@@ -33,12 +37,14 @@ export default {
         {
           title: 'Login',
           tab: 0,
-          lock: 0,
         },
         {
           title: 'Register',
           tab: 1,
-          lock: 1,
+        },
+        {
+          title: 'Test',
+          tab: 2,
         },
       ],
     }

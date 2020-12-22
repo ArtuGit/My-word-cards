@@ -7,6 +7,7 @@
         <div class="caption py-1">{{ i.name }}</div>
       </v-tab>
       <v-tab-item>
+        <div>1st:Init:{{ tabInit }}, Tab:{{ tab }}</div>
         <v-card class="px-4">
           <v-card-text>
             <v-form ref="loginForm" v-model="valid" lazy-validation>
@@ -46,6 +47,7 @@
       </v-tab-item>
 
       <v-tab-item>
+        <div>2nd:Init:{{ tabInit }}, Tab:{{ tab }}</div>
         <v-card class="px-4">
           <v-card-text>
             <v-form ref="registerForm" v-model="valid" lazy-validation>
@@ -120,8 +122,13 @@
 
 <script>
 export default {
+  props: {
+    tabInit: {
+      type: Number,
+      required: true,
+    },
+  },
   data: () => ({
-    dialog: true,
     tab: 0,
     tabs: [
       { name: 'Login', icon: 'mdi-account' },
@@ -169,6 +176,9 @@ export default {
     },
     reset() {
       this.$refs.form.reset()
+    },
+    resetValidation() {
+      this.$refs.form.resetValidation()
     },
   },
 }
