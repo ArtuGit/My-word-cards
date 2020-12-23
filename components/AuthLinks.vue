@@ -28,7 +28,7 @@ export default {
   },
   data() {
     return {
-      dialog: [false, false, false],
+      dialog: [false, false],
       items: [
         {
           title: 'Login',

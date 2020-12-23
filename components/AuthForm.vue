@@ -37,7 +37,12 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text :disabled="!valid" @click="validate">
+            <v-btn
+              color="primary"
+              text
+              :disabled="!valid"
+              @click="validateLogin"
+            >
               Login
             </v-btn>
             <v-btn color="primary" text @click="cancel"> Cancel</v-btn>
@@ -107,7 +112,11 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text :disabled="!valid" @click="validate"
+            <v-btn
+              color="primary"
+              text
+              :disabled="!valid"
+              @click="validateRegister"
               >Register
             </v-btn>
             <v-btn color="primary" text @click="cancel"> Cancel</v-btn>
@@ -174,16 +183,21 @@ export default {
     cancel() {
       this.$emit('dialog-reverse')
     },
-    validate() {
+    validateLogin() {
       if (this.$refs.loginForm.validate()) {
+        console.log('Login submitted!')
+        this.$refs.loginForm.reset()
         // submit form to server/API here...
+        this.$emit('dialog-reverse')
       }
     },
-    reset() {
-      this.$refs.form.reset()
-    },
-    resetValidation() {
-      this.$refs.form.resetValidation()
+    validateRegister() {
+      if (this.$refs.registerForm.validate()) {
+        console.log('Register submitted!')
+        this.$refs.registerForm.reset()
+        // submit form to server/API here...
+        this.$emit('dialog-reverse')
+      }
     },
   },
 }
