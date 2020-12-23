@@ -2,12 +2,11 @@
   <div>
     <v-tabs v-model="tab" show-arrows icons-and-text dark grow>
       <v-tabs-slider></v-tabs-slider>
-      <v-tab v-for="i in tabs" :key="i.name">
+      <v-tab v-for="i in tabs" :key="i.id">
         <v-icon large>{{ i.icon }}</v-icon>
         <div class="caption py-1">{{ i.name }}</div>
       </v-tab>
       <v-tab-item>
-        <div>1st:Init:{{ tabInit }}, Tab:{{ tab }}</div>
         <v-card class="px-4">
           <v-card-text>
             <v-form ref="loginForm" v-model="valid" lazy-validation>
@@ -47,7 +46,6 @@
       </v-tab-item>
 
       <v-tab-item>
-        <div>2nd:Init:{{ tabInit }}, Tab:{{ tab }}</div>
         <v-card class="px-4">
           <v-card-text>
             <v-form ref="registerForm" v-model="valid" lazy-validation>
@@ -129,10 +127,9 @@ export default {
     },
   },
   data: () => ({
-    tab: 0,
     tabs: [
-      { name: 'Login', icon: 'mdi-account' },
-      { name: 'Register', icon: 'mdi-account-outline' },
+      { id: 0, name: 'Login', icon: 'mdi-account' },
+      { id: 1, name: 'Register', icon: 'mdi-account-outline' },
     ],
     valid: true,
 
@@ -163,6 +160,14 @@ export default {
   computed: {
     passwordMatch() {
       return () => this.password === this.password2 || 'Password must match'
+    },
+    tab: {
+      get() {
+        return this.tabInit
+      },
+      set(value) {
+        this.$emit('update:tabInit', value)
+      },
     },
   },
   methods: {

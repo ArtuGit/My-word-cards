@@ -3,18 +3,14 @@
     <v-list-item v-for="(item, i) in items" :key="i.tab">
       <v-list-item-content>
         <v-dialog
-          v-model="dialog"
+          v-model="dialog[item.tab]"
           persistent
           max-width="600px"
           min-width="360px"
           :retain-focus="false"
         >
           <template v-slot:activator="{ on, attrs }">
-            <v-list-item-title
-              v-bind="attrs"
-              v-on="on"
-              v-text="item.title + ' ' + item.tab"
-            />
+            <v-list-item-title v-bind="attrs" v-on="on" v-text="item.title" />
           </template>
           <auth-form :tab-init="item.tab" @dialog-reverse="dialogReverse">
           </auth-form>
@@ -32,7 +28,7 @@ export default {
   },
   data() {
     return {
-      dialog: false,
+      dialog: [false, false, false],
       items: [
         {
           title: 'Login',
@@ -42,16 +38,12 @@ export default {
           title: 'Register',
           tab: 1,
         },
-        {
-          title: 'Test',
-          tab: 2,
-        },
       ],
     }
   },
   methods: {
     dialogReverse() {
-      this.dialog = !this.dialog
+      this.dialog = [false, false]
     },
   },
 }
