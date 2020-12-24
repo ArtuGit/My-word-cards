@@ -40,6 +40,7 @@
       <v-spacer />
     </v-app-bar>
     <v-main>
+      <Snackbar></Snackbar>
       <v-container>
         <nuxt />
       </v-container>
@@ -52,8 +53,10 @@
 
 <script>
 import AuthLinks from '@/components/AuthLinks'
+import Snackbar from '~/components/Snackbar.vue'
 export default {
   components: {
+    Snackbar,
     AuthLinks,
   },
   data() {

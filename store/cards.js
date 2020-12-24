@@ -7,9 +7,15 @@ import {
 const cards = {
   namespaced: true,
   state: {
+    content: '',
+    color: '',
     myCards: [],
   },
   mutations: {
+    showMessage(state, payload) {
+      state.content = payload.content
+      state.color = payload.color
+    },
     setCards(state, cards) {
       state.myCards = cards
     },
