@@ -185,7 +185,10 @@ export default {
     },
     validateLogin() {
       if (this.$refs.loginForm.validate()) {
-        console.log('Login submitted!')
+        this.$notifier.showMessage({
+          content: 'Login submitted!',
+          color: 'success',
+        })
         this.$refs.loginForm.reset()
         // submit form to server/API here...
         this.$emit('dialog-reverse')
@@ -193,7 +196,10 @@ export default {
     },
     validateRegister() {
       if (this.$refs.registerForm.validate()) {
-        console.log('Register submitted!')
+        this.$notifier.showMessage({
+          content: 'Register submitted!',
+          color: 'success',
+        })
         this.$refs.registerForm.reset()
         // submit form to server/API here...
         this.$emit('dialog-reverse')
