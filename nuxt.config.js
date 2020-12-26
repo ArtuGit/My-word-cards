@@ -85,7 +85,8 @@ export default {
     }
   },
   env: {
-    pixabayKey: '19446257-b0025af71a07915d6889c5664'
+    pixabayKey: '19446257-b0025af71a07915d6889c5664',
+    firebaseKey: 'AIzaSyC6Vj36jf4TfeP2QBS6ojGzKS9ru2ojG7I'
   },
 
 }
