@@ -1,21 +1,24 @@
 <template>
   <v-list>
-    <v-list-item v-for="(item, i) in items" :key="i.tab">
-      <v-list-item-content>
-        <v-dialog
-          v-model="dialog[item.tab]"
-          persistent
-          max-width="600px"
-          min-width="360px"
-          :retain-focus="false"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-list-item-title v-bind="attrs" v-on="on" v-text="item.title" />
-          </template>
-          <auth-form :tab-init="item.tab" @dialog-reverse="dialogReverse">
-          </auth-form>
-        </v-dialog>
-      </v-list-item-content>
+    <v-list-item v-for="(item, i) in items" :key="i" :to="item.to">
+      <v-dialog
+        v-model="dialog[item.tab]"
+        persistent
+        max-width="600px"
+        min-width="360px"
+        :retain-focus="false"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-list-item-action v-bind="attrs" v-on="on">
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content v-bind="attrs" v-on="on">
+            <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </template>
+        <auth-form :tab-init="item.tab" @dialog-reverse="dialogReverse">
+        </auth-form>
+      </v-dialog>
     </v-list-item>
   </v-list>
 </template>
@@ -32,10 +35,12 @@ export default {
       items: [
         {
           title: 'Login',
+          icon: 'mdi-account',
           tab: 0,
         },
         {
           title: 'Register',
+          icon: 'mdi-account-outline',
           tab: 1,
         },
       ],
