@@ -37,12 +37,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn
-              color="primary"
-              text
-              :disabled="!valid"
-              @click="validateLogin"
-            >
+            <v-btn color="primary" text :disabled="!valid" @click="submitLogin">
               Login
             </v-btn>
             <v-btn color="primary" text @click="cancel"> Cancel</v-btn>
@@ -116,7 +111,7 @@
               color="primary"
               text
               :disabled="!valid"
-              @click="validateRegister"
+              @click="submitRegister"
               >Register
             </v-btn>
             <v-btn color="primary" text @click="cancel"> Cancel</v-btn>
@@ -183,7 +178,7 @@ export default {
     cancel() {
       this.$emit('dialog-reverse')
     },
-    validateLogin() {
+    submitLogin() {
       if (this.$refs.loginForm.validate()) {
         this.$notifier.showMessage({
           content: 'Login submitted!',
@@ -194,15 +189,39 @@ export default {
         this.$emit('dialog-reverse')
       }
     },
-    validateRegister() {
+    submitRegister() {
       if (this.$refs.registerForm.validate()) {
-        this.$notifier.showMessage({
-          content: 'Register submitted!',
-          color: 'success',
-        })
+        console.log(this.email)
+        console.log(this.password)
+        const req = {
+          email: this.email,
+          password: this.password,
+          returnSecureToken: true,
+        }
         this.$refs.registerForm.reset()
-        // submit form to server/API here...
         this.$emit('dialog-reverse')
+        const authUrl =
+          'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
+          process.env.firebaseKey
+        return this.$axios
+          .$post(authUrl, req)
+          .then((result) => {
+            console.log(result)
+            this.$notifier.showMessage({
+              content: 'Register submitted!',
+              color: 'success',
+            })
+          })
+          .catch((e) => {
+            this.$notifier.showMessage({
+              content:
+                'Registration failed. Possible ' +
+                req.email +
+                ' is already registered.',
+              color: 'error',
+            })
+            console.error(e)
+          })
       }
     },
   },
