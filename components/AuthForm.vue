@@ -123,8 +123,6 @@
 </template>
 
 <script>
-import { authOp } from '@/plugins/auth-helpers'
-
 export default {
   props: {
     tabInit: {
@@ -182,44 +180,24 @@ export default {
     },
     submitLogin() {
       if (this.$refs.loginForm.validate()) {
-        this.$notifier.showMessage({
-          content: 'Login submitted!',
-          color: 'success',
-        })
+        const authData = {
+          email: this.loginEmail,
+          password: this.loginPassword,
+        }
+        this.$store.dispatch('auth/signIn', authData)
         this.$refs.loginForm.reset()
-        // submit form to server/API here...
         this.$emit('dialog-reverse')
       }
     },
-    async submitRegister() {
+    submitRegister() {
       if (this.$refs.registerForm.validate()) {
         const authData = {
           email: this.email,
           password: this.password,
         }
-
+        this.$store.dispatch('auth/signUp', authData)
         this.$refs.registerForm.reset()
         this.$emit('dialog-reverse')
-        try {
-          await authOp('sign-up', authData, this.$axios)
-          this.$notifier.showMessage({
-            content: 'Register submitted!',
-            color: 'success',
-          })
-        } catch (err) {
-          let message = 'Registration failed'
-          if (err.message === 'Request failed with status code 400') {
-            message =
-              message +
-              '. Possible ' +
-              authData.email +
-              ' is already registered.'
-          }
-          this.$notifier.showMessage({
-            content: message,
-            color: 'error',
-          })
-        }
       }
     },
   },

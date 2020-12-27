@@ -1,4 +1,5 @@
 import Cookie from 'js-cookie'
+import { authOp } from '~/plugins/auth-helpers'
 
 export const state = () => ({
   token: null,
@@ -14,6 +15,42 @@ export const mutations = {
 }
 
 export const actions = {
+  async signIn(vuexContext, authData) {
+    try {
+      await authOp('sign-in', authData, this.$axios)
+      this.$notifier.showMessage({
+        content: 'You are logged in',
+        color: 'success',
+      })
+    } catch (err) {
+      let message = 'Login failed'
+      if (err.response.data) {
+        message = message + ', error code:' + err.response.data.error.message
+      }
+      this.$notifier.showMessage({
+        content: message,
+        color: 'error',
+      })
+    }
+  },
+  async signUp(vuexContext, authData) {
+    try {
+      await authOp('sign-up', authData, this.$axios)
+      this.$notifier.showMessage({
+        content: 'You are registered',
+        color: 'success',
+      })
+    } catch (err) {
+      let message = 'Registration failed'
+      if (err.response.data) {
+        message = message + ', error code:' + err.response.data.error.message
+      }
+      this.$notifier.showMessage({
+        content: message,
+        color: 'error',
+      })
+    }
+  },
   authenticateUser(vuexContext, authData) {
     let authUrl =
       'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=' +

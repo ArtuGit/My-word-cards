@@ -7,11 +7,22 @@ async function authOp(type, authData, axios) {
     let response = ''
     let result = ''
     let authURL = ''
-
     switch (type) {
       case 'sign-up':
         authURL =
           'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
+          process.env.firebaseKey
+        request = {
+          ...authData,
+          returnSecureToken: true,
+        }
+        response = await axios.$post(authURL, request)
+        // ToDo: Add a user to the DB: First Name, Last Name
+        result = response
+        break
+      case 'sign-in':
+        authURL =
+          'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' +
           process.env.firebaseKey
         request = {
           ...authData,
