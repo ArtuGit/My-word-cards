@@ -123,6 +123,8 @@
 </template>
 
 <script>
+import { authOp } from '@/plugins/auth-helpers'
+
 export default {
   props: {
     tabInit: {
@@ -189,39 +191,35 @@ export default {
         this.$emit('dialog-reverse')
       }
     },
-    submitRegister() {
+    async submitRegister() {
       if (this.$refs.registerForm.validate()) {
-        console.log(this.email)
-        console.log(this.password)
-        const req = {
+        const authData = {
           email: this.email,
           password: this.password,
-          returnSecureToken: true,
         }
+
         this.$refs.registerForm.reset()
         this.$emit('dialog-reverse')
-        const authUrl =
-          'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
-          process.env.firebaseKey
-        return this.$axios
-          .$post(authUrl, req)
-          .then((result) => {
-            console.log(result)
-            this.$notifier.showMessage({
-              content: 'Register submitted!',
-              color: 'success',
-            })
+        try {
+          await authOp('sign-up', authData, this.$axios)
+          this.$notifier.showMessage({
+            content: 'Register submitted!',
+            color: 'success',
           })
-          .catch((e) => {
-            this.$notifier.showMessage({
-              content:
-                'Registration failed. Possible ' +
-                req.email +
-                ' is already registered.',
-              color: 'error',
-            })
-            console.error(e)
+        } catch (err) {
+          let message = 'Registration failed'
+          if (err.message === 'Request failed with status code 400') {
+            message =
+              message +
+              '. Possible ' +
+              authData.email +
+              ' is already registered.'
+          }
+          this.$notifier.showMessage({
+            content: message,
+            color: 'error',
           })
+        }
       }
     },
   },

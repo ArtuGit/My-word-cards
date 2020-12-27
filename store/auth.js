@@ -42,7 +42,10 @@ export const actions = {
           new Date().getTime() + Number.parseInt(result.expiresIn) * 1000
         )
       })
-      .catch((e) => console.error(e))
+      .catch((e) => {
+        // eslint-disable-next-line
+        console.error(e)
+      })
   },
   initAuth(vuexContext, req) {
     let token
@@ -67,7 +70,8 @@ export const actions = {
       expirationDate = localStorage.getItem('tokenExpiration')
     }
     if (new Date().getTime() > +expirationDate || !token) {
-      console.log('No token or invalid token')
+      // eslint-disable-next-line
+      console.error('No token or invalid token')
       vuexContext.dispatch('logout')
       return
     }
