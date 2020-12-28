@@ -24,7 +24,6 @@
         </v-list-item>
       </v-list>
       <auth-links></auth-links>
-      {{ isAuthenticated }}
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
@@ -86,11 +85,6 @@ export default {
       right: true,
       title: 'My Word Cards',
     }
-  },
-  computed: {
-    isAuthenticated() {
-      return this.$store.getters['auth/isAuthenticated']
-    },
   },
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <v-list>
+  <v-list v-if="!isAuthenticated">
     <v-list-item v-for="(item, i) in items" :key="i" :to="item.to">
       <v-dialog
         v-model="dialog[item.tab]"
@@ -19,6 +19,24 @@
         <auth-form :tab-init="item.tab" @dialog-reverse="dialogReverse">
         </auth-form>
       </v-dialog>
+    </v-list-item>
+  </v-list>
+  <v-list v-else>
+    <v-list-item>
+      <v-list-item-action>
+        <v-icon>mdi-account</v-icon>
+      </v-list-item-action>
+      <v-list-item-content>
+        <v-list-item-title>Profile</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+    <v-list-item @click="logout">
+      <v-list-item-action>
+        <v-icon>mdi-account</v-icon>
+      </v-list-item-action>
+      <v-list-item-content>
+        <v-list-item-title>Logout</v-list-item-title>
+      </v-list-item-content>
     </v-list-item>
   </v-list>
 </template>
@@ -46,9 +64,19 @@ export default {
       ],
     }
   },
+
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters['auth/isAuthenticated']
+    },
+  },
+
   methods: {
     dialogReverse() {
       this.dialog = [false, false]
+    },
+    logout() {
+      this.$store.dispatch('auth/logout')
     },
   },
 }
