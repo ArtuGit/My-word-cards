@@ -17,7 +17,8 @@ export const mutations = {
 export const actions = {
   async signIn(vuexContext, authData) {
     try {
-      await authOp('sign-in', authData, this.$axios)
+      const result = await authOp('sign-in', authData, this.$axios)
+      vuexContext.commit('setToken', result.idToken)
       this.$notifier.showMessage({
         content: 'You are logged in',
         color: 'success',
@@ -35,7 +36,8 @@ export const actions = {
   },
   async signUp(vuexContext, authData) {
     try {
-      await authOp('sign-up', authData, this.$axios)
+      const result = await authOp('sign-up', authData, this.$axios)
+      vuexContext.commit('setToken', result.idToken)
       this.$notifier.showMessage({
         content: 'You are registered',
         color: 'success',
