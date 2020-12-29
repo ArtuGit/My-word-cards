@@ -22,6 +22,7 @@
                 <v-col cols="12">
                   <v-text-field
                     v-model="loginPassword"
+                    autocomplete="on"
                     :append-icon="showPass ? 'eye' : 'eye-off'"
                     :rules="[rules.required, rules.min]"
                     :type="showPass ? 'text' : 'password'"
@@ -46,7 +47,7 @@
       </v-tab-item>
 
       <v-tab-item>
-        <v-card class="px-4">
+        <v-card :loading="loading" class="px-4">
           <v-card-text>
             <v-form ref="registerForm" v-model="valid" lazy-validation>
               <v-row>
@@ -79,6 +80,7 @@
                 <v-col cols="12">
                   <v-text-field
                     v-model="password"
+                    autocomplete="on"
                     :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="[rules.required, rules.min]"
                     :type="showPass ? 'text' : 'password'"
@@ -92,6 +94,7 @@
                 <v-col cols="12">
                   <v-text-field
                     v-model="password2"
+                    autocomplete="on"
                     block
                     :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                     :rules="[rules.required, passwordMatch]"
@@ -182,28 +185,27 @@ export default {
     toggleLoading() {
       this.loading = !this.loading
     },
-    submitLogin() {
+    async submitLogin() {
       if (this.$refs.loginForm.validate()) {
         this.toggleLoading()
         const authData = {
           email: this.loginEmail,
           password: this.loginPassword,
         }
-        this.$store.dispatch('auth/signIn', authData)
-        this.$refs.loginForm.reset()
+        await this.$store.dispatch('auth/signIn', authData)
         this.toggleLoading()
         this.$emit('dialog-reverse')
       }
     },
-    submitRegister() {
+    async submitRegister() {
       if (this.$refs.registerForm.validate()) {
         this.toggleLoading()
         const authData = {
           email: this.email,
           password: this.password,
         }
-        this.$store.dispatch('auth/signUp', authData)
         this.$refs.registerForm.reset()
+        await this.$store.dispatch('auth/signUp', authData)
         this.toggleLoading()
         this.$emit('dialog-reverse')
       }
