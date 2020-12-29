@@ -7,7 +7,7 @@
         <div class="caption py-1">{{ i.name }}</div>
       </v-tab>
       <v-tab-item>
-        <v-card class="px-4">
+        <v-card :loading="loading" class="px-4">
           <v-card-text>
             <v-form ref="loginForm" v-model="valid" lazy-validation>
               <v-row>
@@ -131,6 +131,7 @@ export default {
     },
   },
   data: () => ({
+    loading: false,
     tabs: [
       { id: 0, name: 'Login', icon: 'mdi-account' },
       { id: 1, name: 'Register', icon: 'mdi-account-outline' },
@@ -178,25 +179,32 @@ export default {
     cancel() {
       this.$emit('dialog-reverse')
     },
+    toggleLoading() {
+      this.loading = !this.loading
+    },
     submitLogin() {
       if (this.$refs.loginForm.validate()) {
+        this.toggleLoading()
         const authData = {
           email: this.loginEmail,
           password: this.loginPassword,
         }
         this.$store.dispatch('auth/signIn', authData)
         this.$refs.loginForm.reset()
+        this.toggleLoading()
         this.$emit('dialog-reverse')
       }
     },
     submitRegister() {
       if (this.$refs.registerForm.validate()) {
+        this.toggleLoading()
         const authData = {
           email: this.email,
           password: this.password,
         }
         this.$store.dispatch('auth/signUp', authData)
         this.$refs.registerForm.reset()
+        this.toggleLoading()
         this.$emit('dialog-reverse')
       }
     },
