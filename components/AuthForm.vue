@@ -127,6 +127,7 @@
 
 <script>
 export default {
+  emit: ['dialog-reverse'],
   props: {
     tabInit: {
       type: Number,
@@ -185,16 +186,18 @@ export default {
     toggleLoading() {
       this.loading = !this.loading
     },
-    async submitLogin() {
+    submitLogin() {
       if (this.$refs.loginForm.validate()) {
         this.toggleLoading()
         const authData = {
           email: this.loginEmail,
           password: this.loginPassword,
         }
-        await this.$store.dispatch('auth/signIn', authData)
-        this.toggleLoading()
-        this.$emit('dialog-reverse')
+        this.$store.dispatch('auth/signIn', authData).then(() => {
+          // ToDo: "this" does not work here, dialog is reset within logout function
+          this.toggleLoading()
+          this.$emit('dialog-reverse')
+        })
       }
     },
     async submitRegister() {
