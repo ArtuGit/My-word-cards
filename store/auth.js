@@ -1,5 +1,5 @@
 import Cookie from 'js-cookie'
-import { authOp } from '~/plugins/auth-helpers'
+import { authOp, authenticateUser } from '~/plugins/auth-helpers'
 
 export const state = () => ({
   token: null,
@@ -18,7 +18,9 @@ export const actions = {
   async signIn(vuexContext, authData) {
     try {
       const result = await authOp('sign-in', authData, this.$axios)
+      authenticateUser(result)
       vuexContext.commit('setToken', result.idToken)
+      authenticateUser(result)
       this.$notifier.showMessage({
         content: 'You are logged in',
         color: 'success',
@@ -37,6 +39,7 @@ export const actions = {
   async signUp(vuexContext, authData) {
     try {
       const result = await authOp('sign-up', authData, this.$axios)
+      authenticateUser(result)
       vuexContext.commit('setToken', result.idToken)
       this.$notifier.showMessage({
         content: 'You are registered',
@@ -118,12 +121,16 @@ export const actions = {
   },
   logout(vuexContext) {
     vuexContext.commit('clearToken')
-    /*    Cookie.remove('jwt')
+    this.$notifier.showMessage({
+      content: 'You are logged out',
+      color: 'success',
+    })
+    Cookie.remove('jwt')
     Cookie.remove('expirationDate')
     if (process.client) {
       localStorage.removeItem('token')
       localStorage.removeItem('tokenExpiration')
-    } */
+    }
   },
 }
 

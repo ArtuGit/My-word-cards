@@ -1,3 +1,5 @@
+import Cookie from 'js-cookie'
+
 async function authOp(type, authData, axios) {
   try {
     if (typeof axios !== 'function') {
@@ -40,4 +42,17 @@ async function authOp(type, authData, axios) {
   }
 }
 
-export { authOp }
+function authenticateUser(result) {
+  localStorage.setItem('token', result.idToken)
+  localStorage.setItem(
+    'tokenExpiration',
+    new Date().getTime() + Number.parseInt(result.expiresIn) * 1000
+  )
+  Cookie.set('jwt', result.idToken)
+  Cookie.set(
+    'expirationDate',
+    new Date().getTime() + Number.parseInt(result.expiresIn) * 1000
+  )
+}
+
+export { authOp, authenticateUser }
