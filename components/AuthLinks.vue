@@ -40,7 +40,6 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-    {{ dialog }}
   </div>
 </template>
 
