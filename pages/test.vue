@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  middleware: ['check-auth', 'auth'],
   methods: {
     showSnackbar() {
       this.$notifier.showMessage({
