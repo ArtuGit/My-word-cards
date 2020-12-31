@@ -125,6 +125,7 @@ export const actions = {
       content: 'You are logged out',
       color: 'success',
     })
+    this.$router.push({ name: 'index' })
     Cookie.remove('jwt')
     Cookie.remove('expirationDate')
     if (process.client) {
