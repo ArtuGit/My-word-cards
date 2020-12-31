@@ -24,6 +24,7 @@
         </v-list-item>
       </v-list>
       <auth-links></auth-links>
+      <dev-panel v-if="isDev"></dev-panel>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
@@ -53,11 +54,13 @@
 
 <script>
 import AuthLinks from '@/components/AuthLinks'
-import Snackbar from '~/components/Snackbar.vue'
+import DevPanel from '@/components/DevPanel'
+import Snackbar from '@/components/Snackbar.vue'
 export default {
   components: {
     Snackbar,
     AuthLinks,
+    DevPanel,
   },
   data() {
     return {
@@ -85,6 +88,11 @@ export default {
       right: true,
       title: 'My Word Cards',
     }
+  },
+  computed: {
+    isDev() {
+      return process.env.devEnv
+    },
   },
 }
 </script>
