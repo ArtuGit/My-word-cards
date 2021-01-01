@@ -78,7 +78,10 @@ export default {
       this.dialog = [false, false]
     },
     logout() {
-      this.$store.dispatch('auth/logout')
+      this.$store.dispatch('auth/logout', {
+        redirectTo: 'index',
+        message: true,
+      })
       this.dialogReverse()
     },
   },

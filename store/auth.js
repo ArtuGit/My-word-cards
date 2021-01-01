@@ -94,12 +94,14 @@ export const actions = {
     let expirationDate
     if (req) {
       if (!req.headers.cookie) {
+        console.error('No cookie')
         return
       }
       const jwtCookie = req.headers.cookie
         .split(';')
         .find((c) => c.trim().startsWith('jwt='))
       if (!jwtCookie) {
+        console.error('No JWT')
         return
       }
       token = jwtCookie.split('=')[1]
@@ -107,25 +109,31 @@ export const actions = {
         .split(';')
         .find((c) => c.trim().startsWith('expirationDate='))
         .split('=')[1]
-    } else {
+    } else if (process.client) {
       token = localStorage.getItem('token')
       expirationDate = localStorage.getItem('tokenExpiration')
     }
     if (new Date().getTime() > +expirationDate || !token) {
       // eslint-disable-next-line
       console.error('No token or invalid token')
+      console.log('Token:', token)
       vuexContext.dispatch('logout')
       return
     }
     vuexContext.commit('setToken', token)
   },
-  logout(vuexContext) {
+  logout(vuexContext, payload = {}) {
+    console.log('Log Out!')
     vuexContext.commit('clearToken')
-    this.$notifier.showMessage({
-      content: 'You are logged out',
-      color: 'success',
-    })
-    this.$router.push({ name: 'index' })
+    if (payload.message) {
+      this.$notifier.showMessage({
+        content: 'You are logged out',
+        color: 'success',
+      })
+    }
+    if (payload.redirectTo) {
+      this.$router.push({ name: payload.redirectTo })
+    }
     Cookie.remove('jwt')
     Cookie.remove('expirationDate')
     if (process.client) {

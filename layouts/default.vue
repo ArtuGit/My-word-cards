@@ -57,6 +57,7 @@ import AuthLinks from '@/components/AuthLinks'
 import DevPanel from '@/components/DevPanel'
 import Snackbar from '@/components/Snackbar.vue'
 export default {
+  middleware: ['check-auth'],
   components: {
     Snackbar,
     AuthLinks,
