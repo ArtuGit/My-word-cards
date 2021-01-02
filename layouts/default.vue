@@ -23,7 +23,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <auth-links></auth-links>
+      <auth-links v-if="page != 'auth'"></auth-links>
       <dev-panel v-if="isDev && !miniVariant"></dev-panel>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
@@ -93,6 +93,9 @@ export default {
   computed: {
     isDev() {
       return process.env.devEnv
+    },
+    page() {
+      return this.$route.name
     },
   },
 }
