@@ -12,7 +12,7 @@ export const mutations = {
 
 export const actions = {
   async nuxtServerInit(vuexContext, context) {
-    vuexContext.commit('setDev', vuexContext.isDev)
+    vuexContext.commit('setDev', context.isDev)
     const data = await firebaseOp('GET', 'words', null, this.$axios)
     const cards = []
     for (const key in data) {

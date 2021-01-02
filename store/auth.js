@@ -3,11 +3,23 @@ import { authOp, authenticateUser } from '~/plugins/auth-helpers'
 
 export const state = () => ({
   token: null,
+  uuid: null,
 })
 
 export const mutations = {
+  setAuth(state, payload) {
+    state.token = payload.token
+    state.uuid = payload.uuid
+  },
+  clearAuth(state) {
+    state.token = null
+    state.uuid = null
+  },
   setToken(state, token) {
     state.token = token
+  },
+  setUUID(state, uuid) {
+    state.uuid = uuid
   },
   clearToken(state) {
     state.token = null
@@ -19,8 +31,12 @@ export const actions = {
     try {
       const result = await authOp('sign-in', authData, this.$axios)
       authenticateUser(result)
-      vuexContext.commit('setToken', result.idToken)
-      authenticateUser(result)
+      const auth = {
+        token: result.idToken,
+        uuid: result.localId,
+      }
+      console.log(auth)
+      vuexContext.commit('setAuth', auth)
       this.$notifier.showMessage({
         content: 'You are logged in',
         color: 'success',
@@ -40,7 +56,11 @@ export const actions = {
     try {
       const result = await authOp('sign-up', authData, this.$axios)
       authenticateUser(result)
-      vuexContext.commit('setToken', result.idToken)
+      const auth = {
+        token: result.idToken,
+        uuid: result.localId,
+      }
+      vuexContext.commit('setAuth', auth)
       this.$notifier.showMessage({
         content: 'You are registered',
         color: 'success',
@@ -88,7 +108,7 @@ export const actions = {
     vuexContext.commit('setToken', token)
   },
   logout(vuexContext, payload = {}) {
-    vuexContext.commit('clearToken')
+    vuexContext.commit('clearAuth')
     if (payload.message) {
       this.$notifier.showMessage({
         content: 'You are logged out',
@@ -110,5 +130,8 @@ export const actions = {
 export const getters = {
   isAuthenticated(state) {
     return state.token != null
+  },
+  uuid(state) {
+    return state.uuid
   },
 }
