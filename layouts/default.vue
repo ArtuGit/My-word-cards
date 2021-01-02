@@ -24,7 +24,7 @@
         </v-list-item>
       </v-list>
       <auth-links></auth-links>
-      <dev-panel v-if="isDev"></dev-panel>
+      <dev-panel v-if="isDev && !miniVariant"></dev-panel>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
