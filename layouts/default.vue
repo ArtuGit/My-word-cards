@@ -75,6 +75,11 @@ export default {
           to: '/',
         },
         {
+          icon: 'mdi-folder',
+          title: 'Collections',
+          to: '/Collections',
+        },
+        {
           icon: 'mdi-cards',
           title: 'Cards',
           to: '/cards',
