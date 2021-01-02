@@ -31,22 +31,22 @@ export const actions = {
   },
   async addCard(vuexContext, card) {
     card.image = await getPixabayImage(card.word, 'first')
-    card.id = await firebaseOp(card, 'POST', this.$axios)
+    card.id = await firebaseOp('POST', 'words', card, this.$axios)
     vuexContext.commit('addCard', card)
   },
   async saveCard(vuexContext, card) {
-    const response = await firebaseOp(card, 'PATCH', this.$axios)
+    const response = await firebaseOp('PATCH', 'words', card, this.$axios)
     vuexContext.commit('saveCard', card)
     return response
   },
   async deleteCard(vuexContext, card) {
-    const response = await firebaseOp(card, 'DELETE', this.$axios)
+    const response = await firebaseOp('DELETE', 'words', card, this.$axios)
     vuexContext.commit('deleteCard', card)
     return response
   },
   async setRandomImage(vuexContext, card) {
     card.image = await getPixabayImage(card.word, 'random')
-    const response = await firebaseOp(card, 'PATCH', this.$axios)
+    const response = await firebaseOp('PATCH', 'words', card, this.$axios)
     vuexContext.commit('saveCard', card)
     return response
   },

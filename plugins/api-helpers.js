@@ -36,7 +36,7 @@ async function getPixabayImage(phrase, type = 'comments') {
   }
 }
 
-async function firebaseOp(card, type, axios) {
+async function firebaseOp(type, entry, payload, axios) {
   try {
     if (typeof axios !== 'function') {
       throw new TypeError('Axios not available')
@@ -44,20 +44,30 @@ async function firebaseOp(card, type, axios) {
     let response = ''
     let result = ''
     switch (type) {
+      case 'GET':
+        response = await axios.$get(`/${entry}.json`)
+        result = response
+        break
       case 'POST':
-        response = await axios.$post('/words.json', card)
+        response = await axios.$post(`/${entry}.json`, payload)
         result = response.name
         break
       case 'PUT':
-        response = await axios.$put('/words/' + card.id + '.json', card)
+        response = await axios.$put(
+          `/${entry}/` + payload.id + '.json',
+          payload
+        )
         result = response
         break
       case 'PATCH':
-        response = await axios.$patch('/words/' + card.id + '.json', card)
+        response = await axios.$patch(
+          `/${entry}/` + payload.id + '.json',
+          payload
+        )
         result = response
         break
       case 'DELETE':
-        response = await axios.$delete('/words/' + card.id + '.json')
+        response = await axios.$delete(`/${entry}/` + payload.id + '.json')
         result = response
         break
     }
