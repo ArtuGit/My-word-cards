@@ -92,7 +92,7 @@ export default {
   },
   computed: {
     isDev() {
-      return process.env.devEnv
+      return this.$store.getters.isDev
     },
     page() {
       return this.$route.name
