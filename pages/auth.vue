@@ -6,8 +6,10 @@
     </v-alert>
     <auth-form
       id="auth-form"
+      :dialog="false"
       class="mt-12 align-self-center"
       :tab-init="tab"
+      @redirect="redirect"
     ></auth-form>
   </div>
 </template>
@@ -22,6 +24,15 @@ export default {
     return {
       tab: 0,
     }
+  },
+  methods: {
+    redirect() {
+      if (this.$route.query.redirect) {
+        this.$router.push(this.$route.query.redirect)
+      } else {
+        this.$router.push('/')
+      }
+    },
   },
 }
 </script>

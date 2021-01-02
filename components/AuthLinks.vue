@@ -17,7 +17,11 @@
               <v-list-item-title v-text="item.title" />
             </v-list-item-content>
           </template>
-          <auth-form :tab-init="item.tab" @dialog-reverse="dialogReverse">
+          <auth-form
+            :dialog="true"
+            :tab-init="item.tab"
+            @dialog-reverse="dialogReverse"
+          >
           </auth-form>
         </v-dialog>
       </v-list-item>

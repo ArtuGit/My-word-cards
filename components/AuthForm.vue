@@ -41,7 +41,9 @@
             <v-btn color="primary" text :disabled="!valid" @click="submitLogin">
               Login
             </v-btn>
-            <v-btn color="primary" text @click="cancel"> Cancel</v-btn>
+            <v-btn v-if="dialog" color="primary" text @click="cancel">
+              Cancel</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-tab-item>
@@ -117,7 +119,9 @@
               @click="submitRegister"
               >Register
             </v-btn>
-            <v-btn color="primary" text @click="cancel"> Cancel</v-btn>
+            <v-btn v-if="dialog" color="primary" text @click="cancel">
+              Cancel</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-tab-item>
@@ -127,8 +131,12 @@
 
 <script>
 export default {
-  emit: ['dialog-reverse'],
+  emit: ['dialog-reverse', 'redirect'],
   props: {
+    dialog: {
+      type: Boolean,
+      required: true,
+    },
     tabInit: {
       type: Number,
       required: true,
@@ -193,10 +201,15 @@ export default {
           email: this.loginEmail,
           password: this.loginPassword,
         }
+
         this.$store.dispatch('auth/signIn', authData).then(() => {
-          // ToDo: "this" does not work here, dialog is reset within logout function
           this.toggleLoading()
-          this.$emit('dialog-reverse')
+          if (this.dialog) {
+            // ToDo: How does it work? Check the next line
+            this.$emit('dialog-reverse')
+          } else {
+            this.$emit('redirect')
+          }
         })
       }
     },
@@ -210,7 +223,11 @@ export default {
         this.$refs.registerForm.reset()
         await this.$store.dispatch('auth/signUp', authData)
         this.toggleLoading()
-        this.$emit('dialog-reverse')
+        if (this.dialog) {
+          this.$emit('dialog-reverse')
+        } else {
+          this.$emit('redirect')
+        }
       }
     },
   },

@@ -94,14 +94,14 @@ export const actions = {
     let expirationDate
     if (req) {
       if (!req.headers.cookie) {
-        console.error('No cookie')
+        // console.error('No cookie')
         return
       }
       const jwtCookie = req.headers.cookie
         .split(';')
         .find((c) => c.trim().startsWith('jwt='))
       if (!jwtCookie) {
-        console.error('No JWT')
+        // console.error('No JWT')
         return
       }
       token = jwtCookie.split('=')[1]
@@ -114,16 +114,13 @@ export const actions = {
       expirationDate = localStorage.getItem('tokenExpiration')
     }
     if (new Date().getTime() > +expirationDate || !token) {
-      // eslint-disable-next-line
-      console.error('No token or invalid token')
-      console.log('Token:', token)
+      // console.error('No token or invalid token')
       vuexContext.dispatch('logout')
       return
     }
     vuexContext.commit('setToken', token)
   },
   logout(vuexContext, payload = {}) {
-    console.log('Log Out!')
     vuexContext.commit('clearToken')
     if (payload.message) {
       this.$notifier.showMessage({
