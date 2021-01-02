@@ -33,7 +33,7 @@
       </v-list-item>
       <v-list-item @click="logout">
         <v-list-item-action>
-          <v-icon>mdi-account</v-icon>
+          <v-icon>mdi-logout</v-icon>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>Logout</v-list-item-title>
