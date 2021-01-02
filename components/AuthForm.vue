@@ -219,6 +219,8 @@ export default {
         const authData = {
           email: this.email,
           password: this.password,
+          firstName: this.firstName,
+          lastName: this.lastName,
         }
         this.$refs.registerForm.reset()
         await this.$store.dispatch('auth/signUp', authData)

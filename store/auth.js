@@ -4,6 +4,8 @@ import { authOp, authenticateUser } from '~/plugins/auth-helpers'
 export const state = () => ({
   token: null,
   uuid: null,
+  firstName: '',
+  lastName: '',
 })
 
 export const mutations = {
