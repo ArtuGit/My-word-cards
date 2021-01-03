@@ -93,6 +93,9 @@ export const actions = {
       })
     }
   },
+  saveUserData(vuexContext, req) {
+    console.log('saveUserData')
+  },
   async initAuth(vuexContext, req) {
     let token
     let uuid

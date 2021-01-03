@@ -1,11 +1,15 @@
 <template>
   <div>
-    <v-btn color="primary" @click="showSnackbar"> Show snackbar</v-btn>
+    <user-form></user-form>
   </div>
 </template>
 
 <script>
+import UserForm from '@/components/UserForm'
 export default {
+  components: {
+    UserForm,
+  },
   middleware: ['auth'],
   methods: {
     showSnackbar() {
