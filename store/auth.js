@@ -17,6 +17,10 @@ export const mutations = {
     state.lastName = payload.lastName
     state.isAdmin = payload.isAdmin
   },
+  setUserData(state, payload) {
+    state.firstName = payload.firstName
+    state.lastName = payload.lastName
+  },
   clearAuth(state) {
     state.token = null
     state.uuid = null
@@ -93,8 +97,31 @@ export const actions = {
       })
     }
   },
-  saveUserData(vuexContext, req) {
-    console.log('saveUserData')
+  async setUserData(vuexContext, userData) {
+    try {
+      if (vuexContext.state.token && vuexContext.state.uuid) {
+        await this.$axios.$patch(
+          `users/${vuexContext.state.uuid}.json`,
+          userData
+        )
+        vuexContext.commit('setUserData', userData)
+        this.$notifier.showMessage({
+          content: 'The user data are updated',
+          color: 'success',
+        })
+      } else {
+        throw new Error('No token')
+      }
+    } catch (err) {
+      let message = 'Update failed'
+      if (err.response.data) {
+        message = message + ', error code:' + err.response.data.error.message
+      }
+      this.$notifier.showMessage({
+        content: message,
+        color: 'error',
+      })
+    }
   },
   async initAuth(vuexContext, req) {
     let token

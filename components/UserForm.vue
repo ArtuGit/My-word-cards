@@ -48,7 +48,14 @@ export default {
       console.log('Cancel!')
     },
     submitUser() {
-      console.log(this.firstName, this.lastName)
+      const userData = {
+        firstName: this.firstName,
+        lastName: this.lastName,
+      }
+      console.log('Before Update!')
+      this.$store.dispatch('auth/setUserData', userData).then(() => {
+        console.log('Updated!')
+      })
     },
   },
 }
