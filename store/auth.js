@@ -118,7 +118,6 @@ export const actions = {
       }
       token = jwtCookie.split('=')[1]
       uuid = uuidCookie.split('=')[1]
-      console.log(uuid)
       expirationDate = req.headers.cookie
         .split(';')
         .find((c) => c.trim().startsWith('expirationDate='))

@@ -1,8 +1,4 @@
-import {
-  fakeRequestPromise,
-  getPixabayImage,
-  firebaseOp,
-} from '@/plugins/api-helpers'
+import { fakeRequestPromise, getPixabayImage } from '@/plugins/api-helpers'
 
 export const state = () => ({
   myCards: [],
@@ -31,22 +27,22 @@ export const actions = {
   },
   async addCard(vuexContext, card) {
     card.image = await getPixabayImage(card.word, 'first')
-    card.id = await firebaseOp('POST', 'words', card, this.$axios)
+    card.id = await this.$axios.$post('/words.json', card)
     vuexContext.commit('addCard', card)
   },
   async saveCard(vuexContext, card) {
-    const response = await firebaseOp('PATCH', 'words', card, this.$axios)
+    const response = await this.$axios.patch(`/words/${card.id}.json`, card)
     vuexContext.commit('saveCard', card)
     return response
   },
   async deleteCard(vuexContext, card) {
-    const response = await firebaseOp('DELETE', 'words', card, this.$axios)
+    const response = await this.$axios.delete(`/words/${card.id}.json`)
     vuexContext.commit('deleteCard', card)
     return response
   },
   async setRandomImage(vuexContext, card) {
     card.image = await getPixabayImage(card.word, 'random')
-    const response = await firebaseOp('PATCH', 'words', card, this.$axios)
+    const response = await this.$axios.patch(`/words/${card.id}.json`, card)
     vuexContext.commit('saveCard', card)
     return response
   },

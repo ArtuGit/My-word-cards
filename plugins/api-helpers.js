@@ -36,46 +36,4 @@ async function getPixabayImage(phrase, type = 'comments') {
   }
 }
 
-async function firebaseOp(type, entry, payload, axios) {
-  try {
-    if (typeof axios !== 'function') {
-      throw new TypeError('Axios not available')
-    }
-    let response = ''
-    let result = ''
-    switch (type) {
-      case 'GET':
-        response = await axios.$get(`/${entry}.json`)
-        result = response
-        break
-      case 'POST':
-        response = await axios.$post(`/${entry}.json`, payload)
-        result = response.name
-        break
-      case 'PUT':
-        response = await axios.$put(
-          `/${entry}/` + payload.id + '.json',
-          payload
-        )
-        result = response
-        break
-      case 'PATCH':
-        response = await axios.$patch(
-          `/${entry}/` + payload.id + '.json',
-          payload
-        )
-        result = response
-        break
-      case 'DELETE':
-        response = await axios.$delete(`/${entry}/` + payload.id + '.json')
-        result = response
-        break
-    }
-    return result
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err)
-  }
-}
-
-export { fakeRequestPromise, getPixabayImage, firebaseOp }
+export { fakeRequestPromise, getPixabayImage }

@@ -1,5 +1,3 @@
-import { firebaseOp } from '@/plugins/api-helpers'
-
 export const state = () => ({
   isDev: false,
 })
@@ -13,7 +11,7 @@ export const mutations = {
 export const actions = {
   async nuxtServerInit(vuexContext, context) {
     vuexContext.commit('setDev', context.isDev)
-    const data = await firebaseOp('GET', 'words', null, this.$axios)
+    const data = await this.$axios.$get('/words.json')
     const cards = []
     for (const key in data) {
       cards.push({ ...data[key], id: key })
