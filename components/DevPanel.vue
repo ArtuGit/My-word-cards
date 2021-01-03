@@ -6,6 +6,7 @@
       <li v-if="user.uuid">user.uuid: {{ user.uuid }}</li>
       <li v-if="user.firstName">user.firstName: {{ user.firstName }}</li>
       <li v-if="user.lastName">user.lastName: {{ user.lastName }}</li>
+      <li v-if="user.isAdmin">user.isAdmin: {{ user.isAdmin }}</li>
       <li>isDev: {{ isDev }}</li>
     </ul>
   </v-sheet>
@@ -19,9 +20,6 @@ export default {
     },
     user() {
       return this.$store.getters['auth/user']
-    },
-    uuid() {
-      return this.$store.getters['auth/uuid']
     },
     isDev() {
       return this.$store.getters.isDev

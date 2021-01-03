@@ -6,6 +6,7 @@ export const state = () => ({
   uuid: null,
   firstName: '',
   lastName: '',
+  isAdmin: false,
 })
 
 export const mutations = {
@@ -14,12 +15,14 @@ export const mutations = {
     state.uuid = payload.uuid
     state.firstName = payload.firstName
     state.lastName = payload.lastName
+    state.isAdmin = payload.isAdmin
   },
   clearAuth(state) {
     state.token = null
     state.uuid = null
     state.firstName = null
     state.lastName = null
+    state.isAdmin = false
   },
   setToken(state, token) {
     state.token = token
@@ -145,15 +148,13 @@ export const getters = {
   isAuthenticated(state) {
     return state.token != null
   },
-  uuid(state) {
-    return state.uuid
-  },
   user(state) {
     return {
       token: state.token,
       uuid: state.uuid,
       firstName: state.firstName,
       lastName: state.lastName,
+      isAdmin: state.isAdmin,
     }
   },
 }
