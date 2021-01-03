@@ -31,18 +31,18 @@ export const actions = {
     vuexContext.commit('addCard', card)
   },
   async saveCard(vuexContext, card) {
-    const response = await this.$axios.patch(`/words/${card.id}.json`, card)
+    const response = await this.$axios.$patch(`/words/${card.id}.json`, card)
     vuexContext.commit('saveCard', card)
     return response
   },
   async deleteCard(vuexContext, card) {
-    const response = await this.$axios.delete(`/words/${card.id}.json`)
+    const response = await this.$axios.$delete(`/words/${card.id}.json`)
     vuexContext.commit('deleteCard', card)
     return response
   },
   async setRandomImage(vuexContext, card) {
     card.image = await getPixabayImage(card.word, 'random')
-    const response = await this.$axios.patch(`/words/${card.id}.json`, card)
+    const response = await this.$axios.$patch(`/words/${card.id}.json`, card)
     vuexContext.commit('saveCard', card)
     return response
   },
