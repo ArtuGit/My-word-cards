@@ -39,6 +39,7 @@
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <user-bar></user-bar>
     </v-app-bar>
     <v-main>
       <Snackbar></Snackbar>
@@ -55,10 +56,12 @@
 <script>
 import AuthLinks from '@/components/AuthLinks'
 import DevPanel from '@/components/DevPanel'
-import Snackbar from '@/components/Snackbar.vue'
+import Snackbar from '@/components/Snackbar'
+import UserBar from '@/components/UserBar'
 export default {
   middleware: ['check-auth'],
   components: {
+    UserBar,
     Snackbar,
     AuthLinks,
     DevPanel,
@@ -101,6 +104,9 @@ export default {
     },
     page() {
       return this.$route.name
+    },
+    isAuthenticated() {
+      return this.$store.getters['auth/isAuthenticated']
     },
   },
 }
