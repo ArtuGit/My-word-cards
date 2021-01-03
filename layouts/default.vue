@@ -39,7 +39,7 @@
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <user-bar></user-bar>
+      <user-bar v-if="isAuthenticated"></user-bar>
     </v-app-bar>
     <v-main>
       <Snackbar></Snackbar>

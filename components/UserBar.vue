@@ -1,5 +1,5 @@
 <template>
-  <v-chip> {{ shortName }} </v-chip>
+  <v-chip> {{ displayedName }} </v-chip>
 </template>
 
 <script>
@@ -8,8 +8,13 @@ export default {
     user() {
       return this.$store.getters['auth/user']
     },
-    shortName() {
-      return this.user.firstName
+    displayedName() {
+      return (
+        this.user.firstName +
+        ' ' +
+        this.user.firstName.charAt(0).toUpperCase() +
+        '.'
+      )
     },
   },
 }
