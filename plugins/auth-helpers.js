@@ -44,11 +44,14 @@ async function authOp(type, authData, axios) {
 
 function authenticateUser(result) {
   localStorage.setItem('token', result.idToken)
+  localStorage.setItem('uuid', result.localId)
+
   localStorage.setItem(
     'tokenExpiration',
     new Date().getTime() + Number.parseInt(result.expiresIn) * 1000
   )
   Cookie.set('jwt', result.idToken)
+  Cookie.set('uuid', result.localId)
   Cookie.set(
     'expirationDate',
     new Date().getTime() + Number.parseInt(result.expiresIn) * 1000

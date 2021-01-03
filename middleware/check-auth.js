@@ -1,4 +1,4 @@
-export default function (context) {
+export default async function (context) {
   // console.log('[Middleware] Check Auth')
-  context.store.dispatch('auth/initAuth', context.req)
+  await context.store.dispatch('auth/initAuth', context.req)
 }

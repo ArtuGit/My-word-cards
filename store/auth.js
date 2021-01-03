@@ -93,8 +93,9 @@ export const actions = {
       })
     }
   },
-  initAuth(vuexContext, req) {
+  async initAuth(vuexContext, req) {
     let token
+    let uuid
     let expirationDate
     if (req) {
       if (!req.headers.cookie) {
@@ -104,17 +105,27 @@ export const actions = {
       const jwtCookie = req.headers.cookie
         .split(';')
         .find((c) => c.trim().startsWith('jwt='))
+      const uuidCookie = req.headers.cookie
+        .split(';')
+        .find((c) => c.trim().startsWith('uuid='))
       if (!jwtCookie) {
         // console.error('No JWT')
         return
       }
+      if (!uuidCookie) {
+        // console.error('No UUID')
+        return
+      }
       token = jwtCookie.split('=')[1]
+      uuid = uuidCookie.split('=')[1]
+      console.log(uuid)
       expirationDate = req.headers.cookie
         .split(';')
         .find((c) => c.trim().startsWith('expirationDate='))
         .split('=')[1]
     } else if (process.client) {
       token = localStorage.getItem('token')
+      uuid = localStorage.getItem('uuid')
       expirationDate = localStorage.getItem('tokenExpiration')
     }
     if (new Date().getTime() > +expirationDate || !token) {
@@ -122,7 +133,13 @@ export const actions = {
       vuexContext.dispatch('logout')
       return
     }
-    vuexContext.commit('setToken', token)
+    const userData = await this.$axios.$get(`users/${uuid}.json`)
+    const auth = {
+      token,
+      uuid,
+      ...userData,
+    }
+    vuexContext.commit('setAuth', auth)
   },
   logout(vuexContext, payload = {}) {
     vuexContext.commit('clearAuth')
@@ -136,9 +153,11 @@ export const actions = {
       this.$router.push({ name: payload.redirectTo })
     }
     Cookie.remove('jwt')
+    Cookie.remove('uuid')
     Cookie.remove('expirationDate')
     if (process.client) {
       localStorage.removeItem('token')
+      localStorage.removeItem('uuid')
       localStorage.removeItem('tokenExpiration')
     }
   },
