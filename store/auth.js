@@ -1,4 +1,5 @@
 import Cookie from 'js-cookie'
+import { firebaseOp } from '@/plugins/api-helpers'
 import { authOp, authenticateUser } from '~/plugins/auth-helpers'
 
 export const state = () => ({
@@ -32,12 +33,11 @@ export const actions = {
   async signIn(vuexContext, authData) {
     try {
       const result = await authOp('sign-in', authData, this.$axios)
-      authenticateUser(result)
       const auth = {
         token: result.idToken,
         uuid: result.localId,
       }
-      console.log(auth)
+      authenticateUser(result)
       vuexContext.commit('setAuth', auth)
       this.$notifier.showMessage({
         content: 'You are logged in',
@@ -57,16 +57,22 @@ export const actions = {
   async signUp(vuexContext, authData) {
     try {
       const result = await authOp('sign-up', authData, this.$axios)
-      authenticateUser(result)
       const auth = {
         token: result.idToken,
         uuid: result.localId,
       }
+      const user = {
+        firstName: authData.firstName,
+        lastName: authData.lastName,
+      }
+      await firebaseOp('POST', `users/${auth.uuid}`, user, this.$axios)
+      authenticateUser(result)
       vuexContext.commit('setAuth', auth)
       this.$notifier.showMessage({
         content: 'You are registered',
         color: 'success',
       })
+      return true
     } catch (err) {
       let message = 'Registration failed'
       if (err.response.data) {

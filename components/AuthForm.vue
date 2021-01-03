@@ -222,13 +222,18 @@ export default {
           firstName: this.firstName,
           lastName: this.lastName,
         }
-        this.$refs.registerForm.reset()
-        await this.$store.dispatch('auth/signUp', authData)
+        const res = await this.$store.dispatch('auth/signUp', authData)
         this.toggleLoading()
-        if (this.dialog) {
-          this.$emit('dialog-reverse')
+        if (res) {
+          this.$refs.registerForm.reset()
+          if (this.dialog) {
+            this.$emit('dialog-reverse')
+          } else {
+            this.$emit('redirect')
+          }
         } else {
-          this.$emit('redirect')
+          this.password = ''
+          this.password2 = ''
         }
       }
     },
