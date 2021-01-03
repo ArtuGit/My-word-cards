@@ -1,5 +1,4 @@
 import Cookie from 'js-cookie'
-import { firebaseOp } from '@/plugins/api-helpers'
 import { authOp, authenticateUser } from '~/plugins/auth-helpers'
 
 export const state = () => ({
@@ -13,19 +12,17 @@ export const mutations = {
   setAuth(state, payload) {
     state.token = payload.token
     state.uuid = payload.uuid
+    state.firstName = payload.firstName
+    state.lastName = payload.lastName
   },
   clearAuth(state) {
     state.token = null
     state.uuid = null
+    state.firstName = null
+    state.lastName = null
   },
   setToken(state, token) {
     state.token = token
-  },
-  setUUID(state, uuid) {
-    state.uuid = uuid
-  },
-  clearToken(state) {
-    state.token = null
   },
 }
 
@@ -33,9 +30,14 @@ export const actions = {
   async signIn(vuexContext, authData) {
     try {
       const result = await authOp('sign-in', authData, this.$axios)
-      const auth = {
+      let auth = {
         token: result.idToken,
         uuid: result.localId,
+      }
+      const userData = await this.$axios.$get(`users/${auth.uuid}.json`)
+      auth = {
+        ...auth,
+        ...userData,
       }
       authenticateUser(result)
       vuexContext.commit('setAuth', auth)
@@ -57,15 +59,19 @@ export const actions = {
   async signUp(vuexContext, authData) {
     try {
       const result = await authOp('sign-up', authData, this.$axios)
-      const auth = {
+      let auth = {
         token: result.idToken,
         uuid: result.localId,
       }
-      const user = {
+      const userData = {
         firstName: authData.firstName,
         lastName: authData.lastName,
       }
-      await firebaseOp('POST', `users/${auth.uuid}`, user, this.$axios)
+      await this.$axios.$put(`users/${auth.uuid}.json`, userData)
+      auth = {
+        ...auth,
+        ...userData,
+      }
       authenticateUser(result)
       vuexContext.commit('setAuth', auth)
       this.$notifier.showMessage({
@@ -141,5 +147,13 @@ export const getters = {
   },
   uuid(state) {
     return state.uuid
+  },
+  user(state) {
+    return {
+      token: state.token,
+      uuid: state.uuid,
+      firstName: state.firstName,
+      lastName: state.lastName,
+    }
   },
 }
