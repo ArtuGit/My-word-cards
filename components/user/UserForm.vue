@@ -1,5 +1,8 @@
 <template>
   <v-card :loading="loading">
+    <v-card-title>
+      <span class="headline">Edit User</span>
+    </v-card-title>
     <v-card-text>
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-text-field
@@ -31,6 +34,13 @@
 
 <script>
 export default {
+  emit: ['dialog-reverse'],
+  props: {
+    dialog: {
+      type: Boolean,
+      required: true,
+    },
+  },
   data: () => ({
     loading: false,
     valid: true,
@@ -52,7 +62,7 @@ export default {
       this.loading = !this.loading
     },
     cancel() {
-      console.log('Cancel!')
+      this.$emit('dialog-reverse')
     },
     submitUser() {
       this.toggleLoading()
@@ -62,6 +72,7 @@ export default {
       }
       this.$store.dispatch('auth/setUserData', userData).then(() => {
         this.toggleLoading()
+        this.$emit('dialog-reverse')
       })
     },
   },
