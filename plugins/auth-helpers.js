@@ -38,7 +38,7 @@ async function authOp(type, authData, axios) {
           'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' +
           process.env.firebaseKey
         response = await axios.$post(authURL, authData)
-        result = response
+        result = response.users[0]
         break
     }
     return result
@@ -51,14 +51,12 @@ async function authOp(type, authData, axios) {
 
 function authenticateUser(result) {
   localStorage.setItem('token', result.idToken)
-  localStorage.setItem('uuid', result.localId)
 
   localStorage.setItem(
     'tokenExpiration',
     new Date().getTime() + Number.parseInt(result.expiresIn) * 1000
   )
   Cookie.set('jwt', result.idToken)
-  Cookie.set('uuid', result.localId)
   Cookie.set(
     'expirationDate',
     new Date().getTime() + Number.parseInt(result.expiresIn) * 1000

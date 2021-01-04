@@ -4,6 +4,7 @@
     <ul>
       <li>isAuthenticated: {{ isAuthenticated }}</li>
       <li v-if="user.uuid">user.uuid: {{ user.uuid }}</li>
+      <li v-if="user.email">user.email: {{ user.email }}</li>
       <li v-if="user.firstName">user.firstName: {{ user.firstName }}</li>
       <li v-if="user.lastName">user.lastName: {{ user.lastName }}</li>
       <li v-if="user.isAdmin">user.isAdmin: {{ user.isAdmin }}</li>
