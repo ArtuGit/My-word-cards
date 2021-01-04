@@ -7,12 +7,14 @@ export const state = () => ({
   firstName: '',
   lastName: '',
   isAdmin: false,
+  email: null,
 })
 
 export const mutations = {
   setAuth(state, payload) {
     state.token = payload.token
     state.uuid = payload.uuid
+    state.email = payload.email
     state.firstName = payload.firstName
     state.lastName = payload.lastName
     state.isAdmin = payload.isAdmin
@@ -162,13 +164,28 @@ export const actions = {
       vuexContext.dispatch('logout')
       return
     }
-    const userData = await this.$axios.$get(`users/${uuid}.json`)
-    const auth = {
-      token,
-      uuid,
-      ...userData,
+    try {
+      // ToDo: Current developing here
+      const userData = await this.$axios.$get(`users/${uuid}.json`)
+      const userSysData = await this.$axios.$post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' +
+          process.env.firebaseKey,
+        { idToken: token }
+      )
+      console.log(userSysData)
+      const auth = {
+        token,
+        uuid,
+        ...userData,
+      }
+      vuexContext.commit('setAuth', auth)
+    } catch (err) {
+      console.error(err)
+      if (err.response.data) {
+        console.error(err.response.data)
+        console.error(err.response.data.error.message)
+      }
     }
-    vuexContext.commit('setAuth', auth)
   },
   logout(vuexContext, payload = {}) {
     vuexContext.commit('clearAuth')

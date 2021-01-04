@@ -33,6 +33,13 @@ async function authOp(type, authData, axios) {
         response = await axios.$post(authURL, request)
         result = response
         break
+      case 'get-user':
+        authURL =
+          'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' +
+          process.env.firebaseKey
+        response = await axios.$post(authURL, authData)
+        result = response
+        break
     }
     return result
   } catch (err) {
