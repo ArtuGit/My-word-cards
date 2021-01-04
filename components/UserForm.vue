@@ -16,6 +16,7 @@
           maxlength="20"
           required
         ></v-text-field>
+        <v-text-field :value="email" label="Email" disabled></v-text-field>
       </v-form>
     </v-card-text>
     <v-card-actions>
@@ -35,6 +36,7 @@ export default {
     valid: true,
     firstName: '',
     lastName: '',
+    email: '',
     rules: {
       required: (value) => !!value || 'Required.',
     },
@@ -43,6 +45,7 @@ export default {
     const user = this.$store.getters['auth/user']
     this.firstName = user.firstName
     this.lastName = user.lastName
+    this.email = user.email
   },
   methods: {
     toggleLoading() {
