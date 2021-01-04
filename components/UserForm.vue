@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card :loading="loading">
     <v-card-text>
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-text-field
@@ -31,6 +31,7 @@
 <script>
 export default {
   data: () => ({
+    loading: false,
     valid: true,
     firstName: '',
     lastName: '',
@@ -44,17 +45,20 @@ export default {
     this.lastName = user.lastName
   },
   methods: {
+    toggleLoading() {
+      this.loading = !this.loading
+    },
     cancel() {
       console.log('Cancel!')
     },
     submitUser() {
+      this.toggleLoading()
       const userData = {
         firstName: this.firstName,
         lastName: this.lastName,
       }
-      console.log('Before Update!')
       this.$store.dispatch('auth/setUserData', userData).then(() => {
-        console.log('Updated!')
+        this.toggleLoading()
       })
     },
   },
