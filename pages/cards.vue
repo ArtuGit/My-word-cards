@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import Card from '@/components/Card'
-import CardAdd from '@/components/CardAdd'
+import Card from '@/components/cards/Card'
+import CardAdd from '@/components/cards/CardAdd'
 export default {
   components: {
     Card,

@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import CardForm from '@/components/CardForm'
+import CardForm from '@/components/cards/CardForm'
 export default {
   components: {
     CardForm,

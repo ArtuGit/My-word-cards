@@ -54,10 +54,10 @@
 </template>
 
 <script>
-import AuthLinks from '@/components/AuthLinks'
+import AuthLinks from '@/components/auth/AuthLinks'
 import DevPanel from '@/components/DevPanel'
-import Snackbar from '@/components/Snackbar'
-import UserBar from '@/components/UserBar'
+import Snackbar from '@/components/UI/Snackbar'
+import UserBar from '@/components/UI/UserBar'
 export default {
   middleware: ['check-auth'],
   components: {

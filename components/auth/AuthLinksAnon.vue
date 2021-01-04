@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import AuthForm from '@/components/AuthForm'
+import AuthForm from '@/components/auth/AuthForm'
 export default {
   components: {
     AuthForm,

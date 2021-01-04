@@ -4,8 +4,8 @@
 </template>
 
 <script>
-import AuthLinksAnon from '@/components/AuthLinksAnon'
-import AuthLinksLogged from '@/components/AuthLinksLogged'
+import AuthLinksAnon from '@/components/auth/AuthLinksAnon'
+import AuthLinksLogged from '@/components/auth/AuthLinksLogged'
 export default {
   components: {
     AuthLinksAnon,
