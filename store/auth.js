@@ -90,7 +90,6 @@ export const actions = {
         content: 'You are registered',
         color: 'success',
       })
-      return true
     } catch (err) {
       let message = 'Registration failed'
       if (err.response.data) {
