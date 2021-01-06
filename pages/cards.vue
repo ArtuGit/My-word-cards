@@ -2,19 +2,21 @@
   <div>
     <v-container>
       <v-row>
-        <v-text-field
-          v-model="search"
-          dark
-          background-color="accent"
-          solo-inverted
-          flat
-          label="Search"
-          prepend-icon="mdi-file-find"
-          clearable
-          @click:clear="clearSearch"
-        ></v-text-field>
-        <v-spacer></v-spacer>
-        <v-radio-group v-model="sortBy" row mandatory>
+        <v-col cols="12" sm="8" md="6" lg="4" xl="6">
+          <v-text-field
+            v-model="search"
+            dark
+            background-color="accent"
+            solo-inverted
+            flat
+            label="Search"
+            prepend-icon="mdi-file-find"
+            clearable
+            @click:clear="clearSearch"
+          ></v-text-field>
+        </v-col>
+
+        <v-radio-group v-model="sortBy" label="Sort by:" row mandatory>
           <v-radio label="Adding" value="id"></v-radio>
           <v-radio label="Alphabet" value="word"></v-radio>
         </v-radio-group>
