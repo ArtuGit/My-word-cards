@@ -13,7 +13,10 @@
           clearable
           @click:clear="clearSearch"
         ></v-text-field>
+        <v-spacer></v-spacer>
+        <card-add></card-add>
       </v-row>
+
       <v-row v-if="filteredCards.length > 0">
         <v-col
           v-for="card in filteredCards"
@@ -41,11 +44,11 @@
 <script>
 import Card from '@/components/cards/Card'
 import orderBy from 'lodash.orderby'
-// import CardAdd from '@/components/cards/CardAdd'
+import CardAdd from '@/components/cards/CardAdd'
 export default {
   components: {
     Card,
-    // CardAdd,
+    CardAdd,
   },
   data() {
     return {

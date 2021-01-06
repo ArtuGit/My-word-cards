@@ -1,15 +1,13 @@
 <template>
   <div>
-    <v-card height="100%" class="transparent">
-      <v-row justify="center">
-        <v-dialog v-model="dialog" persistent max-width="600px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" v-bind="attrs" v-on="on"> Add Card</v-btn>
-          </template>
-          <card-form @dialog-reverse="dialogReverse"> </card-form>
-        </v-dialog>
-      </v-row>
-    </v-card>
+    <v-dialog v-model="dialog" persistent max-width="600px">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn color="primary" v-bind="attrs" class="mx-2" fab dark v-on="on">
+          <v-icon dark> mdi-plus </v-icon>
+        </v-btn>
+      </template>
+      <card-form @dialog-reverse="dialogReverse"> </card-form>
+    </v-dialog>
   </div>
 </template>
 
