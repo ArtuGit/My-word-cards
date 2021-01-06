@@ -14,6 +14,11 @@
           @click:clear="clearSearch"
         ></v-text-field>
         <v-spacer></v-spacer>
+        <v-radio-group v-model="sortBy" row mandatory>
+          <v-radio label="Adding" value="id"></v-radio>
+          <v-radio label="Alphabet" value="word"></v-radio>
+        </v-radio-group>
+        <v-spacer></v-spacer>
         <card-add></card-add>
       </v-row>
 
@@ -52,6 +57,7 @@ export default {
   },
   data() {
     return {
+      sortBy: 'id',
       search: '',
     }
   },
@@ -69,7 +75,7 @@ export default {
               item.annotation.toLowerCase().includes(this.search.toLowerCase()))
           )
         }),
-        'id'
+        this.sortBy
       )
     },
   },
