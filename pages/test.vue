@@ -1,60 +1,45 @@
 <template>
-  <v-layout row>
-    <v-flex xs12 sm6 offset-sm3>
-      <v-card>
-        <v-toolbar color="pink" dark>
-          <v-toolbar-side-icon></v-toolbar-side-icon>
+  <div>
+    <v-text-field
+      v-model="search"
+      dark
+      background-color="accent"
+      solo-inverted
+      flat
+      label="Search"
+      prepend-icon="mdi-file-find"
+      clearable
+      @click:clear="clearSearch"
+    ></v-text-field>
 
-          <v-toolbar-title>Inbox</v-toolbar-title>
+    <v-list two-line>
+      <template v-for="(item, index) in filteredItems">
+        <v-list-tile :key="item.title" avatar ripple @click="toggle(index)">
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            <v-list-tile-sub-title class="text--primary">{{
+              item.headline
+            }}</v-list-tile-sub-title>
+            <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+          </v-list-tile-content>
 
-          <v-text-field
-            v-model="search"
-            class="mx-3"
-            flat
-            label="Search"
-            prepend-inner-icon="search"
-            solo-inverted
-            clearable
-            @click:clear="clearSearch"
-          ></v-text-field>
-        </v-toolbar>
+          <v-list-tile-action>
+            <v-list-tile-action-text>{{ item.action }}</v-list-tile-action-text>
+            <v-icon v-if="selected.indexOf(index) < 0" color="grey lighten-1">
+              star_border
+            </v-icon>
 
-        <v-list two-line>
-          <template v-for="(item, index) in filteredItems">
-            <v-list-tile :key="item.title" avatar ripple @click="toggle(index)">
-              <v-list-tile-content>
-                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                <v-list-tile-sub-title class="text--primary">{{
-                  item.headline
-                }}</v-list-tile-sub-title>
-                <v-list-tile-sub-title>{{
-                  item.subtitle
-                }}</v-list-tile-sub-title>
-              </v-list-tile-content>
-
-              <v-list-tile-action>
-                <v-list-tile-action-text>{{
-                  item.action
-                }}</v-list-tile-action-text>
-                <v-icon
-                  v-if="selected.indexOf(index) < 0"
-                  color="grey lighten-1"
-                >
-                  star_border
-                </v-icon>
-
-                <v-icon v-else color="yellow darken-2"> star </v-icon>
-              </v-list-tile-action>
-            </v-list-tile>
-            <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
-          </template>
-        </v-list>
-      </v-card>
-    </v-flex>
-  </v-layout>
+            <v-icon v-else color="yellow darken-2"> star </v-icon>
+          </v-list-tile-action>
+        </v-list-tile>
+        <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
+      </template>
+    </v-list>
+  </div>
 </template>
 
 <script>
+import orderBy from 'lodash.orderby'
 export default {
   data() {
     return {
@@ -62,26 +47,26 @@ export default {
       search: '',
       items: [
         {
-          action: '15 min',
+          action: '1',
           headline: 'Brunch this weekend?',
           title: 'Ali Connors',
           subtitle:
             "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
         },
         {
-          action: '2 hr',
+          action: '2',
           headline: 'Summer BBQ',
           title: 'me, Scrott, Jennifer',
           subtitle: "Wish I could come, but I'm out of town this weekend.",
         },
         {
-          action: '6 hr',
+          action: '3',
           headline: 'Oui oui',
           title: 'Sandra Adams',
           subtitle: 'Do you have Paris recommendations? Have you ever been?',
         },
         {
-          action: '12 hr',
+          action: '4',
           headline: 'Birthday gift',
           title: 'Trevor Hansen',
           subtitle:
@@ -99,7 +84,7 @@ export default {
   },
   computed: {
     filteredItems() {
-      return _.orderBy(
+      return orderBy(
         this.items.filter((item) => {
           if (!this.search) return this.items
           return (
@@ -109,7 +94,7 @@ export default {
             item.subtitle.toLowerCase().includes(this.search.toLowerCase())
           )
         }),
-        'headline'
+        'action'
       )
     },
   },
