@@ -2,12 +2,21 @@
   <div>
     <v-container>
       <v-row>
-        <v-col cols="12" sm="6" md="4" lg="3" xl="2" align-self="center">
-          <card-add></card-add>
-        </v-col>
-
+        <v-text-field
+          v-model="search"
+          dark
+          background-color="accent"
+          solo-inverted
+          flat
+          label="Search"
+          prepend-icon="mdi-file-find"
+          clearable
+          @click:clear="clearSearch"
+        ></v-text-field>
+      </v-row>
+      <v-row v-if="filteredCards.length > 0">
         <v-col
-          v-for="card in myCards"
+          v-for="card in filteredCards"
           :key="card.id"
           cols="12"
           sm="6"
@@ -23,33 +32,47 @@
           >
           </card>
         </v-col>
-        <v-col
-          v-if="myCards.length > 10"
-          cols="12"
-          sm="6"
-          md="4"
-          lg="3"
-          xl="2"
-          align-self="center"
-        >
-          <card-add></card-add>
-        </v-col>
       </v-row>
+      <v-row v-else> No cards found according to the current search. </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
 import Card from '@/components/cards/Card'
-import CardAdd from '@/components/cards/CardAdd'
+import orderBy from 'lodash.orderby'
+// import CardAdd from '@/components/cards/CardAdd'
 export default {
   components: {
     Card,
-    CardAdd,
+    // CardAdd,
+  },
+  data() {
+    return {
+      search: '',
+    }
   },
   computed: {
-    myCards() {
+    currentCards() {
       return this.$store.getters['cards/loadedCards']
+    },
+    filteredCards() {
+      return orderBy(
+        this.currentCards.filter((item) => {
+          if (!this.search || this.search.length < 2) return this.currentCards
+          return (
+            item.word.toLowerCase().includes(this.search.toLowerCase()) ||
+            (item.annotation &&
+              item.annotation.toLowerCase().includes(this.search.toLowerCase()))
+          )
+        }),
+        'id'
+      )
+    },
+  },
+  methods: {
+    clearSearch() {
+      this.search = ''
     },
   },
 }
