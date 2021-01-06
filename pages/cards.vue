@@ -7,7 +7,7 @@
             v-model="search"
             dark
             background-color="accent"
-            solo-inverted
+            solo
             flat
             label="Search"
             prepend-icon="mdi-file-find"
