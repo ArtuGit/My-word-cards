@@ -1,16 +1,19 @@
 <template>
-  <div class="d-flex flex-column">
-    <v-alert dark border="left" type="warning">
-      You are not authorized to access this page. Please
-      <strong>login</strong> or <strong>register</strong> below.
-    </v-alert>
-    <auth-form
-      id="auth-form"
-      :dialog="false"
-      class="mt-12 align-self-center"
-      :tab-init="tab"
-      @redirect="redirect"
-    ></auth-form>
+  <div>
+    <h1>Authentication</h1>
+    <div class="d-flex flex-column">
+      <v-alert dark border="left" type="warning">
+        You are not authorized to access this page. Please
+        <strong>login</strong> or <strong>register</strong> below.
+      </v-alert>
+      <auth-form
+        id="auth-form"
+        :dialog="false"
+        class="mt-12 align-self-center"
+        :tab-init="tab"
+        @redirect="redirect"
+      ></auth-form>
+    </div>
   </div>
 </template>
 
