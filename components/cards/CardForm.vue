@@ -28,6 +28,30 @@
                 label="Annotation"
                 hint="Translation, definition, comment and so on."
               ></v-textarea>
+              <v-combobox
+                v-model="input.collections"
+                :items="collectionsAll"
+                label="Collections"
+                multiple
+                chips
+              >
+                <template v-slot:selection="data">
+                  <v-chip
+                    :key="JSON.stringify(data.item)"
+                    v-bind="data.attrs"
+                    :input-value="data.selected"
+                    :disabled="data.disabled"
+                    @click:close="data.parent.selectItem(data.item)"
+                  >
+                    <v-avatar
+                      class="accent white--text"
+                      left
+                      v-text="data.item.slice(0, 1).toUpperCase()"
+                    ></v-avatar>
+                    {{ data.item }}
+                  </v-chip>
+                </template>
+              </v-combobox>
             </v-col>
           </v-row>
         </v-container>
@@ -66,12 +90,18 @@ export default {
       required: false,
       default: null,
     },
+    collections: {
+      type: Array,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
       input: {
         word: '',
         annotation: '',
+        collections: [],
       },
       valid: true,
       wordRules: [
@@ -82,6 +112,9 @@ export default {
     }
   },
   computed: {
+    collectionsAll() {
+      return ['Programming', 'Design', 'Vue', 'Vuetify']
+    },
     cardTitle() {
       if (this.id) {
         return this.word
@@ -98,6 +131,9 @@ export default {
     },
     submitButtonState() {
       if (this.id) {
+        if (this.input.collections !== this.collections) {
+          return false
+        }
         if (this.input.annotation !== this.annotation) {
           return false
         } else {
@@ -117,10 +153,12 @@ export default {
   mounted() {
     this.input.word = this.word
     this.input.annotation = this.annotation
+    this.input.collections = this.collections
   },
   beforeRouteUpdate(to, from, next) {
     this.input.word = this.word
     this.input.annotation = this.annotation
+    this.input.collections = this.collections
     next()
   },
   emits: ['dialog-reverse'],
@@ -131,6 +169,7 @@ export default {
       if (!this.id) {
         this.input.word = ''
         this.input.annotation = ''
+        this.input.collections = []
       }
     },
     cancel() {

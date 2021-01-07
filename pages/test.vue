@@ -1,8 +1,8 @@
 <template>
   <v-form ref="form" v-model="valid" lazy-validation>
     <v-combobox
-      v-model="select"
-      :items="items"
+      v-model="collectionsSelected"
+      :items="collections"
       label="Collections"
       multiple
       chips
@@ -34,13 +34,13 @@ export default {
   data() {
     return {
       valid: true,
-      select: ['Vuetify', 'Programming'],
-      items: ['Programming', 'Design', 'Vue', 'Vuetify'],
+      collectionsSelected: ['Vuetify', 'Programming'],
+      collections: ['Programming', 'Design', 'Vue', 'Vuetify'],
     }
   },
   methods: {
     submit() {
-      this.items = this.select
+      this.collections = this.collectionsSelected
     },
   },
 }
