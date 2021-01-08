@@ -113,7 +113,7 @@ export default {
   },
   computed: {
     collectionsAll() {
-      return ['Programming', 'Design', 'Vue', 'Vuetify']
+      return ['Programming']
     },
     cardTitle() {
       if (this.id) {
@@ -170,6 +170,10 @@ export default {
       this.$emit('dialog-reverse')
     },
     submit() {
+      const collectionsDiff = this.input.collections.filter(
+        (x) => !this.collectionsAll.includes(x)
+      )
+      console.log(collectionsDiff)
       if (!this.id && this.input.word) {
         this.input.word = this.input.word.trimEnd()
       }
