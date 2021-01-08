@@ -93,7 +93,7 @@ export default {
     collections: {
       type: Array,
       required: false,
-      default: null,
+      default: () => ['Vuetify', 'Programming'],
     },
   },
   data() {
@@ -131,23 +131,17 @@ export default {
     },
     submitButtonState() {
       if (this.id) {
-        if (this.input.collections !== this.collections) {
-          return false
-        }
-        if (this.input.annotation !== this.annotation) {
-          return false
-        } else {
-          return true
-        }
-      } else if (
-        this.input.word &&
-        this.input.word.length > 0 &&
-        this.input.word.length <= 100
-      ) {
-        return false
-      } else {
-        return true
-      }
+        return (
+          (this.input.collections === this.collections &&
+            this.input.annotation === this.annotation &&
+            this.input.collections === this.collections) ||
+          !(
+            this.input.word &&
+            this.input.word.length > 0 &&
+            this.input.word.length <= 100
+          )
+        )
+      } else return false
     },
   },
   mounted() {
