@@ -39,6 +39,7 @@
             :word="card.word"
             :annotation="card.annotation"
             :image="card.image"
+            :collections="card.collections"
           >
           </card>
         </v-col>

@@ -32,6 +32,7 @@
         :word="word"
         :annotation="annotation"
         :image="image"
+        :collections="collections"
         @dialog-reverse="dialogReverse"
       >
       </card-form>
@@ -68,6 +69,10 @@ export default {
       type: String,
       required: false,
       default: null,
+    },
+    collections: {
+      type: Array,
+      required: false,
     },
   },
   data() {
@@ -128,6 +133,7 @@ export default {
         case 'test':
           this.toggleLoading()
           console.log(this.$store.getters['cards/loadedCollections'])
+          console.log(this.$store.getters['cards/loadedCollectionsTitles'])
           this.$store.dispatch('cards/test', this.card).then(() => {
             this.toggleLoading()
           })

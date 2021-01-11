@@ -57,12 +57,14 @@ export const actions = {
     await fakeRequestPromise(3000)
   },
   async addNewCollections(vuexContext, collections) {
-    for (const col of collections) {
-      console.log(col)
-      const col2 = { title: col }
-      await this.$axios.$post('/collections.json', col2)
+    let collectionObj = null
+    const collectionArr = []
+    for (const collection of collections) {
+      collectionObj = { title: collection }
+      await this.$axios.$post('/collections.json', collectionObj)
+      collectionArr.push(collectionObj)
     }
-    vuexContext.commit('addNewCollections', collections)
+    vuexContext.commit('addNewCollections', collectionArr)
   },
 }
 
@@ -77,5 +79,8 @@ export const getters = {
   },
   loadedCollections(state) {
     return state.myCollections
+  },
+  loadedCollectionsTitles(state) {
+    return state.myCollections.map((el) => el.title)
   },
 }

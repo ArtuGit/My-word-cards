@@ -93,7 +93,7 @@ export default {
     collections: {
       type: Array,
       required: false,
-      default: () => ['Vuetify', 'Programming'],
+      default: () => [],
     },
   },
   data() {
@@ -113,7 +113,7 @@ export default {
   },
   computed: {
     collectionsAll() {
-      return this.$store.getters['cards/loadedCollections']
+      return this.$store.getters['cards/loadedCollectionsTitles']
     },
     cardTitle() {
       if (this.id) {
