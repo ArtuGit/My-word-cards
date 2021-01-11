@@ -75,7 +75,7 @@ export default {
       loading: false,
       dialog: false,
       menuItems: [
-        { id: 'edit', title: 'Edit annotation' },
+        { id: 'edit', title: 'Edit card' },
         { id: 'image', title: 'Set random Image' },
         { id: 'delete', title: 'Delete' },
         { id: 'test', title: 'Test' },
@@ -127,6 +127,7 @@ export default {
           break
         case 'test':
           this.toggleLoading()
+          console.log(this.$store.getters['cards/loadedCollections'])
           this.$store.dispatch('cards/test', this.card).then(() => {
             this.toggleLoading()
           })

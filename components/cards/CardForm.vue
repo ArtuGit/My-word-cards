@@ -113,7 +113,7 @@ export default {
   },
   computed: {
     collectionsAll() {
-      return ['Programming']
+      return this.$store.getters['cards/loadedCollections']
     },
     cardTitle() {
       if (this.id) {
@@ -184,6 +184,10 @@ export default {
         word: this.input.word,
         annotation: this.input.annotation,
         image: this.image,
+        collections: this.input.collections,
+      }
+      if (collectionsDiff) {
+        this.$store.dispatch('cards/addNewCollections', collectionsDiff)
       }
       if (this.id) {
         card.id = this.id
