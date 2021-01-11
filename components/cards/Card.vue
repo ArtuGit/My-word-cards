@@ -73,6 +73,7 @@ export default {
     collections: {
       type: Array,
       required: false,
+      default: null,
     },
   },
   data() {
@@ -132,7 +133,9 @@ export default {
           break
         case 'test':
           this.toggleLoading()
+          // eslint-disable-next-line
           console.log(this.$store.getters['cards/loadedCollections'])
+          // eslint-disable-next-line
           console.log(this.$store.getters['cards/loadedCollectionsTitles'])
           this.$store.dispatch('cards/test', this.card).then(() => {
             this.toggleLoading()

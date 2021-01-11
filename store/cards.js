@@ -57,11 +57,13 @@ export const actions = {
     await fakeRequestPromise(3000)
   },
   async addNewCollections(vuexContext, collections) {
+    let res = null
     let collectionObj = null
     const collectionArr = []
     for (const collection of collections) {
       collectionObj = { title: collection }
-      await this.$axios.$post('/collections.json', collectionObj)
+      res = await this.$axios.$post('/collections.json', collectionObj)
+      collectionObj.id = res.name
       collectionArr.push(collectionObj)
     }
     vuexContext.commit('addNewCollections', collectionArr)

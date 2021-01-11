@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card :loading="loading">
     <v-card-title>
       <span class="headline">{{ cardTitle }}, ID: {{ id }}</span>
     </v-card-title>
@@ -98,6 +98,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       input: {
         word: '',
         annotation: '',
@@ -157,6 +158,9 @@ export default {
   },
   emits: ['dialog-reverse'],
   methods: {
+    toggleLoading() {
+      this.loading = !this.loading
+    },
     clearForm() {
       this.valid = true
       this.$emit('dialog-reverse')
@@ -169,11 +173,8 @@ export default {
     cancel() {
       this.$emit('dialog-reverse')
     },
-    submit() {
-      const collectionsDiff = this.input.collections.filter(
-        (x) => !this.collectionsAll.includes(x)
-      )
-      console.log(collectionsDiff)
+    async submit() {
+      this.toggleLoading()
       if (!this.id && this.input.word) {
         this.input.word = this.input.word.trimEnd()
       }
@@ -186,15 +187,19 @@ export default {
         image: this.image,
         collections: this.input.collections,
       }
+      const collectionsDiff = this.input.collections.filter(
+        (x) => !this.collectionsAll.includes(x)
+      )
       if (collectionsDiff) {
-        this.$store.dispatch('cards/addNewCollections', collectionsDiff)
+        await this.$store.dispatch('cards/addNewCollections', collectionsDiff)
       }
       if (this.id) {
         card.id = this.id
-        this.$store.dispatch('cards/saveCard', card)
+        await this.$store.dispatch('cards/saveCard', card)
       } else {
-        this.$store.dispatch('cards/addCard', card)
+        await this.$store.dispatch('cards/addCard', card)
       }
+      this.toggleLoading()
       this.clearForm()
     },
   },
