@@ -4,7 +4,7 @@
       <span class="headline">{{ cardTitle }}, ID: {{ id }}</span>
     </v-card-title>
     <v-card-text>
-      <v-form ref="form" v-model="valid" lazy-validation>
+      <v-form ref="formCard" v-model="valid" lazy-validation>
         <v-container>
           <v-row>
             <v-col cols="12">
@@ -174,33 +174,35 @@ export default {
       this.$emit('dialog-reverse')
     },
     async submit() {
-      this.toggleLoading()
-      if (!this.id && this.input.word) {
-        this.input.word = this.input.word.trimEnd()
+      if (this.$refs.formCard.validate()) {
+        this.toggleLoading()
+        if (!this.id && this.input.word) {
+          this.input.word = this.input.word.trimEnd()
+        }
+        if (this.input.annotation) {
+          this.input.annotation = this.input.annotation.trimEnd()
+        }
+        const card = {
+          word: this.input.word,
+          annotation: this.input.annotation,
+          image: this.image,
+          collections: this.input.collections,
+        }
+        const collectionsDiff = this.input.collections.filter(
+          (x) => !this.collectionsAll.includes(x)
+        )
+        if (collectionsDiff) {
+          await this.$store.dispatch('cards/addNewCollections', collectionsDiff)
+        }
+        if (this.id) {
+          card.id = this.id
+          await this.$store.dispatch('cards/saveCard', card)
+        } else {
+          await this.$store.dispatch('cards/addCard', card)
+        }
+        this.toggleLoading()
+        this.clearForm()
       }
-      if (this.input.annotation) {
-        this.input.annotation = this.input.annotation.trimEnd()
-      }
-      const card = {
-        word: this.input.word,
-        annotation: this.input.annotation,
-        image: this.image,
-        collections: this.input.collections,
-      }
-      const collectionsDiff = this.input.collections.filter(
-        (x) => !this.collectionsAll.includes(x)
-      )
-      if (collectionsDiff) {
-        await this.$store.dispatch('cards/addNewCollections', collectionsDiff)
-      }
-      if (this.id) {
-        card.id = this.id
-        await this.$store.dispatch('cards/saveCard', card)
-      } else {
-        await this.$store.dispatch('cards/addCard', card)
-      }
-      this.toggleLoading()
-      this.clearForm()
     },
   },
 }
