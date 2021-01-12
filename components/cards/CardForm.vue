@@ -1,5 +1,5 @@
 <template>
-  <v-card :loading="loading">
+  <v-card>
     <v-card-title>
       <span class="headline">{{ cardTitle }}, ID: {{ id }}</span>
     </v-card-title>
@@ -98,7 +98,6 @@ export default {
   },
   data() {
     return {
-      loading: false,
       input: {
         word: '',
         annotation: '',
@@ -156,14 +155,10 @@ export default {
     this.input.collections = this.collections
     next()
   },
-  emits: ['dialog-reverse'],
+  emits: ['dialog-reverse', 'toggle-loading'],
   methods: {
-    toggleLoading() {
-      this.loading = !this.loading
-    },
     clearForm() {
       this.valid = true
-      this.$emit('dialog-reverse')
       if (!this.id) {
         this.input.word = ''
         this.input.annotation = ''
@@ -175,7 +170,8 @@ export default {
     },
     async submit() {
       if (this.$refs.formCard.validate()) {
-        this.toggleLoading()
+        this.$emit('dialog-reverse')
+        this.$emit('toggle-loading')
         if (!this.id && this.input.word) {
           this.input.word = this.input.word.trimEnd()
         }
@@ -200,8 +196,8 @@ export default {
         } else {
           await this.$store.dispatch('cards/addCard', card)
         }
-        this.toggleLoading()
         this.clearForm()
+        this.$emit('toggle-loading')
       }
     },
   },

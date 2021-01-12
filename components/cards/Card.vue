@@ -34,6 +34,7 @@
         :image="image"
         :collections="collections"
         @dialog-reverse="dialogReverse"
+        @toggle-loading="toggleLoading"
       >
       </card-form>
     </v-dialog>
@@ -139,7 +140,7 @@ export default {
           console.log(this.$store.getters['cards/loadedCollectionsTitles'])
           // eslint-disable-next-line
           console.log(this.$store.getters['cards/loadedCards'])
-          this.$store.dispatch('cards/test', this.card).then(() => {
+          this.$store.dispatch('cards/test').then(() => {
             this.toggleLoading()
           })
           break
