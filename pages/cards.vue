@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ collectionsSelected }}
     <v-container>
       <v-row>
         <v-col cols="12" sm="8" md="6" lg="4" xl="6">
@@ -16,10 +17,24 @@
           ></v-text-field>
         </v-col>
 
+        <v-autocomplete
+          v-model="collectionsSelected"
+          :items="collectionsAll"
+          dark
+          dense
+          solo
+          flat
+          chips
+          small-chips
+          label="Collections"
+          multiple
+        ></v-autocomplete>
+
         <v-radio-group v-model="sortBy" label="Sort by:" row mandatory>
           <v-radio label="Adding" value="id"></v-radio>
           <v-radio label="Alphabet" value="word"></v-radio>
         </v-radio-group>
+
         <v-spacer></v-spacer>
         <card-add></card-add>
       </v-row>
@@ -34,6 +49,12 @@
           lg="3"
           xl="2"
         >
+          {{ typeof card.collections }}
+          {{
+            collectionsSelected.length == 0 ||
+            (card.collections &&
+              collectionsSelected.some((r) => card.collections.indexOf(r) >= 0))
+          }}
           <card
             :id="card.id"
             :word="card.word"
@@ -62,23 +83,29 @@ export default {
     return {
       sortBy: 'id',
       search: '',
+      collectionsSelected: [],
     }
   },
   computed: {
+    collectionsAll() {
+      return this.$store.getters['cards/loadedCollectionsTitles']
+    },
     currentCards() {
       return this.$store.getters['cards/loadedCards']
     },
     filteredCards() {
       return orderBy(
         this.currentCards.filter((item) => {
-          if (!this.search || this.search.length < 2) return this.currentCards
           return (
+            !this.search ||
+            this.search.length < 2 ||
             item.word.toLowerCase().includes(this.search.toLowerCase()) ||
             (item.annotation &&
               item.annotation.toLowerCase().includes(this.search.toLowerCase()))
           )
         }),
-        this.sortBy
+        this.sortBy,
+        'desc'
       )
     },
   },
