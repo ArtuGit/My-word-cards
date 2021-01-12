@@ -34,7 +34,8 @@ export const actions = {
   },
   async addCard(vuexContext, card) {
     card.image = await getPixabayImage(card.word, 'first')
-    card.id = await this.$axios.$post('/words.json', card)
+    const res = await this.$axios.$post('/words.json', card)
+    card.id = res.name
     vuexContext.commit('addCard', card)
   },
   async saveCard(vuexContext, card) {
