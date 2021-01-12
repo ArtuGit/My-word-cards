@@ -19,15 +19,6 @@
                 label="Word*"
                 :readonly="!!id"
               ></v-text-field>
-              <v-textarea
-                v-model="input.annotation"
-                name="Annotation"
-                auto-grow
-                :clearable="!id"
-                validate-on-blur
-                label="Annotation"
-                hint="Translation, definition, comment and so on."
-              ></v-textarea>
               <v-combobox
                 v-model="input.collections"
                 :items="collectionsAll"
@@ -52,6 +43,15 @@
                   </v-chip>
                 </template>
               </v-combobox>
+              <v-textarea
+                v-model="input.annotation"
+                name="Annotation"
+                auto-grow
+                :clearable="!id"
+                validate-on-blur
+                label="Annotation"
+                hint="Translation, definition, comment and so on."
+              ></v-textarea>
             </v-col>
           </v-row>
         </v-container>
