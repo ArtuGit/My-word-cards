@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <v-row>
-        <v-col cols="12">
+        <v-col>
           <v-text-field
             v-model="search"
             dark
@@ -14,7 +14,8 @@
             clearable
             @click:clear="clearSearch"
           ></v-text-field>
-
+        </v-col>
+        <v-col>
           <v-autocomplete
             v-model="collectionsSelected"
             :items="collectionsAll"
@@ -27,13 +28,17 @@
             multiple
             clearable
           ></v-autocomplete>
-
-          <v-radio-group v-model="sortBy" label="Sort by:" row mandatory>
-            <v-radio label="Adding" value="id"></v-radio>
-            <v-radio label="Alphabet" value="word"></v-radio>
-          </v-radio-group>
-
-          <v-spacer></v-spacer>
+        </v-col>
+        <v-col>
+          <v-select
+            v-model="orderBy"
+            :items="orderList"
+            filled
+            label="Order by:"
+          ></v-select>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col>
           <card-add></card-add>
         </v-col>
       </v-row>
@@ -74,7 +79,13 @@ export default {
   },
   data() {
     return {
-      sortBy: 'id',
+      orderList: [
+        { text: 'Adding date, Asc', value: ['id', 'asc'] },
+        { text: 'Adding date, Desc', value: ['id', 'desc'] },
+        { text: 'Alphabet, Asc', value: ['word', 'asc'] },
+        { text: 'Alphabet, Desc', value: ['word', 'desc'] },
+      ],
+      orderBy: ['id', 'asc'],
       search: '',
       collectionsSelected: [],
     }
@@ -104,8 +115,8 @@ export default {
                 )))
           )
         }),
-        this.sortBy,
-        'desc'
+        this.orderBy[0],
+        this.orderBy[1]
       )
     },
   },
