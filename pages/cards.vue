@@ -1,9 +1,8 @@
 <template>
   <div>
-    {{ collectionsSelected }}
     <v-container>
       <v-row>
-        <v-col cols="12" sm="8" md="6" lg="4" xl="6">
+        <v-col cols="12">
           <v-text-field
             v-model="search"
             dark
@@ -15,28 +14,28 @@
             clearable
             @click:clear="clearSearch"
           ></v-text-field>
+
+          <v-autocomplete
+            v-model="collectionsSelected"
+            :items="collectionsAll"
+            dark
+            solo
+            flat
+            chips
+            small-chips
+            label="Collections"
+            multiple
+            clearable
+          ></v-autocomplete>
+
+          <v-radio-group v-model="sortBy" label="Sort by:" row mandatory>
+            <v-radio label="Adding" value="id"></v-radio>
+            <v-radio label="Alphabet" value="word"></v-radio>
+          </v-radio-group>
+
+          <v-spacer></v-spacer>
+          <card-add></card-add>
         </v-col>
-
-        <v-autocomplete
-          v-model="collectionsSelected"
-          :items="collectionsAll"
-          dark
-          dense
-          solo
-          flat
-          chips
-          small-chips
-          label="Collections"
-          multiple
-        ></v-autocomplete>
-
-        <v-radio-group v-model="sortBy" label="Sort by:" row mandatory>
-          <v-radio label="Adding" value="id"></v-radio>
-          <v-radio label="Alphabet" value="word"></v-radio>
-        </v-radio-group>
-
-        <v-spacer></v-spacer>
-        <card-add></card-add>
       </v-row>
 
       <v-row v-if="filteredCards.length > 0">
@@ -49,12 +48,6 @@
           lg="3"
           xl="2"
         >
-          {{ typeof card.collections }}
-          {{
-            collectionsSelected.length == 0 ||
-            (card.collections &&
-              collectionsSelected.some((r) => card.collections.indexOf(r) >= 0))
-          }}
           <card
             :id="card.id"
             :word="card.word"
@@ -97,11 +90,18 @@ export default {
       return orderBy(
         this.currentCards.filter((item) => {
           return (
-            !this.search ||
-            this.search.length < 2 ||
-            item.word.toLowerCase().includes(this.search.toLowerCase()) ||
-            (item.annotation &&
-              item.annotation.toLowerCase().includes(this.search.toLowerCase()))
+            (!this.search ||
+              this.search.length < 2 ||
+              item.word.toLowerCase().includes(this.search.toLowerCase()) ||
+              (item.annotation &&
+                item.annotation
+                  .toLowerCase()
+                  .includes(this.search.toLowerCase()))) &&
+            (this.collectionsSelected.length === 0 ||
+              (item.collections &&
+                this.collectionsSelected.some((r) =>
+                  item.collections.includes(r)
+                )))
           )
         }),
         this.sortBy,
