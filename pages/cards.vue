@@ -45,9 +45,9 @@
         </v-col>
       </v-row>
 
-      <v-row v-if="filteredCards.length > 0">
+      <v-row v-if="cardsFiltered.length > 0">
         <v-col
-          v-for="card in filteredCards"
+          v-for="card in cardsFiltered"
           :key="card.id"
           cols="12"
           sm="6"
@@ -96,13 +96,13 @@ export default {
     collectionsAll() {
       return this.$store.getters['collections/loadedCollectionsTitles']
     },
-    currentCards() {
+    cardsAll() {
       return this.$store.getters['cards/loadedCards']
     },
-    filteredCards() {
-      if (this.currentCards) {
+    cardsFiltered() {
+      if (this.cardsAll) {
         return orderBy(
-          this.currentCards.filter((item) => {
+          this.cardsAll.filter((item) => {
             return (
               (!this.search ||
                 this.search.length < 2 ||
