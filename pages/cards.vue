@@ -41,7 +41,7 @@
         </v-col>
         <v-spacer></v-spacer>
         <v-col>
-          <card-add></card-add>
+          <add-button form-type="addCard"> </add-button>
         </v-col>
       </v-row>
 
@@ -72,12 +72,13 @@
 
 <script>
 import Card from '@/components/cards/Card'
+import AddButton from '@/components/UI/AddButton'
 import orderBy from 'lodash.orderby'
-import CardAdd from '@/components/cards/CardAdd'
+
 export default {
   components: {
     Card,
-    CardAdd,
+    AddButton,
   },
   data() {
     return {

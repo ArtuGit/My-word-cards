@@ -6,7 +6,7 @@
           <v-icon dark> mdi-plus </v-icon>
         </v-btn>
       </template>
-      <card-form @dialog-reverse="dialogReverse"> </card-form>
+      <card-form v-if="formType" @dialog-reverse="dialogReverse"> </card-form>
     </v-dialog>
   </div>
 </template>
@@ -16,6 +16,12 @@ import CardForm from '@/components/cards/CardForm'
 export default {
   components: {
     CardForm,
+  },
+  props: {
+    formType: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
