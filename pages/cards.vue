@@ -33,6 +33,8 @@
           <v-select
             v-model="orderBy"
             :items="orderList"
+            flat
+            dense
             filled
             label="Order by:"
           ></v-select>
