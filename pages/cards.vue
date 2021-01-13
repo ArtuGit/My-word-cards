@@ -94,32 +94,34 @@ export default {
   },
   computed: {
     collectionsAll() {
-      return this.$store.getters['cards/loadedCollectionsTitles']
+      return this.$store.getters['collections/loadedCollectionsTitles']
     },
     currentCards() {
       return this.$store.getters['cards/loadedCards']
     },
     filteredCards() {
-      return orderBy(
-        this.currentCards.filter((item) => {
-          return (
-            (!this.search ||
-              this.search.length < 2 ||
-              item.word.toLowerCase().includes(this.search.toLowerCase()) ||
-              (item.annotation &&
-                item.annotation
-                  .toLowerCase()
-                  .includes(this.search.toLowerCase()))) &&
-            (this.collectionsSelected.length === 0 ||
-              (item.collections &&
-                this.collectionsSelected.some((r) =>
-                  item.collections.includes(r)
-                )))
-          )
-        }),
-        this.orderBy[0],
-        this.orderBy[1]
-      )
+      if (this.currentCards) {
+        return orderBy(
+          this.currentCards.filter((item) => {
+            return (
+              (!this.search ||
+                this.search.length < 2 ||
+                item.word.toLowerCase().includes(this.search.toLowerCase()) ||
+                (item.annotation &&
+                  item.annotation
+                    .toLowerCase()
+                    .includes(this.search.toLowerCase()))) &&
+              (this.collectionsSelected.length === 0 ||
+                (item.collections &&
+                  this.collectionsSelected.some((r) =>
+                    item.collections.includes(r)
+                  )))
+            )
+          }),
+          this.orderBy[0],
+          this.orderBy[1]
+        )
+      } else return []
     },
   },
   methods: {

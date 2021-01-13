@@ -23,7 +23,7 @@ export const actions = {
     for (const key in data) {
       collections.push({ ...data[key], id: key })
     }
-    vuexContext.commit('cards/setCollections', collections)
+    vuexContext.commit('collections/setCollections', collections)
   },
 }
 

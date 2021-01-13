@@ -135,9 +135,9 @@ export default {
         case 'test':
           this.toggleLoading()
           // eslint-disable-next-line
-          console.log(this.$store.getters['cards/loadedCollections'])
+          console.log(this.$store.getters['collections/loadedCollections'])
           // eslint-disable-next-line
-          console.log(this.$store.getters['cards/loadedCollectionsTitles'])
+          console.log(this.$store.getters['collections/loadedCollectionsTitles'])
           // eslint-disable-next-line
           console.log(this.$store.getters['cards/loadedCards'])
           this.$store.dispatch('cards/test').then(() => {

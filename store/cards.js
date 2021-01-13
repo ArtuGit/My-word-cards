@@ -2,7 +2,6 @@ import { fakeRequestPromise, getPixabayImage } from '@/plugins/api-helpers'
 
 export const state = () => ({
   myCards: [],
-  myCollections: [],
 })
 
 export const mutations = {
@@ -19,12 +18,6 @@ export const mutations = {
   deleteCard(state, card) {
     const index = state.myCards.findIndex((item) => item.id === card.id)
     if (index !== -1) state.myCards.splice(index, 1)
-  },
-  setCollections(state, collections) {
-    state.myCollections = collections
-  },
-  addNewCollections(state, collections) {
-    state.myCollections = state.myCollections.concat(collections)
   },
 }
 
@@ -57,18 +50,6 @@ export const actions = {
   async test(vuexContext, card) {
     await fakeRequestPromise(3000)
   },
-  async addNewCollections(vuexContext, collections) {
-    let res = null
-    let collectionObj = null
-    const collectionArr = []
-    for (const collection of collections) {
-      collectionObj = { title: collection }
-      res = await this.$axios.$post('/collections.json', collectionObj)
-      collectionObj.id = res.name
-      collectionArr.push(collectionObj)
-    }
-    vuexContext.commit('addNewCollections', collectionArr)
-  },
 }
 
 export const getters = {
@@ -79,11 +60,5 @@ export const getters = {
     return state.myCards[
       state.myCards.findIndex((element) => element.id === id)
     ]
-  },
-  loadedCollections(state) {
-    return state.myCollections
-  },
-  loadedCollectionsTitles(state) {
-    return state.myCollections.map((el) => el.title)
   },
 }

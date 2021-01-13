@@ -113,7 +113,7 @@ export default {
   },
   computed: {
     collectionsAll() {
-      return this.$store.getters['cards/loadedCollectionsTitles']
+      return this.$store.getters['collections/loadedCollectionsTitles']
     },
     cardTitle() {
       if (this.id) {
@@ -188,7 +188,10 @@ export default {
           (x) => !this.collectionsAll.includes(x)
         )
         if (collectionsDiff) {
-          await this.$store.dispatch('cards/addNewCollections', collectionsDiff)
+          await this.$store.dispatch(
+            'collections/addNewCollections',
+            collectionsDiff
+          )
         }
         if (this.id) {
           card.id = this.id
