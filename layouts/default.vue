@@ -80,7 +80,7 @@ export default {
         {
           icon: 'mdi-folder',
           title: 'Collections',
-          to: '/сollections',
+          to: '/collections',
         },
         {
           icon: 'mdi-cards',
