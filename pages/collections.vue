@@ -12,7 +12,12 @@
           lg="4"
           xl="4"
         >
-          <collection></collection>
+          <collection
+            :id="collection.id"
+            :title="collection.title"
+            :description="collection.description"
+            :image="collection.image"
+          ></collection>
         </v-col>
       </v-row>
       <v-row v-else>

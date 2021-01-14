@@ -1,4 +1,3 @@
 <template>
-  Temp
+  <div>Temp</div>
 </template>
-
