@@ -132,8 +132,7 @@ export default {
     submitButtonState() {
       if (this.id) {
         return (
-          (this.input.collections === this.collections &&
-            this.input.annotation === this.annotation &&
+          (this.input.annotation === this.annotation &&
             this.input.collections === this.collections) ||
           !(
             this.input.word &&
@@ -189,7 +188,7 @@ export default {
         )
         if (collectionsDiff) {
           await this.$store.dispatch(
-            'collections/addNewCollections',
+            'collections/addCollectionsMultiple',
             collectionsDiff
           )
         }

@@ -8,27 +8,38 @@ export const mutations = {
   setCollections(state, collections) {
     state.myCollections = collections
   },
-  addCollections(state, collection) {
+  addCollection(state, collection) {
     state.myCollections.push(collection)
   },
-  addNewCollections(state, collections) {
-    state.myCollections = state.myCollections.concat(collections)
+  saveCollection(state, collection) {
+    const index = state.myCollections.findIndex(
+      (item) => item.id === collection.id
+    )
+    if (index !== -1) state.myCollections.splice(index, 1, collection)
   },
 }
 
 export const actions = {
-  async addNewCollections(vuexContext, collections) {
-    let res = null
+  async addCollection(vuexContext, collection) {
+    collection.image = await getPixabayImage(collection.title, 'first')
+    const res = await this.$axios.$post('/collections.json', collection)
+    collection.id = res.name
+    vuexContext.commit('addCollection', collection)
+  },
+  async addCollectionsMultiple(vuexContext, collections) {
     let collectionObj = null
-    const collectionArr = []
     for (const collection of collections) {
-      const image = await getPixabayImage(collection, 'first')
-      collectionObj = { title: collection, image }
-      res = await this.$axios.$post('/collections.json', collectionObj)
-      collectionObj.id = res.name
-      collectionArr.push(collectionObj)
+      collectionObj = { title: collection }
+      await vuexContext.dispatch('addCollection', collectionObj)
     }
-    vuexContext.commit('addNewCollections', collectionArr)
+  },
+  async saveCollection(vuexContext, collection) {
+    const response = await this.$axios.$patch(
+      `/collections/${collection.id}.json`,
+      collection
+    )
+    vuexContext.commit('saveCollection', collection)
+    return response
   },
   async test(vuexContext) {
     await fakeRequestPromise(3000)

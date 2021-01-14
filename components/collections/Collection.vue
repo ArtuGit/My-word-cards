@@ -2,15 +2,52 @@
   <v-card class="mx-auto" outlined>
     <v-list-item three-line>
       <v-list-item-content>
-        <v-list-item-title class="headline mb-4 text-wrap">
-          {{ title }}
-        </v-list-item-title>
-        <v-list-item-subtitle class="text-wrap"
-          >Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle
-        >
+        <v-dialog v-model="dialog" persistent max-width="600px">
+          <template v-slot:activator="{ on: title2, attrs2 }">
+            <v-card-title>
+              <div v-bind="attrs2" v-on="{ ...title2 }">
+                <v-list-item-title class="headline mb-4 text-wrap">
+                  {{ title }}
+                </v-list-item-title>
+              </div>
+              <v-spacer></v-spacer>
+              <v-menu bottom left>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn dark icon v-bind="attrs" v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item
+                    v-for="item in menuItems"
+                    :key="item.id"
+                    class="menu-item"
+                  >
+                    <v-list-item-title @click="menuHandler(item)">
+                      {{ item.title }}
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </v-card-title>
+          </template>
+          <collection-form
+            :id="id"
+            :title="title"
+            :description="description"
+            :image="image"
+            @dialog-reverse="dialogReverse"
+            @toggle-loading="toggleLoading"
+          >
+          </collection-form>
+        </v-dialog>
+
+        <v-list-item-subtitle v-if="description" class="text-wrap">{{
+          description
+        }}</v-list-item-subtitle>
       </v-list-item-content>
 
-      <v-list-item-avatar tile size="120">
+      <v-list-item-avatar v-if="image" tile size="120">
         <img :src="image" alt="" />
       </v-list-item-avatar>
     </v-list-item>
@@ -22,12 +59,12 @@
 </template>
 
 <script>
-// import CollectionForm from '@/components/collections/CollectionForm'
+import CollectionForm from '@/components/collections/CollectionForm'
 import DialogFromCard from '~/mixins/DialogFromCard'
 export default {
-  // components: {
-  //   CollectionForm,
-  // },
+  components: {
+    CollectionForm,
+  },
   mixins: [DialogFromCard],
   props: {
     id: {
