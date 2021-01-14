@@ -10,7 +10,9 @@
         >
       </v-list-item-content>
 
-      <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
+      <v-list-item-avatar tile size="120">
+        <img :src="image" alt="" />
+      </v-list-item-avatar>
     </v-list-item>
 
     <v-card-actions>

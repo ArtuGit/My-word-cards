@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ collectionsAll }}
     <v-container>
       <v-row v-if="collectionsAll.length > 0">
         <v-col

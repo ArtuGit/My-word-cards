@@ -47,7 +47,7 @@ export const actions = {
     vuexContext.commit('saveCard', card)
     return response
   },
-  async test(vuexContext, card) {
+  async test(vuexContext) {
     await fakeRequestPromise(3000)
   },
 }

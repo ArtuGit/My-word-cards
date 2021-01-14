@@ -1,3 +1,5 @@
+import { fakeRequestPromise, getPixabayImage } from '@/plugins/api-helpers'
+
 export const state = () => ({
   myCollections: [],
 })
@@ -5,6 +7,9 @@ export const state = () => ({
 export const mutations = {
   setCollections(state, collections) {
     state.myCollections = collections
+  },
+  addCollections(state, collection) {
+    state.myCollections.push(collection)
   },
   addNewCollections(state, collections) {
     state.myCollections = state.myCollections.concat(collections)
@@ -17,12 +22,16 @@ export const actions = {
     let collectionObj = null
     const collectionArr = []
     for (const collection of collections) {
-      collectionObj = { title: collection }
+      const image = await getPixabayImage(collection, 'first')
+      collectionObj = { title: collection, image }
       res = await this.$axios.$post('/collections.json', collectionObj)
       collectionObj.id = res.name
       collectionArr.push(collectionObj)
     }
     vuexContext.commit('addNewCollections', collectionArr)
+  },
+  async test(vuexContext) {
+    await fakeRequestPromise(3000)
   },
 }
 
