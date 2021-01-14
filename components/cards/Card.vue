@@ -48,10 +48,12 @@
 
 <script>
 import CardForm from '@/components/cards/CardForm'
+import DialogFromCard from '~/mixins/DialogFromCard'
 export default {
   components: {
     CardForm,
   },
+  mixins: [DialogFromCard],
   props: {
     id: {
       type: String,
@@ -79,8 +81,6 @@ export default {
   },
   data() {
     return {
-      loading: false,
-      dialog: false,
       menuItems: [
         { id: 'edit', title: 'Edit card' },
         { id: 'image', title: 'Set random Image' },
@@ -111,12 +111,6 @@ export default {
     },
   },
   methods: {
-    dialogReverse() {
-      this.dialog = !this.dialog
-    },
-    toggleLoading() {
-      this.loading = !this.loading
-    },
     menuHandler(item) {
       switch (item.id) {
         case 'edit':
