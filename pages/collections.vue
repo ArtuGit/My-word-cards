@@ -1,9 +1,39 @@
 <template>
   <div>
     <v-container>
-      <v-row v-if="collectionsAll.length > 0">
+      <v-row>
+        <v-col>
+          <v-text-field
+            v-model="search"
+            dark
+            background-color="accent"
+            solo
+            flat
+            label="Search"
+            prepend-icon="mdi-file-find"
+            clearable
+            @click:clear="clearSearch"
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-select
+            v-model="orderBy"
+            :items="orderList"
+            flat
+            dense
+            filled
+            label="Order by:"
+          ></v-select>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col>
+          <add-button form-type="addCollection"> </add-button>
+        </v-col>
+      </v-row>
+
+      <v-row v-if="collectionsFiltered.length > 0">
         <v-col
-          v-for="collection in collectionsAll"
+          v-for="collection in collectionsFiltered"
           :key="collection.title"
           cols="12"
           sm="6"
@@ -28,17 +58,53 @@
 
 <script>
 import Collection from '@/components/collections/Collection'
+import AddButton from '@/components/UI/AddButton'
+import orderBy from 'lodash.orderby'
 
 export default {
   components: {
     Collection,
+    AddButton,
   },
   data() {
-    return {}
+    return {
+      orderList: [
+        { text: 'Adding date, Asc', value: ['id', 'asc'] },
+        { text: 'Adding date, Desc', value: ['id', 'desc'] },
+        { text: 'Alphabet, Asc', value: ['title', 'asc'] },
+        { text: 'Alphabet, Desc', value: ['title', 'desc'] },
+      ],
+      orderBy: ['id', 'asc'],
+      search: '',
+    }
   },
   computed: {
     collectionsAll() {
       return this.$store.getters['collections/loadedCollections']
+    },
+    collectionsFiltered() {
+      if (this.collectionsAll) {
+        return orderBy(
+          this.collectionsAll.filter((item) => {
+            return (
+              !this.search ||
+              this.search.length < 2 ||
+              item.title.toLowerCase().includes(this.search.toLowerCase()) ||
+              (item.description &&
+                item.description
+                  .toLowerCase()
+                  .includes(this.search.toLowerCase()))
+            )
+          }),
+          this.orderBy[0],
+          this.orderBy[1]
+        )
+      } else return []
+    },
+  },
+  methods: {
+    clearSearch() {
+      this.search = ''
     },
   },
 }
