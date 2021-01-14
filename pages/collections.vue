@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ collectionsAll }}
     <v-container>
       <v-row v-if="collectionsAll.length > 0">
         <v-col
@@ -33,7 +34,7 @@ export default {
   },
   computed: {
     collectionsAll() {
-      return this.$store.getters['collections/loadedCollectionsTitles']
+      return this.$store.getters['collections/loadedCollections']
     },
   },
 }
