@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" outlined>
+  <v-card :loading="loading" class="mx-auto" outlined>
     <v-list-item three-line>
       <v-list-item-content>
         <v-dialog v-model="dialog" persistent max-width="600px">
@@ -141,7 +141,7 @@ export default {
           console.log(this.$store.getters['collections/loadedCollectionsTitles'])
           // eslint-disable-next-line
           console.log(this.$store.getters['cards/loadedCards'])
-          this.$store.dispatch('cards/test').then(() => {
+          this.$store.dispatch('collections/test').then(() => {
             this.toggleLoading()
           })
           break

@@ -4,7 +4,7 @@
       <span class="headline">{{ cardTitle }}, ID: {{ id }}</span>
     </v-card-title>
     <v-card-text>
-      <v-form ref="formCard" v-model="valid" lazy-validation>
+      <v-form ref="formCollection" v-model="valid" lazy-validation>
         <v-container>
           <v-row>
             <v-col cols="12">
@@ -131,7 +131,7 @@ export default {
       this.$emit('dialog-reverse')
     },
     async submit() {
-      if (this.$refs.formCard.validate()) {
+      if (this.$refs.formCollection.validate()) {
         this.$emit('dialog-reverse')
         this.$emit('toggle-loading')
         if (!this.id && this.input.title) {
