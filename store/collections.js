@@ -17,6 +17,12 @@ export const mutations = {
     )
     if (index !== -1) state.myCollections.splice(index, 1, collection)
   },
+  deleteCollection(state, collection) {
+    const index = state.myCollections.findIndex(
+      (item) => item.id === collection.id
+    )
+    if (index !== -1) state.myCollections.splice(index, 1)
+  },
 }
 
 export const actions = {
@@ -41,8 +47,29 @@ export const actions = {
     vuexContext.commit('saveCollection', collection)
     return response
   },
+  async deleteCollection(vuexContext, collection) {
+    console.log(collection)
+    const cards = vuexContext.rootState.cards.myCards.filter((item) => {
+      if (item.collections) return true
+    })
+    let index
+    for (const item of cards) {
+      index = item.collections.indexOf(collection.title)
+      if (index !== -1) {
+        console.log(item.id)
+        item.collections.splice(index, 1)
+        // await dispatch('cards/rewriteCard', item, { root: true })
+        await vuexContext.dispatch('cards/rewriteCard', item, { root: true })
+      }
+    }
+    const response = await this.$axios.$delete(
+      `/collections/${collection.id}.json`
+    )
+    vuexContext.commit('deleteCollection', collection)
+    return response
+  },
   async test(vuexContext) {
-    await fakeRequestPromise(3000)
+    await fakeRequestPromise(300)
   },
 }
 

@@ -125,7 +125,11 @@ export default {
           break
         case 'delete':
           this.toggleLoading()
-          this.$store.dispatch('cards/deleteCard', { id: this.id })
+          this.$store
+            .dispatch('collections/deleteCollection', this.collection)
+            .then(() => {
+              this.toggleLoading()
+            })
           break
         case 'image':
           this.toggleLoading()

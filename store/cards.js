@@ -36,6 +36,11 @@ export const actions = {
     vuexContext.commit('saveCard', card)
     return response
   },
+  async rewriteCard(vuexContext, card) {
+    const response = await this.$axios.$put(`/words/${card.id}.json`, card)
+    vuexContext.commit('saveCard', card)
+    return response
+  },
   async deleteCard(vuexContext, card) {
     const response = await this.$axios.$delete(`/words/${card.id}.json`)
     vuexContext.commit('deleteCard', card)
