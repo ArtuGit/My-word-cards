@@ -65,7 +65,9 @@
           </card>
         </v-col>
       </v-row>
-      <v-row v-else> No cards found according to the current search. </v-row>
+      <v-row v-else>
+        No cards found according to the current search criteria.
+      </v-row>
     </v-container>
   </div>
 </template>

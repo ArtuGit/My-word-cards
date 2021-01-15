@@ -50,7 +50,7 @@
         </v-col>
       </v-row>
       <v-row v-else>
-        No collections found according to the current search.
+        No collections found according to the current search criteria.
       </v-row>
     </v-container>
   </div>

@@ -6,16 +6,26 @@
           <v-icon dark> mdi-plus </v-icon>
         </v-btn>
       </template>
-      <card-form v-if="formType" @dialog-reverse="dialogReverse"> </card-form>
+      <card-form
+        v-if="formType === 'addCard'"
+        @dialog-reverse="dialogReverse"
+      ></card-form>
+      <collection-form
+        v-if="formType === 'addCollection'"
+        @dialog-reverse="dialogReverse"
+      >
+      </collection-form>
     </v-dialog>
   </div>
 </template>
 
 <script>
 import CardForm from '@/components/cards/CardForm'
+import CollectionForm from '@/components/collections/CollectionForm'
 export default {
   components: {
     CardForm,
+    CollectionForm,
   },
   props: {
     formType: {
