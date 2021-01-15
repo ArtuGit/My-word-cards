@@ -9,24 +9,21 @@
           <v-row>
             <v-col cols="12">
               <v-text-field
-                v-if="!id"
                 v-model="input.title"
                 :counter="100"
                 :rules="wordRules"
-                :autofocus="!id"
                 :clearable="!id"
                 validate-on-blur
-                label="Word*"
-                :readonly="!!id"
+                label="Collection*"
               ></v-text-field>
               <v-textarea
                 v-model="input.description"
-                name="Annotation"
+                name="Description"
                 auto-grow
                 :clearable="!id"
                 validate-on-blur
-                label="Annotation"
-                hint="Translation, definition, comment and so on."
+                label="Description"
+                hint="What is the collection about?"
               ></v-textarea>
             </v-col>
           </v-row>
@@ -99,7 +96,8 @@ export default {
     submitButtonState() {
       if (this.id) {
         return (
-          this.input.description === this.description ||
+          (this.input.description === this.description &&
+            this.input.title === this.title) ||
           !(
             this.input.title &&
             this.input.title.length > 0 &&
@@ -144,6 +142,9 @@ export default {
           title: this.input.title,
           description: this.input.description,
           image: this.image,
+          params: {
+            titleBefore: this.title,
+          },
         }
         if (this.id) {
           collection.id = this.id

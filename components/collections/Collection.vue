@@ -53,7 +53,7 @@
     </v-list-item>
 
     <v-card-actions>
-      <v-btn outlined rounded text> Button </v-btn>
+      <v-btn class="px-3" outlined rounded text> Cards </v-btn>
     </v-card-actions>
   </v-card>
 </template>

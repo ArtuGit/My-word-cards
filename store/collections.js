@@ -1,4 +1,5 @@
 import { fakeRequestPromise, getPixabayImage } from '@/plugins/api-helpers'
+export const strict = false
 
 export const state = () => ({
   myCollections: [],
@@ -40,6 +41,24 @@ export const actions = {
     }
   },
   async saveCollection(vuexContext, collection) {
+    if (
+      collection.params.titleBefore &&
+      collection.params.titleBefore !== collection.title
+    ) {
+      let cards = vuexContext.rootGetters['cards/loadedCards']
+      cards = cards.filter((item) => {
+        if (item.collections) return true
+      })
+      let index
+      for (const item of cards) {
+        index = item.collections.indexOf(collection.params.titleBefore)
+        if (index !== -1) {
+          item.collections.splice(index, 1, collection.title)
+          await vuexContext.dispatch('cards/rewriteCard', item, { root: true })
+        }
+      }
+      delete collection.params
+    }
     const response = await this.$axios.$patch(
       `/collections/${collection.id}.json`,
       collection
@@ -48,7 +67,6 @@ export const actions = {
     return response
   },
   async deleteCollection(vuexContext, collection) {
-    console.log(collection)
     const cards = vuexContext.rootState.cards.myCards.filter((item) => {
       if (item.collections) return true
     })
@@ -56,9 +74,7 @@ export const actions = {
     for (const item of cards) {
       index = item.collections.indexOf(collection.title)
       if (index !== -1) {
-        console.log(item.id)
         item.collections.splice(index, 1)
-        // await dispatch('cards/rewriteCard', item, { root: true })
         await vuexContext.dispatch('cards/rewriteCard', item, { root: true })
       }
     }
