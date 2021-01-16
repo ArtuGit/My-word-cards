@@ -1,3 +1,8 @@
+/*
+ * Developed by Artu, https://github.com/ArtuGit
+ * Copyright (c) 2021.
+ */
+
 import { fakeRequestPromise, getPixabayImage } from '@/plugins/api-helpers'
 
 export const state = () => ({
@@ -48,6 +53,12 @@ export const actions = {
   },
   async setRandomImage(vuexContext, card) {
     card.image = await getPixabayImage(card.word, 'random')
+    if (!card.image) {
+      this.$notifier.showMessage({
+        content: 'No image returned for this word',
+        color: 'warning',
+      })
+    }
     const response = await this.$axios.$patch(`/words/${card.id}.json`, card)
     vuexContext.commit('saveCard', card)
     return response

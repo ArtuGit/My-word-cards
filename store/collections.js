@@ -1,3 +1,8 @@
+/*
+ * Developed by Artu, https://github.com/ArtuGit
+ * Copyright (c) 2021.
+ */
+
 import { fakeRequestPromise, getPixabayImage } from '@/plugins/api-helpers'
 export const strict = false
 
@@ -84,6 +89,23 @@ export const actions = {
     vuexContext.commit('deleteCollection', collection)
     return response
   },
+
+  async setRandomImage(vuexContext, collection) {
+    collection.image = await getPixabayImage(collection.title, 'random')
+    if (!collection.image) {
+      this.$notifier.showMessage({
+        content: 'No image returned for this title',
+        color: 'warning',
+      })
+    }
+    const response = await this.$axios.$patch(
+      `/collections/${collection.id}.json`,
+      collection
+    )
+    vuexContext.commit('saveCollection', collection)
+    return response
+  },
+
   async test(vuexContext) {
     await fakeRequestPromise(300)
   },

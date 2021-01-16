@@ -138,9 +138,11 @@ export default {
           break
         case 'image':
           this.toggleLoading()
-          this.$store.dispatch('cards/setRandomImage', this.card).then(() => {
-            this.toggleLoading()
-          })
+          this.$store
+            .dispatch('collections/setRandomImage', this.collection)
+            .then(() => {
+              this.toggleLoading()
+            })
           break
         case 'test':
           this.toggleLoading()
