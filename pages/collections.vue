@@ -1,3 +1,8 @@
+<!--
+  - Developed by Artu, https://github.com/ArtuGit
+  - Copyright (c) 2021.
+  -->
+
 <template>
   <div>
     <v-container>
@@ -34,10 +39,10 @@
       <v-row v-if="collectionsFiltered.length > 0">
         <v-col
           v-for="collection in collectionsFiltered"
-          :key="collection.title"
+          :key="collection.id"
           cols="12"
           sm="6"
-          md="4"
+          md="6"
           lg="4"
           xl="4"
         >
