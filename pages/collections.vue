@@ -43,7 +43,7 @@
           cols="12"
           sm="6"
           md="6"
-          lg="4"
+          lg="6"
           xl="4"
         >
           <collection
