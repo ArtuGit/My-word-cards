@@ -1,5 +1,10 @@
+<!--
+  - Developed by Artu, https://github.com/ArtuGit
+  - Copyright (c) 2021.
+  -->
+
 <template>
-  <v-card :loading="loading" class="mx-auto" outlined>
+  <v-card :loading="loading" min-height="100%" class="mx-auto" outlined>
     <v-list-item three-line>
       <v-list-item-content>
         <v-dialog v-model="dialog" persistent max-width="600px">
@@ -47,8 +52,8 @@
         }}</v-list-item-subtitle>
       </v-list-item-content>
 
-      <v-list-item-avatar v-if="image" tile size="120">
-        <img :src="image" alt="" />
+      <v-list-item-avatar tile size="120">
+        <v-img v-if="image" :src="image" alt="" />
       </v-list-item-avatar>
     </v-list-item>
 
