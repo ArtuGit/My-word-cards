@@ -4,8 +4,13 @@
   -->
 
 <template>
-  <v-card :loading="loading" min-height="100%" class="mx-auto" outlined>
-    <div class="d-flex flex-row flex-nowrap">
+  <v-card
+    :loading="loading"
+    min-height="100%"
+    class="mx-auto d-flex flex-column flex-nowrap"
+    outlined
+  >
+    <div class="d-flex flex-row flex-nowrap align-start">
       <v-list-item>
         <v-list-item-content>
           <v-dialog v-model="dialog" persistent max-width="600px">
@@ -39,7 +44,7 @@
         <v-img v-if="image" :src="image" alt="" />
       </v-list-item-avatar>
     </div>
-    <div class="d-flex flex-row flex-nowrap">
+    <div class="mt-auto d-flex flex-row flex-nowrap">
       <v-card-actions>
         <v-btn class="px-3" outlined rounded text> Cards</v-btn>
       </v-card-actions>
