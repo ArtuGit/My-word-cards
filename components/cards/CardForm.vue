@@ -183,9 +183,12 @@ export default {
           image: this.image,
           collections: this.input.collections,
         }
-        const collectionsDiff = this.input.collections.filter(
-          (x) => !this.collectionsAll.includes(x)
-        )
+        let collectionsDiff = null
+        if (this.input.collections) {
+          collectionsDiff = this.input.collections.filter(
+            (x) => !this.collectionsAll.includes(x)
+          )
+        }
         if (collectionsDiff) {
           await this.$store.dispatch(
             'collections/addCollectionsMultiple',
