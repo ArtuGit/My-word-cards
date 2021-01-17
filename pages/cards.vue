@@ -76,11 +76,19 @@
 import Card from '@/components/cards/Card'
 import AddButton from '@/components/UI/AddButton'
 import orderBy from 'lodash.orderby'
+import Meta from '~/mixins/meta'
 
 export default {
   components: {
     Card,
     AddButton,
+  },
+  mixins: [Meta],
+  asyncData() {
+    return {
+      title: 'Cards',
+      description: 'Lorem ipsum 2',
+    }
   },
   data() {
     return {

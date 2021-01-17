@@ -75,8 +75,8 @@ export default {
   mixins: [Meta],
   asyncData() {
     return {
-      title: 'Foo',
-      description: 'lorem ipsum',
+      title: 'Collections',
+      description: 'Lorem ipsum',
     }
   },
   data() {

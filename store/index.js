@@ -1,6 +1,6 @@
 export const state = () => ({
   isDev: false,
-  pageTitle: 'Default Title',
+  pageTitle: '',
 })
 
 export const mutations = {

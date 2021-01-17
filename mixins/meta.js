@@ -6,13 +6,21 @@ export default {
     }
   },
   head() {
-    return {
-      title: this.title,
-      meta: [
-        { hid: 'description', name: 'description', content: this.description },
+    const res = {}
+    if (this.title) {
+      res.title = this.title
+      res.meta = [
         { hid: 'og:title', property: 'og:title', content: this.title },
-      ],
+      ]
     }
+    if (this.description) {
+      res.meta.push({
+        hid: 'og:title',
+        property: 'og:title',
+        content: this.title,
+      })
+    }
+    return res
   },
   mounted() {
     this.$store.commit('setPageTitle', this.title)

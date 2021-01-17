@@ -23,7 +23,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      <auth-links v-if="page != 'auth'"></auth-links>
+      <auth-links v-if="pagePath != 'auth'"></auth-links>
       <dev-panel v-if="isDev && !miniVariant"></dev-panel>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
@@ -37,7 +37,9 @@
       <v-btn icon @click.stop="fixed = !fixed">
         <v-icon>mdi-minus</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title" /> {{ pageTitle }}
+      <h1>
+        <v-toolbar-title v-text="pageTitle" />
+      </h1>
       <v-spacer />
       <user-bar v-if="isAuthenticated"></user-bar>
     </v-app-bar>
@@ -105,7 +107,7 @@ export default {
     pageTitle(state) {
       return this.$store.getters.pageTitle
     },
-    page() {
+    pagePath() {
       return this.$route.name
     },
     isAuthenticated() {
