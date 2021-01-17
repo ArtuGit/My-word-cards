@@ -65,11 +65,19 @@
 import Collection from '@/components/collections/Collection'
 import AddButton from '@/components/UI/AddButton'
 import orderBy from 'lodash.orderby'
+import Meta from '~/mixins/meta'
 
 export default {
   components: {
     Collection,
     AddButton,
+  },
+  mixins: [Meta],
+  asyncData() {
+    return {
+      title: 'Foo',
+      description: 'lorem ipsum',
+    }
   },
   data() {
     return {

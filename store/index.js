@@ -1,10 +1,14 @@
 export const state = () => ({
   isDev: false,
+  pageTitle: 'Default Title',
 })
 
 export const mutations = {
   setDev(state, dev) {
     state.isDev = dev
+  },
+  setPageTitle(state, title) {
+    state.pageTitle = title
   },
 }
 
@@ -30,5 +34,8 @@ export const actions = {
 export const getters = {
   isDev(state) {
     return state.isDev
+  },
+  pageTitle(state) {
+    return state.pageTitle
   },
 }

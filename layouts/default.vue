@@ -37,7 +37,7 @@
       <v-btn icon @click.stop="fixed = !fixed">
         <v-icon>mdi-minus</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title v-text="title" /> {{ pageTitle }}
       <v-spacer />
       <user-bar v-if="isAuthenticated"></user-bar>
     </v-app-bar>
@@ -101,6 +101,9 @@ export default {
   computed: {
     isDev() {
       return this.$store.getters.isDev
+    },
+    pageTitle(state) {
+      return this.$store.getters.pageTitle
     },
     page() {
       return this.$route.name
