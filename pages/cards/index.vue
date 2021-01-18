@@ -73,9 +73,9 @@
 </template>
 
 <script>
-import Card from '@/components/cards/Card'
-import AddButton from '@/components/UI/AddButton'
 import orderBy from 'lodash.orderby'
+import Card from '~/components/cards/Card'
+import AddButton from '~/components/UI/AddButton'
 import Meta from '~/mixins/meta'
 
 export default {
@@ -87,7 +87,7 @@ export default {
   asyncData() {
     return {
       title: 'Cards',
-      description: 'Lorem ipsum 2',
+      description: 'Lorem ipsum 2', // ToDo
     }
   },
   data() {

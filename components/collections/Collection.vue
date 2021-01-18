@@ -46,7 +46,17 @@
     </div>
     <div class="mt-auto d-flex flex-row flex-nowrap">
       <v-card-actions>
-        <v-btn class="px-3" outlined rounded text> Cards</v-btn>
+        <v-btn
+          nuxt
+          link
+          :href="`/cards/${title}`"
+          class="px-3"
+          outlined
+          rounded
+          text
+        >
+          Cards</v-btn
+        >
       </v-card-actions>
       <v-menu top>
         <template v-slot:activator="{ on, attrs }">
