@@ -77,4 +77,7 @@ export const getters = {
       state.myCards.findIndex((element) => element.id === id)
     ]
   },
+  countCardsWithCollection: (state) => (collection) => {
+    return collection // state.myCards.reduce((n, x) => n + (x === collection), 0)
+  },
 }
