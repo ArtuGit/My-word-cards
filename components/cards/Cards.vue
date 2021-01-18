@@ -14,7 +14,7 @@
           @click:clear="clearSearch"
         ></v-text-field>
       </v-col>
-      <v-col>
+      <v-col v-if="!collectionsFilterHide">
         <v-autocomplete
           v-model="collectionsSelected"
           :items="collectionsAll"
@@ -40,7 +40,8 @@
       </v-col>
       <v-spacer></v-spacer>
       <v-col>
-        <add-button form-type="addCard"> </add-button>
+        <add-button form-type="addCard" :collections="collectionsParam">
+        </add-button>
       </v-col>
     </v-row>
 
@@ -79,6 +80,18 @@ export default {
   components: {
     Card,
     AddButton,
+  },
+  props: {
+    collectionsParam: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
+    collectionsFilterHide: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
@@ -124,6 +137,9 @@ export default {
         )
       } else return []
     },
+  },
+  mounted() {
+    this.collectionsSelected = this.collectionsParam
   },
   methods: {
     clearSearch() {

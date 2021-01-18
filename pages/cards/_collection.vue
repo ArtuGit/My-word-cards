@@ -1,10 +1,17 @@
 <template>
-  <h1>Cards with "{{ collection.title }}" collection</h1>
+  <cards
+    collections-filter-hide
+    :collections-param="[collection.title]"
+  ></cards>
 </template>
 
 <script>
 import Meta from '~/mixins/meta'
+import Cards from '~/components/cards/Cards'
 export default {
+  components: {
+    Cards,
+  },
   mixins: [Meta],
   asyncData(data) {
     const collection = data.store.getters['collections/getByTitle'](

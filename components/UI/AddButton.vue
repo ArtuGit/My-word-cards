@@ -8,6 +8,7 @@
       </template>
       <card-form
         v-if="formType === 'addCard'"
+        :collections="collections"
         @dialog-reverse="dialogReverse"
       ></card-form>
       <collection-form
@@ -31,6 +32,12 @@ export default {
     formType: {
       type: String,
       required: true,
+    },
+    collections: {
+      // for CardForm
+      type: Array,
+      required: false,
+      default: () => [],
     },
   },
   data() {

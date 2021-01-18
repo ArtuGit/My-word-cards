@@ -10,7 +10,7 @@ export default {
   asyncData() {
     return {
       title: 'My Word Cards',
-      description: 'Lorem ipsum 0',
+      description: 'Lorem ipsum 0', // ToDo
     }
   },
   head: {
