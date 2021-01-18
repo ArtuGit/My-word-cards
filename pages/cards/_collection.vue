@@ -5,8 +5,11 @@
 <script>
 export default {
   validate(data) {
-    console.log(data)
-    return true
+    if (
+      data.store.getters['collections/getByTitle'](data.route.params.collection)
+    )
+      return true
+    else return false
   },
 }
 </script>

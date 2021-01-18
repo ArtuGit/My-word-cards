@@ -118,4 +118,7 @@ export const getters = {
   loadedCollectionsTitles(state) {
     return state.myCollections.map((el) => el.title).sort()
   },
+  getByTitle: (state) => (title) => {
+    return state.myCollections.find((el) => el.title === title)
+  },
 }
