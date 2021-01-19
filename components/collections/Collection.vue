@@ -55,7 +55,7 @@
           rounded
           text
         >
-          Cards</v-btn
+          {{ cardsCount }} {{ cardsButtonLabel }}</v-btn
         >
       </v-card-actions>
       <v-menu top>
@@ -119,6 +119,13 @@ export default {
     }
   },
   computed: {
+    cardsCount() {
+      return this.$store.getters['cards/countCardsWithCollection'](this.title)
+    },
+    cardsButtonLabel() {
+      if (this.cardsCount !== 1) return 'cards'
+      else return 'card'
+    },
     collection() {
       return {
         id: this.id,

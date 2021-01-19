@@ -78,6 +78,10 @@ export const getters = {
     ]
   },
   countCardsWithCollection: (state) => (collection) => {
-    return collection // state.myCards.reduce((n, x) => n + (x === collection), 0)
+    return state.myCards.reduce(
+      (acc, cur) =>
+        cur.collections && cur.collections.includes(collection) ? ++acc : acc,
+      0
+    )
   },
 }
