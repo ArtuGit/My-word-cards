@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import CardForm from '@/components/cards/CardForm'
 import DialogFromCard from '~/mixins/DialogFromCard'
 export default {
@@ -79,11 +80,11 @@ export default {
       default: null,
     },
   },
-
   computed: {
-    isAdmin() {
-      return this.$store.getters['auth/isAdmin']
-    },
+    ...mapGetters({
+      isAuthenticated: 'auth/isAuthenticated',
+      isAdmin: 'auth/isAdmin',
+    }),
     menuItems() {
       const menu = [
         { id: 'edit', title: 'Edit card' },
