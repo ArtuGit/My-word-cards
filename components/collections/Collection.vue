@@ -58,7 +58,7 @@
           {{ cardsCount }} {{ cardsButtonLabel }}</v-btn
         >
       </v-card-actions>
-      <v-menu top>
+      <v-menu v-if="isAuthenticated" top>
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="mt-2" dark icon v-bind="attrs" v-on="on">
             <v-icon>mdi-dots-vertical</v-icon>

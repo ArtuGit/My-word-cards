@@ -7,7 +7,7 @@
             <span class="headline">{{ word }}</span>
           </div>
           <v-spacer></v-spacer>
-          <v-menu bottom left>
+          <v-menu v-if="isAuthenticated" bottom left>
             <template v-slot:activator="{ on, attrs }">
               <v-btn dark icon v-bind="attrs" v-on="on">
                 <v-icon>mdi-dots-vertical</v-icon>
