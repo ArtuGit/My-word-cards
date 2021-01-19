@@ -108,17 +108,24 @@ export default {
       default: null,
     },
   },
-  data() {
-    return {
-      menuItems: [
+
+  computed: {
+    isAdmin() {
+      return this.$store.getters['auth/isAdmin']
+    },
+    menuItems() {
+      const menu = [
         { id: 'edit', title: 'Edit collection' },
         { id: 'image', title: 'Set random Image' },
-        { id: 'delete', title: 'Delete' },
-        { id: 'test', title: 'Test' },
-      ],
-    }
-  },
-  computed: {
+      ]
+      if (this.cardsCount === 0) {
+        menu.push({ id: 'delete', title: 'Delete' })
+      }
+      if (this.isAdmin) {
+        menu.push({ id: 'test', title: 'Test' })
+      }
+      return menu
+    },
     cardsCount() {
       return this.$store.getters['cards/countCardsWithCollection'](this.title)
     },

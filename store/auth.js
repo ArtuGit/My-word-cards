@@ -192,6 +192,9 @@ export const actions = {
 }
 
 export const getters = {
+  isAdmin(state) {
+    return state.isAdmin
+  },
   isAuthenticated(state) {
     return state.token != null
   },

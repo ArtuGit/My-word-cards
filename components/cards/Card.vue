@@ -79,17 +79,22 @@ export default {
       default: null,
     },
   },
-  data() {
-    return {
-      menuItems: [
+
+  computed: {
+    isAdmin() {
+      return this.$store.getters['auth/isAdmin']
+    },
+    menuItems() {
+      const menu = [
         { id: 'edit', title: 'Edit card' },
         { id: 'image', title: 'Set random Image' },
         { id: 'delete', title: 'Delete' },
-        { id: 'test', title: 'Test' },
-      ],
-    }
-  },
-  computed: {
+      ]
+      if (this.isAdmin) {
+        menu.push({ id: 'test', title: 'Test' })
+      }
+      return menu
+    },
     card() {
       return {
         id: this.id,
