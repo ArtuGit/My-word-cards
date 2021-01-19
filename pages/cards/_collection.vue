@@ -1,8 +1,5 @@
 <template>
-  <cards
-    collections-filter-hide
-    :collections-param="[collection.title]"
-  ></cards>
+  <cards collections-filter-hide :collection-param="collection"></cards>
 </template>
 
 <script>

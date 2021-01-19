@@ -1,7 +1,12 @@
 <template>
   <v-container>
     <v-row>
-      <v-col>
+      <v-col v-if="collectionParam && collectionParam.image" cols="1">
+        <v-avatar>
+          <img :src="collectionParam.image" alt="" />
+        </v-avatar>
+      </v-col>
+      <v-col cols="12" md="4">
         <v-text-field
           v-model="search"
           dark
@@ -14,7 +19,7 @@
           @click:clear="clearSearch"
         ></v-text-field>
       </v-col>
-      <v-col v-if="!collectionsFilterHide">
+      <v-col v-if="!collectionsFilterHide" cols="12" md="4">
         <v-autocomplete
           v-model="collectionsSelected"
           :items="collectionsAll"
@@ -39,8 +44,8 @@
         ></v-select>
       </v-col>
       <v-spacer></v-spacer>
-      <v-col>
-        <add-button form-type="addCard" :collections="collectionsParam">
+      <v-col cols="1">
+        <add-button form-type="addCard" :collections="collectionsSelected">
         </add-button>
       </v-col>
     </v-row>
@@ -82,10 +87,10 @@ export default {
     AddButton,
   },
   props: {
-    collectionsParam: {
-      type: Array,
+    collectionParam: {
+      type: Object,
       required: false,
-      default: () => [],
+      default: () => {},
     },
     collectionsFilterHide: {
       type: Boolean,
@@ -139,7 +144,9 @@ export default {
     },
   },
   mounted() {
-    this.collectionsSelected = this.collectionsParam
+    if (this.collectionParam) {
+      this.collectionsSelected = [this.collectionParam.title]
+    }
   },
   methods: {
     clearSearch() {
