@@ -143,7 +143,7 @@ export default {
       } else return []
     },
   },
-  mounted() {
+  created() {
     if (this.collectionParam) {
       this.collectionsSelected = [this.collectionParam.title]
     }
