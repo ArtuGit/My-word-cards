@@ -1,6 +1,7 @@
 /*
- * Developed by Artu, https://github.com/ArtuGit
- * Copyright (c) 2021.
+ * Developed by Artu,
+ * https://github.com/ArtuGit
+ *  2021.
  */
 
 import { authenticate } from 'pixabay-api'
@@ -46,4 +47,20 @@ async function getPixabayImage(phrase, type = 'comments') {
   }
 }
 
-export { fakeRequestPromise, getPixabayImage }
+function makeFBQuery(context, pStr) {
+  let rStr = pStr
+  // const isAuth = context.rootGetters['auth/isAuthenticated']
+  const isAdmin = context.rootGetters['auth/isAdmin']
+  const uuid = context.rootGetters['auth/user'].uuid
+  if (isAdmin) {
+    if (rStr.includes('/[uuid]/')) {
+      rStr = rStr.replace('[uuid]/', '')
+    }
+    rStr = '/demo' + rStr
+  } else if (rStr.includes('[uuid]')) {
+    rStr.replace('[uuid]', uuid)
+  }
+  return rStr
+}
+
+export { fakeRequestPromise, getPixabayImage, makeFBQuery }

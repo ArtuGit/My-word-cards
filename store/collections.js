@@ -1,9 +1,14 @@
 /*
- * Developed by Artu, https://github.com/ArtuGit
- * Copyright (c) 2021.
+ * Developed by Artu,
+ * https://github.com/ArtuGit
+ *  2021.
  */
 
-import { fakeRequestPromise, getPixabayImage } from '@/plugins/api-helpers'
+import {
+  fakeRequestPromise,
+  getPixabayImage,
+  makeFBQuery,
+} from '@/plugins/api-helpers'
 export const strict = false
 
 export const state = () => ({
@@ -34,6 +39,7 @@ export const mutations = {
 export const actions = {
   async addCollection(vuexContext, collection) {
     collection.image = await getPixabayImage(collection.title, 'first')
+
     const res = await this.$axios.$post('/collections.json', collection)
     collection.id = res.name
     vuexContext.commit('addCollection', collection)
@@ -107,7 +113,10 @@ export const actions = {
   },
 
   async test(vuexContext) {
-    await fakeRequestPromise(300)
+    console.log(makeFBQuery(vuexContext, '/collections.json'))
+    console.log(makeFBQuery(vuexContext, `/collections/colID.json`))
+    console.log(makeFBQuery(vuexContext, `/collections/[uuid]/colID.json`))
+    await fakeRequestPromise(500)
   },
 }
 
