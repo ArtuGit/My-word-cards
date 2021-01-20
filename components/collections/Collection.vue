@@ -1,6 +1,7 @@
 <!--
-  - Developed by Artu, https://github.com/ArtuGit
-  - Copyright (c) 2021.
+  - Developed by Artu,
+  - https://github.com/ArtuGit
+  -  2021.
   -->
 
 <template>
@@ -16,11 +17,17 @@
           <v-dialog v-model="dialog" persistent max-width="600px">
             <template v-slot:activator="{ on: title2, attrs2 }">
               <v-card-title>
-                <div v-bind="attrs2" v-on="{ ...title2 }">
-                  <v-list-item-title class="headline mb-4 text-wrap">
-                    {{ title }}
-                  </v-list-item-title>
-                </div>
+                <v-list-item-title
+                  v-if="isAuthenticated"
+                  v-bind="attrs2"
+                  class="active headline mb-4 text-wrap"
+                  v-on="{ ...title2 }"
+                >
+                  {{ title }}
+                </v-list-item-title>
+                <v-list-item-title v-else class="headline mb-4 text-wrap">
+                  {{ title }}
+                </v-list-item-title>
               </v-card-title>
             </template>
             <collection-form
@@ -195,7 +202,7 @@ export default {
 </script>
 
 <style scoped>
-.headline:hover {
+.active.headline:hover {
   cursor: pointer;
 }
 .menu-item:hover {

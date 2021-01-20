@@ -1,9 +1,18 @@
+<!--
+  - Developed by Artu,
+  - https://github.com/ArtuGit
+  -  2021.
+  -->
+
 <template>
   <v-card :loading="loading" height="100%">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on: title, attrs2 }">
         <v-card-title>
-          <div v-bind="attrs2" v-on="{ ...title }">
+          <div v-if="isAuthenticated" v-bind="attrs2" v-on="{ ...title }">
+            <span class="active headline">{{ word }}</span>
+          </div>
+          <div v-else>
             <span class="headline">{{ word }}</span>
           </div>
           <v-spacer></v-spacer>
@@ -145,7 +154,7 @@ export default {
 </script>
 
 <style scoped>
-.headline:hover {
+.active.headline:hover {
   cursor: pointer;
 }
 .menu-item:hover {
