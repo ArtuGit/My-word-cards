@@ -1,3 +1,9 @@
+<!--
+  - Developed by Artu,
+  - https://github.com/ArtuGit
+  -  2021.
+  -->
+
 <template>
   <div>
     <v-tabs v-model="tab" show-arrows icons-and-text dark grow>
@@ -201,8 +207,8 @@ export default {
           email: this.loginEmail,
           password: this.loginPassword,
         }
-
         this.$store.dispatch('auth/signIn', authData).then(() => {
+          this.loginPassword = ''
           this.toggleLoading()
           if (this.dialog) {
             // ToDo: How does it work? Check the next line
