@@ -21,8 +21,11 @@
               ></v-text-field>
               <v-combobox
                 v-model="input.collections"
+                :rules="collectionRules"
                 :items="collectionsAll"
-                label="Collections"
+                label="Collection(s)*"
+                validate-on-blur
+                deletable-chips
                 multiple
                 chips
               >
@@ -104,6 +107,9 @@ export default {
         collections: [],
       },
       valid: true,
+      collectionRules: [
+        (v) => (!!v && v.length > 0) || 'Collection is required',
+      ],
       wordRules: [
         (v) => !!v || 'Word is required',
         (v) =>
@@ -138,7 +144,8 @@ export default {
             this.input.word &&
             this.input.word.length > 0 &&
             this.input.word.length <= 100
-          )
+          ) ||
+          !(this.input.collections && this.input.collections.length > 0)
         )
       } else return false
     },
