@@ -2,8 +2,12 @@
   - Developed by Artu,
   - https://github.com/ArtuGit
   -  2021.
-  -
-  -
+  -->
+
+<!--
+  - Developed by Artu,
+  - https://github.com/ArtuGit
+  -  2021.
   -->
 
 <template>
