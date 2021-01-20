@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title>
-      <span class="headline">{{ cardTitle }}, ID: {{ id }}</span>
+      <span class="headline">{{ cardTitle }}</span>
     </v-card-title>
     <v-card-text>
       <v-form ref="formCard" v-model="valid" lazy-validation>
