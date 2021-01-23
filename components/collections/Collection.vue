@@ -1,4 +1,9 @@
 <!--
+  - Developed by Artu, https://github.com/ArtuGit
+  - Copyright (c) 2021.
+  -->
+
+<!--
   - Developed by Artu,
   - https://github.com/ArtuGit
   -  2021.
@@ -67,6 +72,7 @@
           outlined
           rounded
           text
+          :disabled="cardsCount === 0"
         >
           {{ cardsCount }} {{ cardsButtonLabel }}</v-btn
         >
