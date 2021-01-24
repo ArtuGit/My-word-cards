@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  - Copyleft 2020-2021.
+  -  Copyleft, 2021.
   -->
 
 <template>
@@ -129,9 +129,9 @@ export default {
       if (this.cardsCount === 0) {
         menu.push({ id: 'delete', title: 'Delete' })
       }
-      // if (this.isAdmin) {
-      menu.push({ id: 'test', title: 'Test' })
-      // }
+      if (this.isAdmin) {
+        menu.push({ id: 'test', title: 'Test' })
+      }
       return menu
     },
     cardsCount() {
