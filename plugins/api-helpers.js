@@ -3,12 +3,6 @@
  *  Copyleft, 2021.
  */
 
-/*
- * Developed by Artu,
- * https://github.com/ArtuGit
- *  2021.3
- */
-
 import { authenticate } from 'pixabay-api'
 const { searchImages } = authenticate(process.env.pixabayKey)
 
