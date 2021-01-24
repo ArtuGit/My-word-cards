@@ -6,7 +6,7 @@
 /*
  * Developed by Artu,
  * https://github.com/ArtuGit
- *  2021.
+ *  2021.3
  */
 
 import { authenticate } from 'pixabay-api'
