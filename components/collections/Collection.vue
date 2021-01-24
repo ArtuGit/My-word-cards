@@ -129,9 +129,9 @@ export default {
       if (this.cardsCount === 0) {
         menu.push({ id: 'delete', title: 'Delete' })
       }
-      if (this.isAdmin) {
-        menu.push({ id: 'test', title: 'Test' })
-      }
+      // if (this.isAdmin) {
+      menu.push({ id: 'test', title: 'Test' })
+      // }
       return menu
     },
     cardsCount() {
