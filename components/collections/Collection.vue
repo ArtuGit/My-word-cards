@@ -1,18 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  - Copyright (c) 2021.
-  -->
-
-<!--
-  - Developed by Artu,
-  - https://github.com/ArtuGit
-  -  2021.
-  -->
-
-<!--
-  - Developed by Artu,
-  - https://github.com/ArtuGit
-  -  2021.
+  - Copyleft 2020-2021.
   -->
 
 <template>
