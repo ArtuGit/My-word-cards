@@ -1,9 +1,13 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- * Copyright (c) 2021.
+ *  Copyleft, 2021.
  */
 
-import { fakeRequestPromise, getPixabayImage } from '@/plugins/api-helpers'
+import {
+  fakeRequestPromise,
+  getPixabayImage,
+  makeFBQuery,
+} from '@/plugins/api-helpers'
 
 export const state = () => ({
   myCards: [],
@@ -32,22 +36,29 @@ export const actions = {
   },
   async addCard(vuexContext, card) {
     card.image = await getPixabayImage(card.word, 'first')
-    const res = await this.$axios.$post('/words.json', card)
+    const query = makeFBQuery(vuexContext, '/words/[uuid].json')
+    const res = await this.$axios.$post(query, card)
     card.id = res.name
     vuexContext.commit('addCard', card)
   },
   async saveCard(vuexContext, card) {
-    const response = await this.$axios.$patch(`/words/${card.id}.json`, card)
+    const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
+    const response = await this.$axios.$patch(query, card)
     vuexContext.commit('saveCard', card)
     return response
   },
   async rewriteCard(vuexContext, card) {
-    const response = await this.$axios.$put(`/words/${card.id}.json`, card)
+    const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
+    const response = await this.$axios.$put(query, card)
     vuexContext.commit('saveCard', card)
     return response
   },
   async deleteCard(vuexContext, card) {
-    const response = await this.$axios.$delete(`/words/${card.id}.json`)
+    const query = makeFBQuery(
+      vuexContext,
+      `/collections/[uuid]/${card.id}.json`
+    )
+    const response = await this.$axios.$delete(query)
     vuexContext.commit('deleteCard', card)
     return response
   },
@@ -59,7 +70,8 @@ export const actions = {
         color: 'warning',
       })
     }
-    const response = await this.$axios.$patch(`/words/${card.id}.json`, card)
+    const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
+    const response = await this.$axios.$patch(query, card)
     vuexContext.commit('saveCard', card)
     return response
   },
