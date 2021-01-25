@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  - Copyright (c) 2021.
+  -  Copyleft, 2021.
   -->
 
 <template>
@@ -31,7 +31,7 @@
           ></v-select>
         </v-col>
         <v-spacer></v-spacer>
-        <v-col>
+        <v-col v-if="isAuthenticated">
           <add-button form-type="addCollection"> </add-button>
         </v-col>
       </v-row>
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Collection from '@/components/collections/Collection'
 import AddButton from '@/components/UI/AddButton'
 import orderBy from 'lodash.orderby'
@@ -92,6 +93,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      isAuthenticated: 'auth/isAuthenticated',
+      isAdmin: 'auth/isAdmin',
+    }),
     collectionsAll() {
       return this.$store.getters['collections/loadedCollections']
     },
