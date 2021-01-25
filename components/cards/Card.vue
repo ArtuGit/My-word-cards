@@ -1,7 +1,6 @@
 <!--
-  - Developed by Artu,
-  - https://github.com/ArtuGit
-  -  2021.
+  - Developed by Artu, https://github.com/ArtuGit
+  -  Copyleft, 2021.
   -->
 
 <template>
@@ -116,8 +115,8 @@ export default {
     },
     trimmedAnnotation() {
       if (this.annotation) {
-        if (this.annotation.length > 55) {
-          return this.annotation.substr(0, 50) + '...'
+        if (this.annotation.length > 105) {
+          return this.annotation.substr(0, 100) + '...'
         } else {
           return this.annotation
         }

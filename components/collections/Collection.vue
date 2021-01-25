@@ -41,7 +41,7 @@
           </v-dialog>
 
           <v-list-item-subtitle v-if="description" class="text-wrap">{{
-            description
+            trimmedDescription
           }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -151,8 +151,8 @@ export default {
     },
     trimmedDescription() {
       if (this.description) {
-        if (this.description.length > 55) {
-          return this.description.substr(0, 50) + '...'
+        if (this.description.length > 105) {
+          return this.description.substr(0, 100) + '...'
         } else {
           return this.description
         }
