@@ -1,5 +1,11 @@
+/*
+ * Developed by Artu, https://github.com/ArtuGit
+ *  Copyleft, 2021.
+ */
+
 import Cookie from 'js-cookie'
 import { authOp, authenticateUser } from '~/plugins/auth-helpers'
+import { initAppData } from '~/plugins/api-helpers'
 
 export const state = () => ({
   token: null,
@@ -56,6 +62,7 @@ export const actions = {
         content: 'You are logged in',
         color: 'success',
       })
+      await initAppData.call(this, vuexContext)
     } catch (err) {
       let message = 'Login failed'
       if (err.response.data) {
@@ -90,6 +97,7 @@ export const actions = {
         content: 'You are registered',
         color: 'success',
       })
+      await initAppData.call(this, vuexContext)
     } catch (err) {
       let message = 'Registration failed'
       if (err.response.data) {
@@ -171,7 +179,8 @@ export const actions = {
     }
     vuexContext.commit('setAuth', auth)
   },
-  logout(vuexContext, payload = {}) {
+  async logout(vuexContext, payload = {}) {
+    await initAppData.call(this, vuexContext)
     vuexContext.commit('clearAuth')
     if (payload.message) {
       this.$notifier.showMessage({

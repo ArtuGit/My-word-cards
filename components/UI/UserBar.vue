@@ -1,3 +1,8 @@
+<!--
+  - Developed by Artu, https://github.com/ArtuGit
+  -  Copyleft, 2021.
+  -->
+
 <template>
   <v-chip> {{ displayedName }} </v-chip>
 </template>
@@ -12,7 +17,7 @@ export default {
       return (
         this.user.firstName +
         ' ' +
-        this.user.firstName.charAt(0).toUpperCase() +
+        this.user.lastName.charAt(0).toUpperCase() +
         '.'
       )
     },

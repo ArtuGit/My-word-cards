@@ -1,3 +1,10 @@
+/*
+ * Developed by Artu, https://github.com/ArtuGit
+ *  Copyleft, 2021.
+ */
+
+import { initAppData } from '~/plugins/api-helpers'
+
 export const state = () => ({
   isDev: false,
   pageTitle: '',
@@ -14,20 +21,9 @@ export const mutations = {
 
 export const actions = {
   async nuxtServerInit(vuexContext, context) {
+    await vuexContext.dispatch('auth/initAuth', context.req)
     vuexContext.commit('setDev', context.isDev)
-    let data = await this.$axios.$get('/words.json')
-    const cards = []
-    for (const key in data) {
-      cards.push({ ...data[key], id: key })
-    }
-    vuexContext.commit('cards/setCards', cards)
-
-    data = await this.$axios.$get('/collections.json')
-    const collections = []
-    for (const key in data) {
-      collections.push({ ...data[key], id: key })
-    }
-    vuexContext.commit('collections/setCollections', collections)
+    await initAppData.call(this, vuexContext)
   },
 }
 

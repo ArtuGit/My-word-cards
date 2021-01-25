@@ -46,14 +46,35 @@ async function getPixabayImage(phrase, type = 'comments') {
   }
 }
 
+async function initAppData(vuexContext) {
+  let query
+  query = makeFBQuery(vuexContext, '/words/[uuid].json')
+  let data = await this.$axios.$get(query)
+  const cards = []
+  for (const key in data) {
+    cards.push({ ...data[key], id: key })
+  }
+  vuexContext.commit('cards/setCards', cards, { root: true })
+
+  query = makeFBQuery(vuexContext, '/collections/[uuid].json')
+  data = await this.$axios.$get(query)
+  const collections = []
+  for (const key in data) {
+    collections.push({ ...data[key], id: key })
+  }
+  vuexContext.commit('collections/setCollections', collections, { root: true })
+}
+
 function makeFBQuery(context, pStr) {
   let rStr = pStr
-  // const isAuth = context.rootGetters['auth/isAuthenticated']
+  const isAuth = context.rootGetters['auth/isAuthenticated']
   const isAdmin = context.rootGetters['auth/isAdmin']
   const uuid = context.rootGetters['auth/user'].uuid
-  if (isAdmin) {
+  if (!isAuth || isAdmin) {
     if (rStr.includes('/[uuid]/')) {
       rStr = rStr.replace('[uuid]/', '')
+    } else if (rStr.includes('/[uuid].json')) {
+      rStr = rStr.replace('/[uuid]', '')
     }
     rStr = '/demo' + rStr
   } else if (rStr.includes('[uuid]')) {
@@ -62,4 +83,4 @@ function makeFBQuery(context, pStr) {
   return rStr
 }
 
-export { fakeRequestPromise, getPixabayImage, makeFBQuery }
+export { fakeRequestPromise, getPixabayImage, initAppData, makeFBQuery }

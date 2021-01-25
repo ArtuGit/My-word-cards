@@ -1,7 +1,6 @@
 /*
- * Developed by Artu,
- * https://github.com/ArtuGit
- *  2021.
+ * Developed by Artu, https://github.com/ArtuGit
+ *  Copyleft, 2021.
  */
 
 import {
@@ -39,8 +38,8 @@ export const mutations = {
 export const actions = {
   async addCollection(vuexContext, collection) {
     collection.image = await getPixabayImage(collection.title, 'first')
-
-    const res = await this.$axios.$post('/collections.json', collection)
+    const query = makeFBQuery(vuexContext, '/collections/[uuid].json')
+    const res = await this.$axios.$post(query, collection)
     collection.id = res.name
     vuexContext.commit('addCollection', collection)
   },
@@ -70,10 +69,11 @@ export const actions = {
       }
       delete collection.params
     }
-    const response = await this.$axios.$patch(
-      `/collections/${collection.id}.json`,
-      collection
+    const query = makeFBQuery(
+      vuexContext,
+      `/collections/[uuid]/${collection.id}.json`
     )
+    const response = await this.$axios.$patch(query, collection)
     vuexContext.commit('saveCollection', collection)
     return response
   },
@@ -89,13 +89,14 @@ export const actions = {
         await vuexContext.dispatch('cards/rewriteCard', item, { root: true })
       }
     }
-    const response = await this.$axios.$delete(
-      `/collections/${collection.id}.json`
+    const query = makeFBQuery(
+      vuexContext,
+      `/collections/[uuid]/${collection.id}.json`
     )
+    const response = await this.$axios.$delete(query)
     vuexContext.commit('deleteCollection', collection)
     return response
   },
-
   async setRandomImage(vuexContext, collection) {
     collection.image = await getPixabayImage(collection.title, 'random')
     if (!collection.image) {
@@ -104,10 +105,11 @@ export const actions = {
         color: 'warning',
       })
     }
-    const response = await this.$axios.$patch(
-      `/collections/${collection.id}.json`,
-      collection
+    const query = makeFBQuery(
+      vuexContext,
+      `/collections/[uuid]/${collection.id}.json`
     )
+    const response = await this.$axios.$patch(query, collection)
     vuexContext.commit('saveCollection', collection)
     return response
   },
