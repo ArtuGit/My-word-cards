@@ -115,9 +115,6 @@ export const actions = {
   },
 
   async test(vuexContext) {
-    console.log(makeFBQuery(vuexContext, '/collections.json'))
-    console.log(makeFBQuery(vuexContext, `/collections/colID.json`))
-    console.log(makeFBQuery(vuexContext, `/collections/[uuid]/colID.json`))
     await fakeRequestPromise(500)
   },
 }
