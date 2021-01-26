@@ -185,6 +185,9 @@ export default {
           break
         case 'test':
           this.toggleLoading()
+          this.$axios.$post('http://localhost:3000/api/track-data', {
+            data: 'Authenticated!',
+          })
           this.$store.dispatch('collections/test').then(() => {
             this.toggleLoading()
           })
