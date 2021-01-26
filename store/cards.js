@@ -54,10 +54,7 @@ export const actions = {
     return response
   },
   async deleteCard(vuexContext, card) {
-    const query = makeFBQuery(
-      vuexContext,
-      `/collections/[uuid]/${card.id}.json`
-    )
+    const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
     const response = await this.$axios.$delete(query)
     vuexContext.commit('deleteCard', card)
     return response
