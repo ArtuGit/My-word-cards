@@ -49,11 +49,28 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/firebase'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     baseURL: process.env.BASE_URL || 'https://my-cards-2021-default-rtdb.firebaseio.com',
+  },
+
+  firebase: {
+    config: {
+      apiKey: 'AIzaSyC6Vj36jf4TfeP2QBS6ojGzKS9ru2ojG7I',
+      //authDomain: '<authDomain>',
+      //databaseURL: '<databaseURL>',
+      projectId: 'my-cards-2021',
+      storageBucket: 'gs://my-cards-2021.appspot.com',
+      //messagingSenderId: '<messagingSenderId>',
+      //appId: '<appId>',
+      //measurementId: '<measurementId>'
+    },
+    services: {
+      storage: true,
+    }
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)

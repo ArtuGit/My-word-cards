@@ -115,6 +115,22 @@ export const actions = {
   },
 
   async test(vuexContext) {
+    const storageRef = this.$fire.storage.ref().child('user/message.txt')
+    const message = 'Nuxt-Fire with Firebase Storage rocks!'
+    try {
+      const snapshot = await storageRef.putString(message)
+      alert('File uploaded.', snapshot)
+    } catch (e) {
+      alert(e.message)
+    }
+
+    try {
+      const url = await storageRef.getDownloadURL()
+      alert(`The file can be found here: ${url}`)
+    } catch (e) {
+      alert(e.message)
+    }
+
     await fakeRequestPromise(500)
   },
 }
