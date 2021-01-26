@@ -67,9 +67,11 @@ async function initAppData(vuexContext) {
 
 function makeFBQuery(context, pStr) {
   let rStr = pStr
+  const user = context.rootGetters['auth/user']
   const isAuth = context.rootGetters['auth/isAuthenticated']
-  const isAdmin = context.rootGetters['auth/isAdmin']
-  const uuid = context.rootGetters['auth/user'].uuid
+  const isAdmin = user.isAdmin
+  const uuid = user.uuid
+  const token = user.token
   if (!isAuth || isAdmin) {
     if (rStr.includes('/[uuid]/')) {
       rStr = rStr.replace('[uuid]/', '')
@@ -79,6 +81,9 @@ function makeFBQuery(context, pStr) {
     rStr = '/demo' + rStr
   } else if (rStr.includes('[uuid]')) {
     rStr = rStr.replace('[uuid]', uuid)
+  }
+  if (token) {
+    rStr = rStr + `?auth=${token}`
   }
   return rStr
 }

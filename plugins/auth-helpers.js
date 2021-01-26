@@ -1,3 +1,8 @@
+/*
+ * Developed by Artu, https://github.com/ArtuGit
+ *  Copyleft, 2021.
+ */
+
 import Cookie from 'js-cookie'
 
 async function authOp(type, authData, axios) {
@@ -19,7 +24,6 @@ async function authOp(type, authData, axios) {
           returnSecureToken: true,
         }
         response = await axios.$post(authURL, request)
-        // ToDo: Add a user to the DB: First Name, Last Name
         result = response
         break
       case 'sign-in':

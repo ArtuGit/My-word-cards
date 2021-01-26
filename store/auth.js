@@ -51,7 +51,9 @@ export const actions = {
         token: result.idToken,
         uuid: result.localId,
       }
-      const userData = await this.$axios.$get(`users/${auth.uuid}.json`)
+      const userData = await this.$axios.$get(
+        `users/${auth.uuid}.json?auth=${auth.token}`
+      )
       auth = {
         ...auth,
         ...userData,
@@ -86,7 +88,10 @@ export const actions = {
         firstName: authData.firstName,
         lastName: authData.lastName,
       }
-      await this.$axios.$put(`users/${auth.uuid}.json`, userData)
+      await this.$axios.$put(
+        `users/${auth.uuid}.json?auth=${auth.token}`,
+        userData
+      )
       auth = {
         ...auth,
         ...userData,
@@ -113,7 +118,7 @@ export const actions = {
     try {
       if (vuexContext.state.token && vuexContext.state.uuid) {
         await this.$axios.$patch(
-          `users/${vuexContext.state.uuid}.json`,
+          `users/${vuexContext.state.uuid}.json?auth=${vuexContext.state.token}`,
           userData
         )
         vuexContext.commit('setUserData', userData)
@@ -170,7 +175,9 @@ export const actions = {
       { idToken: token },
       this.$axios
     )
-    const userData = await this.$axios.$get(`users/${userSysData.localId}.json`)
+    const userData = await this.$axios.$get(
+      `users/${userSysData.localId}.json?auth=${token}`
+    )
     const auth = {
       token,
       uuid: userSysData.localId,
