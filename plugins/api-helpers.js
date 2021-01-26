@@ -88,4 +88,32 @@ function makeFBQuery(context, pStr) {
   return rStr
 }
 
-export { fakeRequestPromise, getPixabayImage, initAppData, makeFBQuery }
+function getFileBlob(url, cb) {
+  const xhr = new XMLHttpRequest()
+  xhr.open('GET', url)
+  xhr.responseType = 'blob'
+  xhr.addEventListener('load', function () {
+    cb(xhr.response)
+  })
+  xhr.send()
+}
+
+function uploadURLToStorage(url) {
+  getFileBlob(
+    url,
+    (blob) => {
+      console.log(blob)
+    }
+    // firebase.storage().ref().put(blob).then(function(snapshot) {
+    //   console.log('Uploaded a blob or file!');
+    // })
+  )
+}
+
+export {
+  fakeRequestPromise,
+  getPixabayImage,
+  initAppData,
+  makeFBQuery,
+  uploadURLToStorage,
+}

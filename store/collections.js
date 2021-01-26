@@ -7,6 +7,7 @@ import {
   fakeRequestPromise,
   getPixabayImage,
   makeFBQuery,
+  uploadURLToStorage,
 } from '@/plugins/api-helpers'
 export const strict = false
 
@@ -115,6 +116,10 @@ export const actions = {
   },
 
   async test(vuexContext) {
+    await uploadURLToStorage(
+      'https://pixabay.com/get/g90a114774f44c360c933cc6949f6b10efd09dac16fcb513797c43e3663db2ac1b49ebab0201d7ab9caf6f7593d8f3248e6a3e475aa2d1247ef20bcd28519130a_1280.jpg'
+    )
+    /*
     const storageRef = this.$fire.storage.ref().child('user/message.txt')
     const message = 'Nuxt-Fire with Firebase Storage rocks!'
     try {
@@ -130,6 +135,7 @@ export const actions = {
     } catch (e) {
       alert(e.message)
     }
+*/
 
     await fakeRequestPromise(500)
   },
