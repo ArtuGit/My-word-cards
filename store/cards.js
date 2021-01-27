@@ -4,9 +4,11 @@
  */
 
 import {
+  delayPromise,
   fakeRequestPromise,
   getPixabayImage,
   makeFBQuery,
+  uploadURLToStorage,
 } from '@/plugins/api-helpers'
 
 export const state = () => ({
@@ -36,6 +38,9 @@ export const actions = {
   },
   async addCard(vuexContext, card) {
     card.image = await getPixabayImage(card.word, 'first')
+    if (card.image) {
+      card.image = await uploadURLToStorage.call(this, card.image)
+    }
     const query = makeFBQuery(vuexContext, '/words/[uuid].json')
     const res = await this.$axios.$post(query, card)
     card.id = res.name
@@ -61,15 +66,20 @@ export const actions = {
   },
   async setRandomImage(vuexContext, card) {
     card.image = await getPixabayImage(card.word, 'random')
+    if (card.image) {
+      card.image = await uploadURLToStorage.call(this, card.image)
+    }
     if (!card.image) {
       this.$notifier.showMessage({
         content: 'No image returned for this word',
         color: 'warning',
       })
+      return
     }
     const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
     const response = await this.$axios.$patch(query, card)
     vuexContext.commit('saveCard', card)
+    await delayPromise(500)
     return response
   },
   async test(vuexContext) {

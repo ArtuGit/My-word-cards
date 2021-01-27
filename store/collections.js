@@ -40,6 +40,9 @@ export const mutations = {
 export const actions = {
   async addCollection(vuexContext, collection) {
     collection.image = await getPixabayImage(collection.title, 'first')
+    if (collection.image) {
+      collection.image = await uploadURLToStorage.call(this, collection.image)
+    }
     const query = makeFBQuery(vuexContext, '/collections/[uuid].json')
     const res = await this.$axios.$post(query, collection)
     collection.id = res.name
@@ -101,14 +104,15 @@ export const actions = {
   },
   async setRandomImage(vuexContext, collection) {
     collection.image = await getPixabayImage(collection.title, 'random')
+    if (collection.image) {
+      collection.image = await uploadURLToStorage.call(this, collection.image)
+    }
     if (!collection.image) {
       this.$notifier.showMessage({
         content: 'No image returned for this title',
         color: 'warning',
       })
-    }
-    if (collection.image) {
-      collection.image = await uploadURLToStorage.call(this, collection.image)
+      return
     }
     const query = makeFBQuery(
       vuexContext,
