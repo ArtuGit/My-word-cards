@@ -144,6 +144,7 @@ export default {
           })
           break
         case 'test':
+          // eslint-disable-next-line
           console.log(this.card)
           break
       }

@@ -5,6 +5,7 @@
 
 import {
   fakeRequestPromise,
+  delayPromise,
   getPixabayImage,
   makeFBQuery,
   uploadURLToStorage,
@@ -106,37 +107,24 @@ export const actions = {
         color: 'warning',
       })
     }
+    if (collection.image) {
+      collection.image = await uploadURLToStorage.call(this, collection.image)
+    }
     const query = makeFBQuery(
       vuexContext,
       `/collections/[uuid]/${collection.id}.json`
     )
     const response = await this.$axios.$patch(query, collection)
     vuexContext.commit('saveCollection', collection)
+    await delayPromise(500)
     return response
   },
 
   async test(vuexContext) {
-    await uploadURLToStorage(
+    await uploadURLToStorage.call(
+      this,
       'https://pixabay.com/get/g90a114774f44c360c933cc6949f6b10efd09dac16fcb513797c43e3663db2ac1b49ebab0201d7ab9caf6f7593d8f3248e6a3e475aa2d1247ef20bcd28519130a_1280.jpg'
     )
-    /*
-    const storageRef = this.$fire.storage.ref().child('user/message.txt')
-    const message = 'Nuxt-Fire with Firebase Storage rocks!'
-    try {
-      const snapshot = await storageRef.putString(message)
-      alert('File uploaded.', snapshot)
-    } catch (e) {
-      alert(e.message)
-    }
-
-    try {
-      const url = await storageRef.getDownloadURL()
-      alert(`The file can be found here: ${url}`)
-    } catch (e) {
-      alert(e.message)
-    }
-*/
-
     await fakeRequestPromise(500)
   },
 }

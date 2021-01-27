@@ -16,6 +16,14 @@ const fakeRequestPromise = (delay = 1000) => {
   })
 }
 
+const delayPromise = (delay = 1000) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve()
+    }, delay)
+  })
+}
+
 async function getPixabayImage(phrase, type = 'comments') {
   try {
     const phraseSearch = phrase.split(' ').slice(0, 2).join(' ') // first words
@@ -98,20 +106,38 @@ function getFileBlob(url, cb) {
   xhr.send()
 }
 
+function getStorageDirName() {
+  const isAdmin = this.getters['auth/isAdmin']
+  const uuid = this.getters['auth/user'].uuid
+  if (!isAdmin) return uuid
+  else return 'demo'
+}
+
 function uploadURLToStorage(url) {
-  getFileBlob(
-    url,
-    (blob) => {
-      console.log(blob)
-    }
-    // firebase.storage().ref().put(blob).then(function(snapshot) {
-    //   console.log('Uploaded a blob or file!');
-    // })
-  )
+  const that = this
+  const dirName = getStorageDirName.call(this)
+  const fileName = url.split('/').slice(-1)[0]
+  return new Promise(function (resolve, reject) {
+    getFileBlob(url, (blob) => {
+      try {
+        const storageRef = that.$fire.storage
+          .ref()
+          .child(`${dirName}/${fileName}`)
+        storageRef.put(blob).then(function (snapshot) {
+          storageRef.getDownloadURL().then(function (url) {
+            resolve(url)
+          })
+        })
+      } catch (e) {
+        alert(e.message)
+      }
+    })
+  })
 }
 
 export {
   fakeRequestPromise,
+  delayPromise,
   getPixabayImage,
   initAppData,
   makeFBQuery,

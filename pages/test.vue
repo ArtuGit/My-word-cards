@@ -1,3 +1,8 @@
+<!--
+  - Developed by Artu, https://github.com/ArtuGit
+  -  Copyleft, 2021.
+  -->
+
 <template>
   <div>
     <h1>Test</h1>
@@ -15,6 +20,7 @@ export default {
     },
   },
   mounted() {
+    // eslint-disable-next-line
     console.log(
       this.$store.getters['cards/countCardsWithCollection']('Why questions')
     )
