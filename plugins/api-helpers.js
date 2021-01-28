@@ -29,24 +29,24 @@ async function getPixabayImage(phrase, type = 'comments') {
     const phraseSearch = phrase.split(' ').slice(0, 2).join(' ') // first words
     if (phraseSearch) {
       const data = await searchImages(phraseSearch, { per_page: 200 })
-      let largeImageURL = ''
+      let imageURL = ''
       if (data.total > 0) {
         if (type === 'comments') {
           let maxComments = 0
           data.hits.forEach((item) => {
             if (item.comments >= maxComments) {
               maxComments = item.comments
-              largeImageURL = item.largeImageURL
+              imageURL = item.largeImageURL
             }
           })
         } else if (type === 'random') {
           const index = Math.floor(Math.random() * data.hits.length)
-          largeImageURL = data.hits[index].largeImageURL
+          imageURL = data.hits[index].largeImageURL
         } else if (type === 'first') {
-          largeImageURL = data.hits[0].largeImageURL
+          imageURL = data.hits[0].largeImageURL
         }
       }
-      return largeImageURL
+      return imageURL
     } else return ''
   } catch (err) {
     // eslint-disable-next-line no-console
