@@ -1,3 +1,8 @@
+<!--
+  - Developed by Artu, https://github.com/ArtuGit
+  -  Copyleft, 2021.
+  -->
+
 <template>
   <v-card>
     <v-card-title>
@@ -206,7 +211,9 @@ export default {
           card.id = this.id
           await this.$store.dispatch('cards/saveCard', card)
         } else {
-          await this.$store.dispatch('cards/addCard', card)
+          card.params = { imageType: 'first', loading: true }
+          card.id = await this.$store.dispatch('cards/addCard', card)
+          await this.$store.dispatch('cards/setCollectionImage', card)
         }
         this.clearForm()
         this.$emit('toggle-loading')

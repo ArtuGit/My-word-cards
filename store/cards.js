@@ -37,14 +37,11 @@ export const actions = {
     vuexContext.commit('setCards', cards)
   },
   async addCard(vuexContext, card) {
-    card.image = await getPixabayImage(card.word, 'first')
-    if (card.image) {
-      card.image = await uploadURLToStorage.call(this, card.image)
-    }
     const query = makeFBQuery(vuexContext, '/words/[uuid].json')
     const res = await this.$axios.$post(query, card)
     card.id = res.name
     vuexContext.commit('addCard', card)
+    return card.id
   },
   async saveCard(vuexContext, card) {
     const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
@@ -64,19 +61,20 @@ export const actions = {
     vuexContext.commit('deleteCard', card)
     return response
   },
-  async setRandomImage(vuexContext, card) {
-    card.image = await getPixabayImage(card.word, 'random')
-    if (card.image) {
-      card.image = await uploadURLToStorage.call(this, card.image)
-    }
-    if (!card.image) {
+  async setCollectionImage(vuexContext, card) {
+    let image = await getPixabayImage(card.word, 'random')
+    if (!image) {
       this.$notifier.showMessage({
         content: 'No image returned for this word',
         color: 'warning',
       })
       return
     }
+    if (image) {
+      image = await uploadURLToStorage.call(this, image)
+    }
     const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
+    card.image = image
     const response = await this.$axios.$patch(query, card)
     vuexContext.commit('saveCard', card)
     await delayPromise(500)
