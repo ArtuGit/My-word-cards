@@ -71,6 +71,7 @@
           :annotation="card.annotation"
           :image="card.image"
           :collections="card.collections"
+          :loading-prop="card.state ? card.state.loading : false"
         >
         </card>
       </v-col>

@@ -4,7 +4,7 @@
   -->
 
 <template>
-  <v-card :loading="loading" height="100%">
+  <v-card :loading="loading || loadingProp" height="100%">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on: title, attrs2 }">
         <v-card-title>
@@ -87,6 +87,11 @@ export default {
       required: false,
       default: null,
     },
+    loadingProp: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
@@ -139,7 +144,8 @@ export default {
           break
         case 'image':
           this.toggleLoading()
-          this.$store.dispatch('cards/setRandomImage', this.card).then(() => {
+          this.card.params = { imageType: 'random' }
+          this.$store.dispatch('cards/setCardImage', this.card).then(() => {
             this.toggleLoading()
           })
           break

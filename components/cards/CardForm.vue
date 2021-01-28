@@ -189,7 +189,7 @@ export default {
         if (this.input.annotation) {
           this.input.annotation = this.input.annotation.trimEnd()
         }
-        const card = {
+        let card = {
           word: this.input.word,
           annotation: this.input.annotation,
           image: this.image,
@@ -211,9 +211,11 @@ export default {
           card.id = this.id
           await this.$store.dispatch('cards/saveCard', card)
         } else {
-          card.params = { imageType: 'first', loading: true }
+          card.params = { imageType: 'first' }
+          card.state = { loading: true }
           card.id = await this.$store.dispatch('cards/addCard', card)
-          await this.$store.dispatch('cards/setCollectionImage', card)
+          card = await this.$store.dispatch('cards/setCardImage', card)
+          this.$store.commit('cards/saveCard', card)
         }
         this.clearForm()
         this.$emit('toggle-loading')

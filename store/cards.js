@@ -4,7 +4,7 @@
  */
 
 import {
-  delayPromise,
+  // delayPromise,
   fakeRequestPromise,
   getPixabayImage,
   makeFBQuery,
@@ -61,7 +61,7 @@ export const actions = {
     vuexContext.commit('deleteCard', card)
     return response
   },
-  async setCollectionImage(vuexContext, card) {
+  async setCardImage(vuexContext, card) {
     let image = await getPixabayImage(card.word, 'random')
     if (!image) {
       this.$notifier.showMessage({
@@ -73,12 +73,17 @@ export const actions = {
     if (image) {
       image = await uploadURLToStorage.call(this, image)
     }
-    const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
     card.image = image
-    const response = await this.$axios.$patch(query, card)
+    if (card.params) {
+      delete card.params.imageType
+    }
+    if (card.state) {
+      delete card.state.loading
+    }
+    const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
+    await this.$axios.$patch(query, card)
     vuexContext.commit('saveCard', card)
-    await delayPromise(500)
-    return response
+    return card
   },
   async test(vuexContext) {
     await fakeRequestPromise(3000)
