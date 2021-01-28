@@ -62,7 +62,8 @@ export const actions = {
     return response
   },
   async setCardImage(vuexContext, card) {
-    let image = await getPixabayImage(card.word, 'random')
+    const imageType = card.params ? card.params.imageType : ''
+    let image = await getPixabayImage(card.word, imageType)
     if (!image) {
       this.$notifier.showMessage({
         content: 'No image returned for this word',
