@@ -1,6 +1,6 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- *  Copyleft, 2021.
+ * Copyleft 2020-2021.
  */
 
 import { authenticate } from 'pixabay-api'
@@ -120,12 +120,12 @@ function uploadURLToStorage(url) {
   return new Promise(function (resolve, reject) {
     getFileBlob(url, (blob) => {
       try {
-        const storageRef = that.$fire.storage
-          .ref()
-          .child(`${dirName}/${fileName}`)
+        const path = `${dirName}/${fileName}`
+        const storageRef = that.$fire.storage.ref().child(path)
         storageRef.put(blob).then(function (snapshot) {
           storageRef.getDownloadURL().then(function (url) {
-            resolve(url)
+            const res = { imagePath: path, url }
+            resolve(res)
           })
         })
       } catch (e) {

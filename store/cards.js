@@ -1,6 +1,6 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- *  Copyleft, 2021.
+ * Copyleft 2020-2021.
  */
 
 import {
@@ -63,7 +63,7 @@ export const actions = {
   },
   async setCardImage(vuexContext, card) {
     const imageType = card.params ? card.params.imageType : ''
-    let image = await getPixabayImage(card.word, imageType)
+    const image = await getPixabayImage(card.word, imageType)
     if (!image) {
       this.$notifier.showMessage({
         content: 'No image returned for this word',
@@ -71,10 +71,13 @@ export const actions = {
       })
       return
     }
+    let imageUploaded
     if (image) {
-      image = await uploadURLToStorage.call(this, image)
+      imageUploaded = await uploadURLToStorage.call(this, image)
+      console.log(imageUploaded)
     }
-    card.image = image
+    card.image = imageUploaded.url
+    card.imagePath = imageUploaded.imagePath
     if (card.params) {
       delete card.params.imageType
     }

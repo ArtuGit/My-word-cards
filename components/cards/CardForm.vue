@@ -181,11 +181,10 @@ export default {
     },
     async submit() {
       if (this.$refs.formCard.validate()) {
+        this.$emit('dialog-reverse')
         if (this.id) {
-          this.$emit('dialog-reverse')
+          this.$emit('toggle-loading')
         }
-        this.clearForm()
-        this.$emit('toggle-loading')
         if (!this.id && this.input.word) {
           this.input.word = this.input.word.trimEnd()
         }
@@ -221,6 +220,7 @@ export default {
           this.$store.commit('cards/saveCard', card)
         }
         this.$emit('toggle-loading')
+        this.clearForm()
       }
     },
   },
