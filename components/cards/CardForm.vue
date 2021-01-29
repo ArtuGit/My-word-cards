@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  -  Copyleft, 2021.
+  - Copyleft 2020-2021.
   -->
 
 <template>
@@ -173,7 +173,7 @@ export default {
       if (!this.id) {
         this.input.word = ''
         this.input.annotation = ''
-        this.input.collections = []
+        // this.input.collections = []
       }
     },
     cancel() {
@@ -181,7 +181,10 @@ export default {
     },
     async submit() {
       if (this.$refs.formCard.validate()) {
-        this.$emit('dialog-reverse')
+        if (this.id) {
+          this.$emit('dialog-reverse')
+        }
+        this.clearForm()
         this.$emit('toggle-loading')
         if (!this.id && this.input.word) {
           this.input.word = this.input.word.trimEnd()
@@ -217,7 +220,6 @@ export default {
           card = await this.$store.dispatch('cards/setCardImage', card)
           this.$store.commit('cards/saveCard', card)
         }
-        this.clearForm()
         this.$emit('toggle-loading')
       }
     },
