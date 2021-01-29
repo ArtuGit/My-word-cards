@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  -  Copyleft, 2021.
+  - Copyleft 2020-2021.
   -->
 
 <template>
@@ -69,6 +69,7 @@
           :id="card.id"
           :word="card.word"
           :annotation="card.annotation"
+          :image-path="card.imagePath"
           :image="card.image"
           :collections="card.collections"
           :loading-prop="card.state ? card.state.loading : false"

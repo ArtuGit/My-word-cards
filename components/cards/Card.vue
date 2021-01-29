@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  -  Copyleft, 2021.
+  - Copyleft 2020-2021.
   -->
 
 <template>
@@ -82,6 +82,11 @@ export default {
       required: false,
       default: null,
     },
+    imagePath: {
+      type: String,
+      required: false,
+      default: null,
+    },
     collections: {
       type: Array,
       required: false,
@@ -138,9 +143,14 @@ export default {
           break
         case 'delete':
           this.toggleLoading()
-          this.$store.dispatch('cards/deleteCard', { id: this.id }).then(() => {
-            this.toggleLoading()
-          })
+          this.$store
+            .dispatch('cards/deleteCard', {
+              id: this.id,
+              imagePath: this.imagePath,
+            })
+            .then(() => {
+              this.toggleLoading()
+            })
           break
         case 'image':
           this.toggleLoading()
