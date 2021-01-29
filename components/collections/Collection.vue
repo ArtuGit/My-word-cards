@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  -  Copyleft, 2021.
+  - Copyleft 2020-2021.
   -->
 
 <template>
@@ -60,10 +60,12 @@
           outlined
           rounded
           text
-          :disabled="cardsCount === 0"
         >
-          {{ cardsCount }} {{ cardsButtonLabel }}</v-btn
-        >
+          <div v-if="cardsCount > 0">
+            {{ cardsCount }} {{ cardsButtonLabel }}
+          </div>
+          <div v-else>Сreate cards</div>
+        </v-btn>
       </v-card-actions>
       <v-menu v-if="isAuthenticated" top>
         <template v-slot:activator="{ on, attrs }">
