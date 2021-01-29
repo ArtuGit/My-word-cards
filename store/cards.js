@@ -74,7 +74,6 @@ export const actions = {
     let imageUploaded
     if (image) {
       imageUploaded = await uploadURLToStorage.call(this, image)
-      console.log(imageUploaded)
     }
     card.image = imageUploaded.url
     card.imagePath = imageUploaded.imagePath
