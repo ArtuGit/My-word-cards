@@ -43,7 +43,7 @@
               <v-card-text>
                 <v-file-input
                   v-model="chosenFile"
-                  accept=".txt"
+                  accept="audio/*"
                   label="Click here to select a .txt file"
                   outlined
                 >
@@ -58,9 +58,9 @@
           <v-col cols="auto">
             <v-card width="600" height="300" raised>
               <v-card-title>File contents:</v-card-title>
-              <v-card-text
-                ><p>{{ data }}</p></v-card-text
-              >
+              <v-card-text>
+                <img :src="url" alt="" />
+              </v-card-text>
             </v-card>
           </v-col>
         </v-row>
@@ -75,6 +75,7 @@ export default {
     return {
       chosenFile: null, // <- initialize the v-model prop
       data: null,
+      url: null,
     }
   },
   methods: {
@@ -86,9 +87,18 @@ export default {
 
       // Use the javascript reader object to load the contents
       // of the file in the v-model prop
-      reader.readAsText(this.chosenFile)
+      reader.readAsBinaryString(this.chosenFile)
       reader.onload = () => {
         this.data = reader.result
+
+        const path = `test/${this.chosenFile.name}`
+        console.log(path)
+        const storageRef = this.$fire.storage.ref().child(path)
+        storageRef.put(this.data).then(function (snapshot) {
+          storageRef.getDownloadURL().then(function (url) {
+            this.url = url
+          })
+        })
       }
     },
   },
