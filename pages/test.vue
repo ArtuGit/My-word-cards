@@ -4,97 +4,92 @@
   -->
 
 <template>
-  <v-container>
-    <v-layout row>
-      <v-flex class="text-center font-weight-black">
-        <h1>Upload a photo</h1>
-      </v-flex>
-    </v-layout>
+  <div>
+    <!--
+    <v-card>
+      <v-row>
+        <v-col>
+          <v-img
+            lazy-src="https://picsum.photos/id/11/10/6"
+            max-height="50"
+            max-width="50"
+            src="https://picsum.photos/id/11/500/300"
+          ></v-img>
+        </v-col>
+        <v-col>
+          <v-file-input
+            ref="input1"
+            show-size
+            label="File input"
+            type="file"
+            accept="image/*"
+            @change="previewImage"
+          ></v-file-input>
+        </v-col>
+        <v-col>
+          <v-btn @click="create">upload</v-btn>
+        </v-col>
+      </v-row>
+    </v-card>
+-->
 
-    <v-layout row>
-      <v-flex md6 offset-sm3>
-        <div>
-          <div>
-            <v-btn @click="click1">choose photo</v-btn>
-            <input
-              ref="input1"
-              type="file"
-              style="display: none"
-              accept="image/*"
-              @change="previewImage"
-            />
-          </div>
-
-          <div v-if="imageData != null">
-            <img class="preview" height="268" width="356" :src="img1" />
-            <br />
-          </div>
-        </div>
-      </v-flex>
-    </v-layout>
-
-    <v-layout row>
-      <v-flex md6 offset-sm3 class="text-center">
-        <v-text-field v-model="caption" solo label="Caption goes here">
-        </v-text-field>
-      </v-flex>
-    </v-layout>
-    <v-layout row>
-      <v-flex class="text-center">
-        <v-btn color="pink" @click="create">upload</v-btn>
-      </v-flex>
-    </v-layout>
-  </v-container>
+    <v-main>
+      <v-container fill-height>
+        <v-row justify="center">
+          <v-col cols="auto">
+            <v-card width="600" height="300" raised>
+              <v-card-title>Vuetify v-file-input Example:</v-card-title>
+              <br />
+              <v-card-text>
+                <v-file-input
+                  v-model="chosenFile"
+                  accept=".txt"
+                  label="Click here to select a .txt file"
+                  outlined
+                >
+                </v-file-input>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn right @click="importTxt">Read File</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+          <v-col cols="auto">
+            <v-card width="600" height="300" raised>
+              <v-card-title>File contents:</v-card-title>
+              <v-card-text
+                ><p>{{ data }}</p></v-card-text
+              >
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      caption: '',
-      img1: '',
-      imageData: null,
+      chosenFile: null, // <- initialize the v-model prop
+      data: null,
     }
   },
   methods: {
-    create() {
-      const post = {
-        photo: this.img1,
-        caption: this.caption,
+    importTxt() {
+      if (!this.chosenFile) {
+        this.data = 'No File Chosen'
       }
-      console.log(post)
-    },
-    click1() {
-      this.$refs.input1.click()
-    },
-    previewImage(event) {
-      this.uploadValue = 0
-      this.img1 = null
-      this.imageData = event.target.files[0]
-      this.onUpload()
-    },
-    onUpload() {
-      this.img1 = null
-      const storageRef = this.$fire.storage
-        .ref(`${this.imageData.name}`)
-        .put(this.imageData)
-      storageRef.on(
-        `state_changed`,
-        (snapshot) => {
-          this.uploadValue =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        },
-        (error) => {
-          console.log(error.message)
-        },
-        () => {
-          this.uploadValue = 100
-          storageRef.snapshot.ref.getDownloadURL().then((url) => {
-            this.img1 = url
-            console.log(this.img1)
-          })
-        }
-      )
+      const reader = new FileReader()
+
+      // Use the javascript reader object to load the contents
+      // of the file in the v-model prop
+      reader.readAsText(this.chosenFile)
+      reader.onload = () => {
+        this.data = reader.result
+      }
     },
   },
 }
