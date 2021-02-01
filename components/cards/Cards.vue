@@ -6,9 +6,9 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-if="collectionParam && collectionParam.image.url" cols="1">
+      <v-col v-if="collectionParam && collectionParam.image" cols="1">
         <v-avatar>
-          <img :src="collectionParam.image.url" alt="" />
+          <img :src="collectionParam.image" alt="" />
         </v-avatar>
       </v-col>
       <v-col cols="12" md="4">
