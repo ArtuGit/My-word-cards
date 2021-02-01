@@ -173,7 +173,6 @@ export default {
       if (!this.id) {
         this.input.word = ''
         this.input.annotation = ''
-        // this.input.collections = []
       }
     },
     cancel() {
@@ -203,6 +202,7 @@ export default {
             (x) => !this.collectionsAll.includes(x)
           )
         }
+        this.clearForm()
         if (collectionsDiff) {
           await this.$store.dispatch(
             'collections/addCollectionsMultiple',
@@ -220,7 +220,6 @@ export default {
           this.$store.commit('cards/saveCard', card)
         }
         this.$emit('toggle-loading')
-        this.clearForm()
       }
     },
   },
