@@ -33,14 +33,24 @@
 export default {
   data() {
     return {
+      urlUploaded: null,
       url: null,
       image: null,
     }
   },
   methods: {
-    Preview_image() {
+    async Preview_image() {
       console.log(this.image.name)
       this.url = URL.createObjectURL(this.image)
+      const blob = await fetch(this.url).then((r) => r.blob())
+      const path = `test/${this.image.name}`
+      console.log(path)
+      const storageRef = this.$fire.storage.ref().child(path)
+      storageRef.put(blob).then(function (snapshot) {
+        storageRef.getDownloadURL().then(function (url) {
+          this.urlUploaded = url
+        })
+      })
     },
   },
 }
