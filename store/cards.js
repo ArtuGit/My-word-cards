@@ -4,7 +4,6 @@
  */
 
 import {
-  // delayPromise,
   fakeRequestPromise,
   getPixabayImage,
   makeFBQuery,
