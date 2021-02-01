@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  -  Copyleft, 2021.
+  - Copyleft 2020-2021.
   -->
 
 <template>
@@ -50,7 +50,7 @@
             :id="collection.id"
             :title="collection.title"
             :description="collection.description"
-            :image="collection.image"
+            :image="collection.image.url"
           ></collection>
         </v-col>
       </v-row>
