@@ -79,18 +79,20 @@ export const actions = {
     return response
   },
   async deleteCollection(vuexContext, collection) {
-    // Create a reference to the file to delete
-    const fileRef = this.$fire.storage.ref().child(collection.imagePath)
-    // Delete the file
-    fileRef
-      .delete()
-      .then(() => {
-        // File deleted successfully
-      })
-      .catch((error) => {
-        // eslint-disable-next-line
-        console.error(error)
-      })
+    if (collection.imagePath) {
+      // Create a reference to the file to delete
+      const fileRef = this.$fire.storage.ref().child(collection.imagePath)
+      // Delete the file
+      fileRef
+        .delete()
+        .then(() => {
+          // File deleted successfully
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+          console.error(error)
+        })
+    }
     const cards = vuexContext.rootState.cards.myCards.filter((item) => {
       if (item.collections) return true
     })
