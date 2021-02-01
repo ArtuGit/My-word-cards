@@ -117,6 +117,11 @@ export default {
       required: false,
       default: null,
     },
+    imagePath: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   computed: {
     ...mapGetters({
@@ -179,8 +184,9 @@ export default {
           break
         case 'image':
           this.toggleLoading()
+          this.collection.params = { imageType: 'random' }
           this.$store
-            .dispatch('collections/setRandomImage', this.collection)
+            .dispatch('collections/setCollectionImage', this.collection)
             .then(() => {
               this.toggleLoading()
             })

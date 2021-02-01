@@ -1,3 +1,8 @@
+<!--
+  - Developed by Artu, https://github.com/ArtuGit
+  - Copyleft 2020-2021.
+  -->
+
 <template>
   <v-card>
     <v-card-title>
@@ -138,7 +143,7 @@ export default {
         if (this.input.description) {
           this.input.description = this.input.description.trimEnd()
         }
-        const collection = {
+        let collection = {
           title: this.input.title,
           description: this.input.description,
           image: this.image,
@@ -146,13 +151,23 @@ export default {
             titleBefore: this.title,
           },
         }
+        this.clearForm()
         if (this.id) {
           collection.id = this.id
           await this.$store.dispatch('collections/saveCollection', collection)
         } else {
-          await this.$store.dispatch('collections/addCollection', collection)
+          collection.params = { imageType: 'first' }
+          collection.state = { loading: true }
+          collection.id = await this.$store.dispatch(
+            'collections/addCollection',
+            collection
+          )
+          collection = await this.$store.dispatch(
+            'collections/setCollectionImage',
+            collection
+          )
+          this.$store.commit('collections/saveCollection', collection)
         }
-        this.clearForm()
         this.$emit('toggle-loading')
       }
     },

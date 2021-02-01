@@ -1,11 +1,10 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- *  Copyleft, 2021.
+ * Copyleft 2020-2021.
  */
 
 import {
   fakeRequestPromise,
-  delayPromise,
   getPixabayImage,
   makeFBQuery,
   uploadURLToStorage,
@@ -39,14 +38,11 @@ export const mutations = {
 
 export const actions = {
   async addCollection(vuexContext, collection) {
-    collection.image = await getPixabayImage(collection.title, 'first')
-    if (collection.image) {
-      collection.image = await uploadURLToStorage.call(this, collection.image)
-    }
     const query = makeFBQuery(vuexContext, '/collections/[uuid].json')
     const res = await this.$axios.$post(query, collection)
     collection.id = res.name
     vuexContext.commit('addCollection', collection)
+    return collection.id
   },
   async addCollectionsMultiple(vuexContext, collections) {
     let collectionObj = null
@@ -102,26 +98,35 @@ export const actions = {
     vuexContext.commit('deleteCollection', collection)
     return response
   },
-  async setRandomImage(vuexContext, collection) {
-    collection.image = await getPixabayImage(collection.title, 'random')
-    if (collection.image) {
-      collection.image = await uploadURLToStorage.call(this, collection.image)
-    }
-    if (!collection.image) {
+  async setCollectionImage(vuexContext, collection) {
+    const imageType = collection.params ? collection.params.imageType : ''
+    const image = await getPixabayImage(collection.title, imageType)
+    if (!image) {
       this.$notifier.showMessage({
         content: 'No image returned for this title',
         color: 'warning',
       })
       return
     }
+    let imageUploaded
+    if (image) {
+      imageUploaded = await uploadURLToStorage.call(this, image)
+      collection.image = imageUploaded.url
+      collection.imagePath = imageUploaded.imagePath
+    }
+    if (collection.params) {
+      delete collection.params.imageType
+    }
+    if (collection.state) {
+      delete collection.state.loading
+    }
     const query = makeFBQuery(
       vuexContext,
       `/collections/[uuid]/${collection.id}.json`
     )
-    const response = await this.$axios.$patch(query, collection)
+    await this.$axios.$patch(query, collection)
     vuexContext.commit('saveCollection', collection)
-    await delayPromise(500)
-    return response
+    return collection
   },
 
   async test(vuexContext) {

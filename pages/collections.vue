@@ -50,7 +50,8 @@
             :id="collection.id"
             :title="collection.title"
             :description="collection.description"
-            :image="collection.image.url"
+            :image-path="collection.imagePath"
+            :image="collection.image"
           ></collection>
         </v-col>
       </v-row>
