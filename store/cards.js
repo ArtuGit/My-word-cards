@@ -55,7 +55,6 @@ export const actions = {
     return response
   },
   async deleteCard(vuexContext, card) {
-    const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
     // Create a reference to the file to delete
     const fileRef = this.$fire.storage.ref().child(card.imagePath)
     // Delete the file
@@ -65,9 +64,10 @@ export const actions = {
         // File deleted successfully
       })
       .catch((error) => {
+        // eslint-disable-next-line
         console.error(error)
       })
-
+    const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
     const response = await this.$axios.$delete(query)
     vuexContext.commit('deleteCard', card)
     return response
