@@ -1,14 +1,15 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  - Copyleft 2020-2021.
+  -  Copyleft, 2020-2021.
   -->
 
 <template>
   <v-card>
     <v-card-title>
       <span class="headline">{{ cardTitle }}</span>
-      {{ input.imageRaw }}
     </v-card-title>
+    <div>ImageRaw:{{ input.imageRaw }}</div>
+    <div>SubmitState:{{ submitButtonState }}</div>
     <v-card-text>
       <v-form ref="formCard" v-model="valid" lazy-validation>
         <v-container>
@@ -82,6 +83,7 @@
 
 <script>
 import ImageUpload from '~/components/UI/ImageUpload'
+import { uploadURLToStorage } from '~/plugins/api-helpers'
 export default {
   components: {
     ImageUpload,
@@ -153,14 +155,15 @@ export default {
     submitButtonState() {
       if (this.id) {
         return (
-          (this.input.annotation === this.annotation &&
+          ((this.input.annotation === this.annotation &&
             this.input.collections === this.collections) ||
-          !(
-            this.input.word &&
-            this.input.word.length > 0 &&
-            this.input.word.length <= 100
-          ) ||
-          !(this.input.collections && this.input.collections.length > 0)
+            !(
+              this.input.word &&
+              this.input.word.length > 0 &&
+              this.input.word.length <= 100
+            ) ||
+            !(this.input.collections && this.input.collections.length > 0)) &&
+          !this.input.imageRaw
         )
       } else return false
     },
@@ -182,9 +185,6 @@ export default {
   methods: {
     updateImage(image) {
       this.input.imageRaw = image
-      console.log('Primary:', this.image)
-      console.log('Raw:', this.input.imageRaw)
-      // await this.$store.dispatch('cards/test', image)
     },
     clearForm() {
       this.valid = true
@@ -212,7 +212,6 @@ export default {
         let card = {
           word: this.input.word,
           annotation: this.input.annotation,
-          image: this.image,
           collections: this.input.collections,
         }
         let collectionsDiff = null
@@ -228,15 +227,25 @@ export default {
             collectionsDiff
           )
         }
+        if (this.input.imageRaw) {
+          const imageUploaded = await uploadURLToStorage.call(
+            this,
+            this.input.imageRaw
+          )
+          card.image = imageUploaded.url
+          card.imagePath = imageUploaded.imagePath
+        }
         if (this.id) {
           card.id = this.id
           await this.$store.dispatch('cards/saveCard', card)
         } else {
-          card.params = { imageType: 'first' }
-          card.state = { loading: true }
           card.id = await this.$store.dispatch('cards/addCard', card)
-          card = await this.$store.dispatch('cards/setCardImage', card)
-          this.$store.commit('cards/saveCard', card)
+          if (!this.input.imageRaw) {
+            card.params = { imageType: 'first' }
+            card.state = { loading: true }
+            card = await this.$store.dispatch('cards/setCardImage', card)
+            this.$store.commit('cards/saveCard', card)
+          }
         }
         this.$emit('toggle-loading')
       }

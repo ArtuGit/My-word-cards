@@ -1,6 +1,6 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- * Copyleft 2020-2021.
+ *  Copyleft, 2020-2021.
  */
 
 import { authenticate } from 'pixabay-api'
@@ -107,8 +107,14 @@ function getFileBlob(url, cb) {
 }
 
 function getStorageDirName() {
-  const isAdmin = this.getters['auth/isAdmin']
-  const uuid = this.getters['auth/user'].uuid
+  let isAdmin, uuid
+  if (this.getters) {
+    isAdmin = this.getters['auth/isAdmin']
+    uuid = this.getters['auth/user'].uuid
+  } else {
+    isAdmin = this.$store.getters['auth/isAdmin']
+    uuid = this.$store.getters['auth/user'].uuid
+  }
   if (!isAdmin) return uuid
   else return 'demo'
 }
