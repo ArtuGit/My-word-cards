@@ -8,8 +8,6 @@
     <v-card-title>
       <span class="headline">{{ cardTitle }}</span>
     </v-card-title>
-    <div>ImageRaw:{{ input.imageRaw }}</div>
-    <div>SubmitState:{{ submitButtonState }}</div>
     <v-card-text>
       <v-form ref="formCard" v-model="valid" lazy-validation>
         <v-container>
