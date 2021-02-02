@@ -4,7 +4,6 @@
  */
 
 import {
-  fakeRequestPromise,
   getPixabayImage,
   makeFBQuery,
   uploadURLToStorage,
@@ -101,8 +100,9 @@ export const actions = {
     vuexContext.commit('saveCard', card)
     return card
   },
-  async test(vuexContext) {
-    await fakeRequestPromise(3000)
+  async test(vuexContext, payload) {
+    const imageUploaded = await uploadURLToStorage.call(this, payload)
+    console.log(imageUploaded)
   },
 }
 

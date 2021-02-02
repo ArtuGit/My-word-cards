@@ -7,6 +7,7 @@
   <v-card>
     <v-card-title>
       <span class="headline">{{ cardTitle }}</span>
+      {{ input.imageRaw }}
     </v-card-title>
     <v-card-text>
       <v-form ref="formCard" v-model="valid" lazy-validation>
@@ -60,6 +61,10 @@
                 label="Annotation"
                 hint="Translation, definition, comment and so on."
               ></v-textarea>
+              <image-upload
+                :image-existed="image"
+                @update-image="updateImage"
+              ></image-upload>
             </v-col>
           </v-row>
         </v-container>
@@ -76,7 +81,11 @@
 </template>
 
 <script>
+import ImageUpload from '~/components/UI/ImageUpload'
 export default {
+  components: {
+    ImageUpload,
+  },
   props: {
     id: {
       type: String,
@@ -110,6 +119,7 @@ export default {
         word: '',
         annotation: '',
         collections: [],
+        imageRaw: null,
       },
       valid: true,
       collectionRules: [
@@ -159,20 +169,29 @@ export default {
     this.input.word = this.word
     this.input.annotation = this.annotation
     this.input.collections = this.collections
+    this.input.imageRaw = null
   },
   beforeRouteUpdate(to, from, next) {
     this.input.word = this.word
     this.input.annotation = this.annotation
     this.input.collections = this.collections
+    this.input.imageRaw = null
     next()
   },
   emits: ['dialog-reverse', 'toggle-loading'],
   methods: {
+    updateImage(image) {
+      this.input.imageRaw = image
+      console.log('Primary:', this.image)
+      console.log('Raw:', this.input.imageRaw)
+      // await this.$store.dispatch('cards/test', image)
+    },
     clearForm() {
       this.valid = true
       if (!this.id) {
         this.input.word = ''
         this.input.annotation = ''
+        this.input.imageRaw = null
       }
     },
     cancel() {

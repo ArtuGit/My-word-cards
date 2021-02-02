@@ -30,27 +30,36 @@
 
 <script>
 export default {
+  emits: ['update-image'],
+  props: {
+    imageExisted: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
   data() {
     return {
       imageDialogURLTemp: null,
       imageDialogObj: null,
-      input: {
-        image:
-          'https://knowpathology.com.au/app/uploads/2018/07/Happy-Test-Screen-01.png',
-      },
     }
   },
   computed: {
     imageDialogDisplayed() {
       return this.imageDialogURLTemp
         ? this.imageDialogURLTemp
-        : this.input.image
+        : this.imageExisted
     },
   },
   methods: {
     processImage() {
-      console.log(this.imageDialogObj.name)
-      this.imageDialogURLTemp = URL.createObjectURL(this.imageDialogObj)
+      if (this.imageDialogObj) {
+        console.log(this.imageDialogObj.name)
+        this.imageDialogURLTemp = URL.createObjectURL(this.imageDialogObj)
+      } else {
+        this.imageDialogURLTemp = null
+      }
+      this.$emit('update-image', this.imageDialogURLTemp)
     },
   },
 }
