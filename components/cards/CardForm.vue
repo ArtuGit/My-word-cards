@@ -189,7 +189,6 @@ export default {
       if (!this.id) {
         this.input.word = ''
         this.input.annotation = ''
-        this.image = null
         this.input.imageRaw = null
       }
     },
