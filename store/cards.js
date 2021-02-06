@@ -1,6 +1,6 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- * Copyleft 2020-2021.
+ *  Copyleft, 2020-2021.
  */
 
 import {
@@ -75,34 +75,45 @@ export const actions = {
   },
   async setCardImage(vuexContext, card) {
     const imageType = card.params ? card.params.imageType : ''
-    const image = await getPixabayImage(card.word, imageType)
-    if (!image) {
-      this.$notifier.showMessage({
-        content: 'No image returned for this word',
-        color: 'warning',
-      })
-      return
-    }
+    let image
     let imageUploaded
+    if (imageType === 'upload') {
+      if (card.params.imageRaw) {
+        image = card.params.imageRaw
+      } else {
+        image = null
+        // eslint-disable-next-line
+        console.error('No uploaded image is passed')
+      }
+    } else {
+      image = await getPixabayImage(card.word, imageType)
+      if (!image) {
+        this.$notifier.showMessage({
+          content: 'No image returned for this word',
+          color: 'warning',
+        })
+        return
+      }
+    }
     if (image) {
       imageUploaded = await uploadURLToStorage.call(this, image)
+      card.image = imageUploaded.url
+      card.imagePath = imageUploaded.imagePath
+      if (card.params) {
+        delete card.params.imageType
+        delete card.params.imageRaw
+      }
+      if (card.state) {
+        delete card.state.loading
+      }
+      const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
+      await this.$axios.$patch(query, card)
+      vuexContext.commit('saveCard', card)
+      return card
     }
-    card.image = imageUploaded.url
-    card.imagePath = imageUploaded.imagePath
-    if (card.params) {
-      delete card.params.imageType
-    }
-    if (card.state) {
-      delete card.state.loading
-    }
-    const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
-    await this.$axios.$patch(query, card)
-    vuexContext.commit('saveCard', card)
-    return card
   },
   async test(vuexContext, payload) {
-    const imageUploaded = await uploadURLToStorage.call(this, payload)
-    console.log(imageUploaded)
+    await uploadURLToStorage.call(this, payload)
   },
 }
 

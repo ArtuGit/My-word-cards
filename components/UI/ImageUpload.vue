@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  - Copyleft 2020-2021.
+  -  Copyleft, 2020-2021.
   -->
 <template>
   <v-card>
@@ -54,7 +54,6 @@ export default {
   methods: {
     processImage() {
       if (this.imageDialogObj) {
-        console.log(this.imageDialogObj.name)
         this.imageDialogURLTemp = URL.createObjectURL(this.imageDialogObj)
       } else {
         this.imageDialogURLTemp = null

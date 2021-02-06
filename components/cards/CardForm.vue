@@ -189,6 +189,7 @@ export default {
       if (!this.id) {
         this.input.word = ''
         this.input.annotation = ''
+        this.image = null
         this.input.imageRaw = null
       }
     },
@@ -218,6 +219,7 @@ export default {
             (x) => !this.collectionsAll.includes(x)
           )
         }
+        const imageRaw = this.input.imageRaw
         this.clearForm()
         if (collectionsDiff) {
           await this.$store.dispatch(
@@ -225,25 +227,26 @@ export default {
             collectionsDiff
           )
         }
-        if (this.input.imageRaw) {
-          const imageUploaded = await uploadURLToStorage.call(
-            this,
-            this.input.imageRaw
-          )
-          card.image = imageUploaded.url
-          card.imagePath = imageUploaded.imagePath
-        }
+        let imageUploaded
         if (this.id) {
+          // Updating card
           card.id = this.id
+          if (imageRaw) {
+            imageUploaded = await uploadURLToStorage.call(this, imageRaw)
+            card.image = imageUploaded.url
+            card.imagePath = imageUploaded.imagePath
+          }
           await this.$store.dispatch('cards/saveCard', card)
         } else {
+          // Adding card
+          card.state = { loading: true }
           card.id = await this.$store.dispatch('cards/addCard', card)
-          if (!this.input.imageRaw) {
+          if (imageRaw) {
+            card.params = { imageType: 'upload', imageRaw }
+          } else {
             card.params = { imageType: 'first' }
-            card.state = { loading: true }
-            card = await this.$store.dispatch('cards/setCardImage', card)
-            this.$store.commit('cards/saveCard', card)
           }
+          card = await this.$store.dispatch('cards/setCardImage', card)
         }
         this.$emit('toggle-loading')
       }
