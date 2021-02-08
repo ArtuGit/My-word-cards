@@ -1,15 +1,18 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  - Copyleft 2020-2021. 
+  - Copyleft 2020-2021.
   -->
 <template>
   <div class="mt-4">
     <v-card>
       <v-row>
+        <div>The Image: {{ imageDialogURLTemp }}</div>
+      </v-row>
+      <v-row>
         <v-col cols="2">
           <v-img
-            :lazy-src="imageDialogDisplayed"
-            :src="imageDialogDisplayed"
+            :lazy-src="imageDialogURLTemp"
+            :src="imageDialogURLTemp"
             max-height="75"
             max-width="100"
           ></v-img>
@@ -19,7 +22,7 @@
             ref="input1"
             v-model="imageDialogObj"
             show-size
-            label="New file"
+            label="Image file"
             type="file"
             accept="image/*"
             @change="processImage"
@@ -50,12 +53,14 @@ export default {
       imageDialogObj: null,
     }
   },
-  computed: {
-    imageDialogDisplayed() {
-      return this.imageDialogURLTemp
-        ? this.imageDialogURLTemp
-        : this.imageExisted
+  watch: {
+    async imageExisted(newVal, oldVal) {
+      this.imageDialogURLTemp = newVal
+      this.imageDialogObj = await getBlobFromURL(this.imageDialogURLTemp)
     },
+  },
+  mounted() {
+    this.imageDialogURLTemp = this.imageExisted
   },
   methods: {
     processImage() {

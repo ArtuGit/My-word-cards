@@ -5,6 +5,7 @@
 
 <template>
   <v-card>
+    <div>Image:{{ image }}<br />,Input Image:{{ input.image }}</div>
     <v-card-title>
       <span class="headline">{{ cardTitle }}</span>
     </v-card-title>
@@ -61,7 +62,7 @@
                 hint="Translation, definition, comment and so on."
               ></v-textarea>
               <image-upload
-                :image-existed="image"
+                :image-existed="input.image"
                 @update-image="updateImage"
               ></image-upload>
             </v-col>
@@ -119,7 +120,7 @@ export default {
         word: '',
         annotation: '',
         collections: [],
-        imageRaw: null,
+        image: '',
       },
       valid: true,
       collectionRules: [
@@ -161,28 +162,29 @@ export default {
               this.input.word.length <= 100
             ) ||
             !(this.input.collections && this.input.collections.length > 0)) &&
-          !this.input.imageRaw
+          !this.input.image
         )
       } else return false
     },
   },
-  mounted() {
+  beforeMount() {
     this.input.word = this.word
     this.input.annotation = this.annotation
     this.input.collections = this.collections
-    this.input.imageRaw = null
+    this.input.image = this.image
+    console.log('Mounted!')
   },
   beforeRouteUpdate(to, from, next) {
     this.input.word = this.word
     this.input.annotation = this.annotation
     this.input.collections = this.collections
-    this.input.imageRaw = null
+    this.input.image = this.image
     next()
   },
   emits: ['dialog-reverse', 'toggle-loading'],
   methods: {
     updateImage(image) {
-      this.input.imageRaw = image
+      this.input.image = image
     },
     clearForm() {
       this.valid = true
@@ -190,13 +192,14 @@ export default {
         // New
         this.input.word = ''
         this.input.annotation = ''
-        this.input.imageRaw = null
+        this.input.image = null
       } else {
         // Existed
         this.input.word = this.word
         this.input.annotation = this.annotation
-        this.input.imageRaw = this.image
+        this.input.image = this.image
       }
+      this.rnd = Math.floor(Math.random() * Math.floor(999))
     },
     cancel() {
       this.$emit('dialog-reverse')
@@ -225,7 +228,7 @@ export default {
             (x) => !this.collectionsAll.includes(x)
           )
         }
-        const imageRaw = this.input.imageRaw
+        const imageRaw = this.input.image
         this.clearForm()
         if (collectionsDiff) {
           await this.$store.dispatch(

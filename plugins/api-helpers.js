@@ -143,8 +143,10 @@ function uploadURLToStorage(url) {
 
 async function getBlobFromURL(url) {
   let blob = {}
-  blob = await fetch(url).then((r) => r.blob())
-  blob.name = url.substring(url.lastIndexOf('/') + 1)
+  if (url) {
+    blob = await fetch(url).then((r) => r.blob())
+    blob.name = url.substring(url.lastIndexOf('/') + 1)
+  }
   return blob
 }
 
