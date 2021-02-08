@@ -80,7 +80,6 @@
 </template>
 
 <script>
-import { getBlobFromURL } from '@/plugins/api-helpers'
 import ImageUpload from '~/components/UI/ImageUpload'
 import { uploadURLToStorage } from '~/plugins/api-helpers'
 export default {
@@ -185,7 +184,7 @@ export default {
     updateImage(image) {
       this.input.imageRaw = image
     },
-    async clearForm() {
+    clearForm() {
       this.valid = true
       if (!this.id) {
         // New
@@ -196,7 +195,7 @@ export default {
         // Existed
         this.input.word = this.word
         this.input.annotation = this.annotation
-        this.input.imageRaw = await getBlobFromURL(this.image)
+        this.input.imageRaw = this.image
       }
     },
     cancel() {

@@ -1,31 +1,33 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  - Copyleft 2020-2021.
+  - Copyleft 2020-2021. 
   -->
 <template>
-  <v-card>
-    <v-row>
-      <v-col cols="2">
-        <v-img
-          :lazy-src="imageDialogDisplayed"
-          :src="imageDialogDisplayed"
-          max-height="75"
-          max-width="100"
-        ></v-img>
-      </v-col>
-      <v-col cols="10">
-        <v-file-input
-          ref="input1"
-          v-model="imageDialogObj"
-          show-size
-          label="New file"
-          type="file"
-          accept="image/*"
-          @change="processImage"
-        ></v-file-input>
-      </v-col>
-    </v-row>
-  </v-card>
+  <div class="mt-4">
+    <v-card>
+      <v-row>
+        <v-col cols="2">
+          <v-img
+            :lazy-src="imageDialogDisplayed"
+            :src="imageDialogDisplayed"
+            max-height="75"
+            max-width="100"
+          ></v-img>
+        </v-col>
+        <v-col cols="10">
+          <v-file-input
+            ref="input1"
+            v-model="imageDialogObj"
+            show-size
+            label="New file"
+            type="file"
+            accept="image/*"
+            @change="processImage"
+          ></v-file-input>
+        </v-col>
+      </v-row>
+    </v-card>
+  </div>
 </template>
 
 <script>
