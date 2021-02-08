@@ -1,6 +1,6 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- *  Copyleft, 2020-2021.
+ * Copyleft 2020-2021.
  */
 
 import { authenticate } from 'pixabay-api'
@@ -141,6 +141,13 @@ function uploadURLToStorage(url) {
   })
 }
 
+async function getBlobFromURL(url) {
+  let blob = {}
+  blob = await fetch(url).then((r) => r.blob())
+  blob.name = url.substring(url.lastIndexOf('/') + 1)
+  return blob
+}
+
 export {
   fakeRequestPromise,
   delayPromise,
@@ -148,4 +155,5 @@ export {
   initAppData,
   makeFBQuery,
   uploadURLToStorage,
+  getBlobFromURL,
 }

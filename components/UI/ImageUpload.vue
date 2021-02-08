@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  -  Copyleft, 2020-2021.
+  - Copyleft 2020-2021.
   -->
 <template>
   <v-card>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { getBlobFromURL } from '@/plugins/api-helpers'
 export default {
   emits: ['update-image'],
   props: {
@@ -37,6 +38,9 @@ export default {
       required: false,
       default: null,
     },
+  },
+  async fetch() {
+    this.imageDialogObj = await getBlobFromURL(this.imageExisted)
   },
   data() {
     return {

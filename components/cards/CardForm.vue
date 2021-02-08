@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  -  Copyleft, 2020-2021.
+  - Copyleft 2020-2021.
   -->
 
 <template>
@@ -80,6 +80,7 @@
 </template>
 
 <script>
+import { getBlobFromURL } from '@/plugins/api-helpers'
 import ImageUpload from '~/components/UI/ImageUpload'
 import { uploadURLToStorage } from '~/plugins/api-helpers'
 export default {
@@ -184,16 +185,23 @@ export default {
     updateImage(image) {
       this.input.imageRaw = image
     },
-    clearForm() {
+    async clearForm() {
       this.valid = true
       if (!this.id) {
+        // New
         this.input.word = ''
         this.input.annotation = ''
         this.input.imageRaw = null
+      } else {
+        // Existed
+        this.input.word = this.word
+        this.input.annotation = this.annotation
+        this.input.imageRaw = await getBlobFromURL(this.image)
       }
     },
     cancel() {
       this.$emit('dialog-reverse')
+      this.clearForm()
     },
     async submit() {
       if (this.$refs.formCard.validate()) {
@@ -234,6 +242,8 @@ export default {
             imageUploaded = await uploadURLToStorage.call(this, imageRaw)
             card.image = imageUploaded.url
             card.imagePath = imageUploaded.imagePath
+          } else {
+            card.image = this.image
           }
           await this.$store.dispatch('cards/saveCard', card)
         } else {
