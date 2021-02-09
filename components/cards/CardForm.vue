@@ -154,15 +154,15 @@ export default {
     submitButtonState() {
       if (this.id) {
         return (
-          ((this.input.annotation === this.annotation &&
-            this.input.collections === this.collections) ||
-            !(
-              this.input.word &&
-              this.input.word.length > 0 &&
-              this.input.word.length <= 100
-            ) ||
-            !(this.input.collections && this.input.collections.length > 0)) &&
-          !this.input.image
+          (this.input.annotation === this.annotation &&
+            this.input.collections === this.collections &&
+            this.input.image === this.image) ||
+          !(
+            this.input.word &&
+            this.input.word.length > 0 &&
+            this.input.word.length <= 100
+          ) ||
+          !(this.input.collections && this.input.collections.length > 0)
         )
       } else return false
     },
@@ -172,7 +172,6 @@ export default {
     this.input.annotation = this.annotation
     this.input.collections = this.collections
     this.input.image = this.image
-    console.log('Mounted!')
   },
   beforeRouteUpdate(to, from, next) {
     this.input.word = this.word
@@ -186,24 +185,23 @@ export default {
     updateImage(image) {
       this.input.image = image
     },
-    clearForm() {
+    clearForm(cancel) {
       this.valid = true
       if (!this.id) {
         // New
         this.input.word = ''
         this.input.annotation = ''
         this.input.image = null
-      } else {
+      } else if (cancel) {
         // Existed
         this.input.word = this.word
         this.input.annotation = this.annotation
         this.input.image = this.image
       }
-      this.rnd = Math.floor(Math.random() * Math.floor(999))
     },
     cancel() {
       this.$emit('dialog-reverse')
-      this.clearForm()
+      this.clearForm(true)
     },
     async submit() {
       if (this.$refs.formCard.validate()) {
@@ -228,10 +226,12 @@ export default {
             (x) => !this.collectionsAll.includes(x)
           )
         }
-        const imageRaw = this.input.image
+        // Before clearing the form
+        let imageNew = null
+        imageNew = this.input.image
         this.clearForm()
         if (collectionsDiff) {
-          await this.$store.dispatch(
+          this.$store.dispatch(
             'collections/addCollectionsMultiple',
             collectionsDiff
           )
@@ -240,20 +240,24 @@ export default {
         if (this.id) {
           // Updating card
           card.id = this.id
-          if (imageRaw) {
-            imageUploaded = await uploadURLToStorage.call(this, imageRaw)
-            card.image = imageUploaded.url
-            card.imagePath = imageUploaded.imagePath
+          if (imageNew) {
+            if (imageNew !== this.image) {
+              console.log('Updating image!')
+              imageUploaded = await uploadURLToStorage.call(this, imageNew)
+              card.image = imageUploaded.url
+              card.imagePath = imageUploaded.imagePath
+            }
           } else {
-            card.image = this.image
+            delete card.image
+            delete card.imagePath
           }
-          await this.$store.dispatch('cards/saveCard', card)
+          await this.$store.dispatch('cards/rewriteCard', card)
         } else {
           // Adding card
           card.state = { loading: true }
           card.id = await this.$store.dispatch('cards/addCard', card)
-          if (imageRaw) {
-            card.params = { imageType: 'upload', imageRaw }
+          if (imageNew) {
+            card.params = { imageType: 'upload', imageNew }
           } else {
             card.params = { imageType: 'first' }
           }

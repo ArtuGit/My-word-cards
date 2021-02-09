@@ -1,6 +1,6 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- *  Copyleft, 2020-2021.
+ * Copyleft 2020-2021.
  */
 
 import {
@@ -78,8 +78,8 @@ export const actions = {
     let image
     let imageUploaded
     if (imageType === 'upload') {
-      if (card.params.imageRaw) {
-        image = card.params.imageRaw
+      if (card.params.imageNew) {
+        image = card.params.imageNew
       } else {
         image = null
         // eslint-disable-next-line
@@ -101,7 +101,7 @@ export const actions = {
       card.imagePath = imageUploaded.imagePath
       if (card.params) {
         delete card.params.imageType
-        delete card.params.imageRaw
+        delete card.params.imageNew
       }
       if (card.state) {
         delete card.state.loading
