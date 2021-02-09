@@ -92,7 +92,6 @@ export default {
         this.data = reader.result
 
         const path = `test/${this.chosenFile.name}`
-        console.log(path)
         const storageRef = this.$fire.storage.ref().child(path)
         storageRef.put(this.data).then(function (snapshot) {
           storageRef.getDownloadURL().then(function (url) {

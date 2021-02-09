@@ -201,7 +201,6 @@ export default {
         this.input.word = ''
         this.input.annotation = ''
         this.input.image = ''
-        console.log('no id')
       } else if (cancel) {
         // Existed
         this.input.word = this.word

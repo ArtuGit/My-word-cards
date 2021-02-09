@@ -54,14 +54,6 @@ export default {
     async imageExisted(newVal, oldVal) {
       this.imageDialogURLTemp = newVal
       this.imageDialogObj = await getBlobFromURL(this.imageDialogURLTemp)
-      console.log(
-        'New Val: ',
-        newVal,
-        'Old Val: ',
-        oldVal,
-        'Changed: ',
-        this.imageDialogObj
-      )
     },
   },
   mounted() {
