@@ -45,7 +45,8 @@ export const mutations = {
 export const actions = {
   async signIn(vuexContext, authData) {
     try {
-      const result = await authOp('sign-in', authData, this.$axios)
+      this.vuexContext = vuexContext
+      const result = await authOp.call(this, 'sign-in', authData)
       let auth = {
         email: authData.email,
         token: result.idToken,
@@ -78,7 +79,8 @@ export const actions = {
   },
   async signUp(vuexContext, authData) {
     try {
-      const result = await authOp('sign-up', authData, this.$axios)
+      this.vuexContext = vuexContext
+      const result = await authOp.call(this, 'sign-up', authData)
       let auth = {
         email: authData.email,
         token: result.idToken,
@@ -170,11 +172,7 @@ export const actions = {
       vuexContext.dispatch('logout')
       return
     }
-    const userSysData = await authOp(
-      'get-user',
-      { idToken: token },
-      this.$axios
-    )
+    const userSysData = await authOp.call(this, 'get-user', { idToken: token })
     const userData = await this.$axios.$get(
       `users/${userSysData.localId}.json?auth=${token}`
     )
@@ -204,6 +202,11 @@ export const actions = {
       localStorage.removeItem('token')
       localStorage.removeItem('tokenExpiration')
     }
+  },
+  setLogoutTimer(vuexContext, duration) {
+    setTimeout(() => {
+      vuexContext.dispatch('logout')
+    }, duration)
   },
 }
 

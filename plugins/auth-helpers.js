@@ -1,15 +1,12 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- *  Copyleft, 2021.
+ * Copyleft 2020-2021.
  */
 
 import Cookie from 'js-cookie'
 
-async function authOp(type, authData, axios) {
+async function authOp(type, authData) {
   try {
-    if (typeof axios !== 'function') {
-      throw new TypeError('Axios not available')
-    }
     let request = {}
     let response = ''
     let result = ''
@@ -23,7 +20,8 @@ async function authOp(type, authData, axios) {
           ...authData,
           returnSecureToken: true,
         }
-        response = await axios.$post(authURL, request)
+        response = await this.$axios.$post(authURL, request)
+        this.vuexContext.dispatch('setLogoutTimer', response.expiresIn * 1000)
         result = response
         break
       case 'sign-in':
@@ -34,14 +32,15 @@ async function authOp(type, authData, axios) {
           ...authData,
           returnSecureToken: true,
         }
-        response = await axios.$post(authURL, request)
+        response = await this.$axios.$post(authURL, request)
+        this.vuexContext.dispatch('setLogoutTimer', response.expiresIn * 1000)
         result = response
         break
       case 'get-user':
         authURL =
           'https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=' +
           process.env.firebaseKey
-        response = await axios.$post(authURL, authData)
+        response = await this.$axios.$post(authURL, authData)
         result = response.users[0]
         break
     }
