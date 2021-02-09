@@ -4,14 +4,16 @@
   -->
 <template>
   <div class="mt-4">
-    <v-card>
+    <v-sheet>
       <v-row>
-        <v-col cols="2">
+        <v-col cols="2" class="d-flex flex-column">
           <v-img
+            v-if="imageDialogURLTemp"
+            class="d-block"
             :lazy-src="imageDialogURLTemp"
             :src="imageDialogURLTemp"
-            max-height="75"
-            max-width="100"
+            max-height="225"
+            max-width="200"
           ></v-img>
         </v-col>
         <v-col cols="10">
@@ -26,7 +28,7 @@
           ></v-file-input>
         </v-col>
       </v-row>
-    </v-card>
+    </v-sheet>
   </div>
 </template>
 
@@ -71,3 +73,9 @@ export default {
   },
 }
 </script>
+
+<style>
+.border {
+  border: 1px darkgoldenrod dotted;
+}
+</style>
