@@ -43,6 +43,9 @@ export const actions = {
     if (cardClean.params) {
       delete cardClean.params
     }
+    if (cardClean.state) {
+      delete cardClean.state
+    }
     vuexContext.commit('addCard', cardClean)
     return cardClean.id
   },
