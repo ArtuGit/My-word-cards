@@ -141,6 +141,20 @@ function uploadURLToStorage(url) {
   })
 }
 
+function deleteFileOnStorage(path) {
+  const fileRef = this.$fire.storage.ref().child(path)
+  // Delete the file
+  return fileRef
+    .delete()
+    .then(() => {
+      // File deleted successfully
+    })
+    .catch((error) => {
+      // eslint-disable-next-line
+      console.error(error)
+    })
+}
+
 async function getBlobFromURL(url) {
   let blob = null
   if (url) {
@@ -158,4 +172,5 @@ export {
   makeFBQuery,
   uploadURLToStorage,
   getBlobFromURL,
+  deleteFileOnStorage,
 }

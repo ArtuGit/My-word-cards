@@ -6,9 +6,6 @@
   <div class="mt-4">
     <v-card>
       <v-row>
-        <div>The Image: {{ imageDialogURLTemp }}</div>
-      </v-row>
-      <v-row>
         <v-col cols="2">
           <v-img
             :lazy-src="imageDialogURLTemp"
@@ -57,6 +54,14 @@ export default {
     async imageExisted(newVal, oldVal) {
       this.imageDialogURLTemp = newVal
       this.imageDialogObj = await getBlobFromURL(this.imageDialogURLTemp)
+      console.log(
+        'New Val: ',
+        newVal,
+        'Old Val: ',
+        oldVal,
+        'Changed: ',
+        this.imageDialogObj
+      )
     },
   },
   mounted() {

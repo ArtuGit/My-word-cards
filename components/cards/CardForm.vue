@@ -5,7 +5,6 @@
 
 <template>
   <v-card>
-    <div>Image:{{ image }}<br />,Input Image:{{ input.image }}</div>
     <v-card-title>
       <span class="headline">{{ cardTitle }}</span>
     </v-card-title>
@@ -82,7 +81,7 @@
 
 <script>
 import ImageUpload from '~/components/UI/ImageUpload'
-import { uploadURLToStorage } from '~/plugins/api-helpers'
+import { deleteFileOnStorage, uploadURLToStorage } from '~/plugins/api-helpers'
 export default {
   components: {
     ImageUpload,
@@ -104,6 +103,11 @@ export default {
       default: null,
     },
     image: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    imagePath: {
       type: String,
       required: false,
       default: null,
@@ -167,6 +171,11 @@ export default {
       } else return false
     },
   },
+  watch: {
+    image(newVal, oldVal) {
+      this.input.image = newVal
+    },
+  },
   beforeMount() {
     this.input.word = this.word
     this.input.annotation = this.annotation
@@ -191,7 +200,8 @@ export default {
         // New
         this.input.word = ''
         this.input.annotation = ''
-        this.input.image = null
+        this.input.image = ''
+        console.log('no id')
       } else if (cancel) {
         // Existed
         this.input.word = this.word
@@ -242,10 +252,13 @@ export default {
           card.id = this.id
           if (imageNew) {
             if (imageNew !== this.image) {
-              console.log('Updating image!')
+              deleteFileOnStorage.call(this, this.imagePath)
               imageUploaded = await uploadURLToStorage.call(this, imageNew)
               card.image = imageUploaded.url
               card.imagePath = imageUploaded.imagePath
+            } else {
+              card.image = this.image
+              card.imagePath = this.imagePath
             }
           } else {
             delete card.image
@@ -262,6 +275,7 @@ export default {
             card.params = { imageType: 'first' }
           }
           card = await this.$store.dispatch('cards/setCardImage', card)
+          this.input.image = ''
         }
         this.$emit('toggle-loading')
       }

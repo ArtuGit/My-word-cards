@@ -44,6 +44,7 @@
         :word="word"
         :annotation="annotation"
         :image="image"
+        :image-path="imagePath"
         :collections="collections"
         @dialog-reverse="dialogReverse"
         @toggle-loading="toggleLoading"
@@ -158,7 +159,10 @@ export default {
           break
         case 'image':
           this.toggleLoading()
-          this.card.params = { imageType: 'random' }
+          this.card.params = {
+            imageType: 'random',
+            imagePathOld: this.imagePath,
+          }
           this.$store.dispatch('cards/setCardImage', this.card).then(() => {
             this.toggleLoading()
           })

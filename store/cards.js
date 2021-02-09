@@ -7,6 +7,7 @@ import {
   getPixabayImage,
   makeFBQuery,
   uploadURLToStorage,
+  deleteFileOnStorage,
 } from '@/plugins/api-helpers'
 
 export const state = () => ({
@@ -38,8 +39,12 @@ export const actions = {
     const query = makeFBQuery(vuexContext, '/words/[uuid].json')
     const res = await this.$axios.$post(query, card)
     card.id = res.name
-    vuexContext.commit('addCard', card)
-    return card.id
+    const cardClean = card
+    if (cardClean.params) {
+      delete cardClean.params
+    }
+    vuexContext.commit('addCard', cardClean)
+    return cardClean.id
   },
   async saveCard(vuexContext, card) {
     const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
@@ -55,18 +60,7 @@ export const actions = {
   },
   async deleteCard(vuexContext, card) {
     if (card.imagePath) {
-      // Create a reference to the file to delete
-      const fileRef = this.$fire.storage.ref().child(card.imagePath)
-      // Delete the file
-      fileRef
-        .delete()
-        .then(() => {
-          // File deleted successfully
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error)
-        })
+      deleteFileOnStorage.call(this, card.imagePath)
     }
     const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
     const response = await this.$axios.$delete(query)
@@ -93,6 +87,10 @@ export const actions = {
           color: 'warning',
         })
         return
+      }
+      if (card.params.imagePathOld) {
+        deleteFileOnStorage.call(this, card.params.imagePathOld)
+        delete card.params.imagePathOld
       }
     }
     if (image) {
