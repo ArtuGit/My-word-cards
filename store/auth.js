@@ -208,7 +208,7 @@ export const actions = {
     setTimeout(() => {
       console.log('Exit!')
       vuexContext.dispatch('logout', { message: true })
-    }, duration)
+    }, duration - 500)
   },
 }
 

@@ -73,9 +73,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.border {
-  border: 1px darkgoldenrod dotted;
-}
-</style>

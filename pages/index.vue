@@ -1,11 +1,20 @@
+<!--
+  - Developed by Artu, https://github.com/ArtuGit
+  - Copyleft 2020-2021.
+  -->
+
 <template>
-  <h1>Home</h1>
+  <banner></banner>
 </template>
 
 <script>
+import Banner from '~/components/UI/Banner'
 import Meta from '~/mixins/meta'
 
 export default {
+  components: {
+    Banner,
+  },
   mixins: [Meta],
   asyncData() {
     return {
