@@ -39,17 +39,17 @@ export const mutations = {
 
 export const actions = {
   async addCollection(vuexContext, collection) {
-    const query = makeFBQuery(vuexContext, '/collections/[uuid].json')
-    const res = await this.$axios.$post(query, collection)
-    collection.id = res.name
-    const collectionClean = collection
+    const collectionClean = JSON.parse(JSON.stringify(collection))
     if (collectionClean.params) {
       delete collectionClean.params
     }
     if (collectionClean.state) {
       delete collectionClean.state
     }
-    vuexContext.commit('addCollection', collectionClean)
+    const query = makeFBQuery(vuexContext, '/collections/[uuid].json')
+    const res = await this.$axios.$post(query, collectionClean)
+    collection.id = res.name
+    vuexContext.commit('addCollection', collection)
     return collection.id
   },
   async addCollectionsMultiple(vuexContext, collections) {

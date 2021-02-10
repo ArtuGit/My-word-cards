@@ -53,6 +53,7 @@
             :description="collection.description"
             :image-path="collection.imagePath"
             :image="collection.image"
+            :loading-prop="collection.state ? collection.state.loading : false"
           ></collection>
         </v-col>
       </v-row>

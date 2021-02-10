@@ -5,7 +5,7 @@
 
 <template>
   <v-card
-    :loading="loading"
+    :loading="loading || loadingProp"
     min-height="100%"
     class="mx-auto d-flex flex-column flex-nowrap"
     outlined
@@ -122,6 +122,11 @@ export default {
       type: String,
       required: false,
       default: null,
+    },
+    loadingProp: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   computed: {
