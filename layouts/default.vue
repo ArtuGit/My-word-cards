@@ -1,3 +1,8 @@
+<!--
+  - Developed by Artu, https://github.com/ArtuGit
+  - Copyleft 2020-2021.
+  -->
+
 <template>
   <v-app dark>
     <v-navigation-drawer
@@ -60,6 +65,7 @@ import AuthLinks from '@/components/auth/AuthLinks'
 import DevPanel from '@/components/DevPanel'
 import Snackbar from '@/components/UI/Snackbar'
 import UserBar from '@/components/UI/UserBar'
+import { mapGetters } from 'vuex'
 export default {
   middleware: ['check-auth'],
   components: {
@@ -73,7 +79,30 @@ export default {
       clipped: false,
       drawer: false,
       fixed: false,
-      items: [
+      miniVariant: false,
+      right: true,
+      title: 'My Word Cards',
+    }
+  },
+  computed: {
+    ...mapGetters({
+      isAuthenticated: 'auth/isAuthenticated',
+      isAdmin: 'auth/isAdmin',
+    }),
+    isDev() {
+      return this.$store.getters.isDev
+    },
+    pageTitle(state) {
+      return this.$store.getters.pageTitle
+    },
+    pagePath() {
+      return this.$route.name
+    },
+    isAuthenticated() {
+      return this.$store.getters['auth/isAuthenticated']
+    },
+    items() {
+      const menu = [
         {
           icon: 'mdi-home',
           title: 'Home',
@@ -89,29 +118,11 @@ export default {
           title: 'Cards',
           to: '/cards',
         },
-        {
-          icon: 'mdi-test-tube',
-          title: 'Test',
-          to: '/test',
-        },
-      ],
-      miniVariant: false,
-      right: true,
-      title: 'My Word Cards',
-    }
-  },
-  computed: {
-    isDev() {
-      return this.$store.getters.isDev
-    },
-    pageTitle(state) {
-      return this.$store.getters.pageTitle
-    },
-    pagePath() {
-      return this.$route.name
-    },
-    isAuthenticated() {
-      return this.$store.getters['auth/isAuthenticated']
+      ]
+      if (this.isAdmin) {
+        menu.push({ icon: 'mdi-test-tube', title: 'Test', to: '/test' })
+      }
+      return menu
     },
   },
 }
