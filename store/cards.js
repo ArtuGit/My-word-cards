@@ -36,18 +36,18 @@ export const actions = {
     vuexContext.commit('setCards', cards)
   },
   async addCard(vuexContext, card) {
-    const query = makeFBQuery(vuexContext, '/words/[uuid].json')
-    const res = await this.$axios.$post(query, card)
-    card.id = res.name
-    const cardClean = card
+    const cardClean = JSON.parse(JSON.stringify(card))
     if (cardClean.params) {
       delete cardClean.params
     }
     if (cardClean.state) {
       delete cardClean.state
     }
-    vuexContext.commit('addCard', cardClean)
-    return cardClean.id
+    const query = makeFBQuery(vuexContext, '/words/[uuid].json')
+    const res = await this.$axios.$post(query, cardClean)
+    card.id = res.name
+    vuexContext.commit('addCard', card)
+    return card.id
   },
   async saveCard(vuexContext, card) {
     const query = makeFBQuery(vuexContext, `/words/[uuid]/${card.id}.json`)
