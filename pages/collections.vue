@@ -48,6 +48,7 @@
         >
           <collection
             :id="collection.id"
+            :ref="collection.id"
             :title="collection.title"
             :description="collection.description"
             :image-path="collection.imagePath"

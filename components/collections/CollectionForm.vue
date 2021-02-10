@@ -30,6 +30,10 @@
                 label="Description"
                 hint="What is the collection about?"
               ></v-textarea>
+              <image-upload
+                :image-existed="input.image"
+                @update-image="updateImage"
+              ></image-upload>
             </v-col>
           </v-row>
         </v-container>
@@ -46,7 +50,12 @@
 </template>
 
 <script>
+import ImageUpload from '~/components/UI/ImageUpload'
+import { deleteFileOnStorage, uploadURLToStorage } from '~/plugins/api-helpers'
 export default {
+  components: {
+    ImageUpload,
+  },
   props: {
     id: {
       type: String,
@@ -68,12 +77,18 @@ export default {
       required: false,
       default: null,
     },
+    imagePath: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
   data() {
     return {
       input: {
         title: '',
         description: '',
+        image: '',
       },
       valid: true,
       wordRules: [
@@ -102,7 +117,8 @@ export default {
       if (this.id) {
         return (
           (this.input.description === this.description &&
-            this.input.title === this.title) ||
+            this.input.title === this.title &&
+            this.input.image === this.image) ||
           !(
             this.input.title &&
             this.input.title.length > 0 &&
@@ -112,31 +128,54 @@ export default {
       } else return false
     },
   },
-  mounted() {
+  watch: {
+    image(newVal, oldVal) {
+      this.input.image = newVal
+    },
+    imagePath(newVal, oldVal) {
+      this.input.imagePath = newVal
+    },
+  },
+  beforeMount() {
     this.input.title = this.title
     this.input.description = this.description
+    this.input.image = this.image
   },
   beforeRouteUpdate(to, from, next) {
-    this.input.word = this.word
+    this.input.title = this.title
     this.input.description = this.description
+    this.input.image = this.image
     next()
   },
   emits: ['dialog-reverse', 'toggle-loading'],
   methods: {
-    clearForm() {
+    updateImage(image) {
+      this.input.image = image
+    },
+    clearForm(cancel) {
       this.valid = true
       if (!this.id) {
+        // New
         this.input.title = ''
         this.input.description = ''
+        this.input.image = ''
+      } else if (cancel) {
+        // Existed
+        this.input.title = this.title
+        this.input.description = this.description
+        this.input.image = this.image
       }
     },
     cancel() {
       this.$emit('dialog-reverse')
+      this.clearForm(true)
     },
     async submit() {
       if (this.$refs.formCollection.validate()) {
         this.$emit('dialog-reverse')
-        this.$emit('toggle-loading')
+        if (this.id) {
+          this.$emit('toggle-loading')
+        }
         if (!this.id && this.input.title) {
           this.input.title = this.input.title.trimEnd()
         }
@@ -146,27 +185,53 @@ export default {
         let collection = {
           title: this.input.title,
           description: this.input.description,
-          image: this.image,
           params: {
             titleBefore: this.title,
           },
         }
+        // Before clearing the form
+        let imageNew = null
+        imageNew = this.input.image
         this.clearForm()
+        let imageUploaded
         if (this.id) {
+          // Updating collection
           collection.id = this.id
+          if (imageNew) {
+            if (imageNew !== this.image) {
+              if (this.imagePath) {
+                deleteFileOnStorage.call(this, this.imagePath)
+              }
+              imageUploaded = await uploadURLToStorage.call(this, imageNew)
+              collection.image = imageUploaded.url
+              collection.imagePath = imageUploaded.imagePath
+            } else {
+              collection.image = this.image
+              collection.imagePath = this.imagePath
+            }
+          } else {
+            deleteFileOnStorage.call(this, this.imagePath)
+            delete collection.image
+            delete collection.imagePath
+          }
           await this.$store.dispatch('collections/saveCollection', collection)
         } else {
-          collection.params = { imageType: 'first' }
+          // Adding collection
           collection.state = { loading: true }
           collection.id = await this.$store.dispatch(
             'collections/addCollection',
             collection
           )
+          if (imageNew) {
+            collection.params = { imageType: 'upload', imageNew }
+          } else {
+            collection.params = { imageType: 'first' }
+          }
           collection = await this.$store.dispatch(
             'collections/setCollectionImage',
             collection
           )
-          this.$store.commit('collections/saveCollection', collection)
+          this.input.image = ''
         }
         this.$emit('toggle-loading')
       }

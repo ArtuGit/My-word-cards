@@ -8,6 +8,7 @@ import {
   getPixabayImage,
   makeFBQuery,
   uploadURLToStorage,
+  deleteFileOnStorage,
 } from '@/plugins/api-helpers'
 export const strict = false
 
@@ -41,7 +42,14 @@ export const actions = {
     const query = makeFBQuery(vuexContext, '/collections/[uuid].json')
     const res = await this.$axios.$post(query, collection)
     collection.id = res.name
-    vuexContext.commit('addCollection', collection)
+    const collectionClean = collection
+    if (collectionClean.params) {
+      delete collectionClean.params
+    }
+    if (collectionClean.state) {
+      delete collectionClean.state
+    }
+    vuexContext.commit('addCollection', collectionClean)
     return collection.id
   },
   async addCollectionsMultiple(vuexContext, collections) {
@@ -80,18 +88,7 @@ export const actions = {
   },
   async deleteCollection(vuexContext, collection) {
     if (collection.imagePath) {
-      // Create a reference to the file to delete
-      const fileRef = this.$fire.storage.ref().child(collection.imagePath)
-      // Delete the file
-      fileRef
-        .delete()
-        .then(() => {
-          // File deleted successfully
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-          console.error(error)
-        })
+      deleteFileOnStorage.call(this, collection.imagePath)
     }
     const cards = vuexContext.rootState.cards.myCards.filter((item) => {
       if (item.collections) return true
@@ -114,35 +111,50 @@ export const actions = {
   },
   async setCollectionImage(vuexContext, collection) {
     const imageType = collection.params ? collection.params.imageType : ''
-    const image = await getPixabayImage(collection.title, imageType)
-    if (!image) {
-      this.$notifier.showMessage({
-        content: 'No image returned for this title',
-        color: 'warning',
-      })
-      return
-    }
+    let image
     let imageUploaded
+    if (imageType === 'upload') {
+      if (collection.params.imageNew) {
+        image = collection.params.imageNew
+      } else {
+        image = null
+        // eslint-disable-next-line
+        console.error('No uploaded image is passed')
+      }
+    } else {
+      image = await getPixabayImage(collection.title, imageType)
+      if (!image) {
+        this.$notifier.showMessage({
+          content: 'No image returned for this title',
+          color: 'warning',
+        })
+        return
+      }
+      if (collection.params.imagePathOld) {
+        deleteFileOnStorage.call(this, collection.params.imagePathOld)
+        delete collection.params.imagePathOld
+      }
+    }
     if (image) {
       imageUploaded = await uploadURLToStorage.call(this, image)
       collection.image = imageUploaded.url
       collection.imagePath = imageUploaded.imagePath
+      if (collection.params) {
+        delete collection.params.imageType
+        delete collection.params.imageNew
+      }
+      if (collection.state) {
+        delete collection.state.loading
+      }
+      const query = makeFBQuery(
+        vuexContext,
+        `/collections/[uuid]/${collection.id}.json`
+      )
+      await this.$axios.$patch(query, collection)
+      vuexContext.commit('saveCollection', collection)
+      return collection
     }
-    if (collection.params) {
-      delete collection.params.imageType
-    }
-    if (collection.state) {
-      delete collection.state.loading
-    }
-    const query = makeFBQuery(
-      vuexContext,
-      `/collections/[uuid]/${collection.id}.json`
-    )
-    await this.$axios.$patch(query, collection)
-    vuexContext.commit('saveCollection', collection)
-    return collection
   },
-
   async test(vuexContext) {
     await uploadURLToStorage.call(
       this,

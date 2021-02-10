@@ -34,6 +34,7 @@
               :title="title"
               :description="description"
               :image="image"
+              :image-path="imagePath"
               @dialog-reverse="dialogReverse"
               @toggle-loading="toggleLoading"
             >
@@ -185,7 +186,10 @@ export default {
           break
         case 'image':
           this.toggleLoading()
-          this.collection.params = { imageType: 'random' }
+          this.collection.params = {
+            imageType: 'random',
+            imagePathOld: this.imagePath,
+          }
           this.$store
             .dispatch('collections/setCollectionImage', this.collection)
             .then(() => {

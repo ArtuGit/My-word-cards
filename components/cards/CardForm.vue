@@ -175,6 +175,9 @@ export default {
     image(newVal, oldVal) {
       this.input.image = newVal
     },
+    imagePath(newVal, oldVal) {
+      this.input.imagePath = newVal
+    },
   },
   beforeMount() {
     this.input.word = this.word
@@ -251,7 +254,9 @@ export default {
           card.id = this.id
           if (imageNew) {
             if (imageNew !== this.image) {
-              deleteFileOnStorage.call(this, this.imagePath)
+              if (this.imagePath) {
+                deleteFileOnStorage.call(this, this.imagePath)
+              }
               imageUploaded = await uploadURLToStorage.call(this, imageNew)
               card.image = imageUploaded.url
               card.imagePath = imageUploaded.imagePath
@@ -260,6 +265,7 @@ export default {
               card.imagePath = this.imagePath
             }
           } else {
+            deleteFileOnStorage.call(this, this.imagePath)
             delete card.image
             delete card.imagePath
           }
