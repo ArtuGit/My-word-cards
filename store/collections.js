@@ -55,8 +55,16 @@ export const actions = {
   async addCollectionsMultiple(vuexContext, collections) {
     let collectionObj = null
     for (const collection of collections) {
-      collectionObj = { title: collection }
-      await vuexContext.dispatch('addCollection', collectionObj)
+      collectionObj = {
+        title: collection,
+        state: { loading: true },
+      }
+      collectionObj.id = await vuexContext.dispatch(
+        'addCollection',
+        collectionObj
+      )
+      collectionObj.params = { imageType: 'first' }
+      vuexContext.dispatch('setCollectionImage', collectionObj)
     }
   },
   async saveCollection(vuexContext, collection) {
