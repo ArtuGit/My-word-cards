@@ -27,7 +27,7 @@
     "body-parser": "^1.19.0",
     "core-js": "^3.8.3",
     "express": "^4.17.1",
-    "firebase": "^8.2.4",
+    "firebase": "^8.2.7",
     "js-cookie": "^2.2.1",
     "lodash.orderby": "^4.6.0",
     "nuxt": "^2.14.12",
