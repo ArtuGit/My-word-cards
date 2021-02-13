@@ -1,6 +1,6 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- *  Copyleft, 2021.
+ * Copyleft 2020-2021.
  */
 
 import { initAppData } from '~/plugins/api-helpers'
@@ -24,6 +24,14 @@ export const actions = {
     await vuexContext.dispatch('auth/initAuth', context.req)
     vuexContext.commit('setDev', context.isDev)
     await initAppData.call(this, vuexContext)
+  },
+  nuxtClientInit(vuexContext, context) {
+    const token = localStorage.getItem('token')
+    const expirationDate = localStorage.getItem('tokenExpiration')
+    const expiredIn = expirationDate - new Date().getTime()
+    if (token && expiredIn > 0) {
+      vuexContext.dispatch('auth/setLogoutTimer', expiredIn, { root: true })
+    }
   },
 }
 
