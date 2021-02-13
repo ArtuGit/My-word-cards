@@ -59,14 +59,14 @@ export default {
 
   firebase: {
     config: {
-      apiKey: 'AIzaSyC6Vj36jf4TfeP2QBS6ojGzKS9ru2ojG7I',
-      //authDomain: '<authDomain>',
-      //databaseURL: '<databaseURL>',
-      projectId: 'my-cards-2021',
-      storageBucket: 'gs://my-cards-2021.appspot.com',
-      //messagingSenderId: '<messagingSenderId>',
-      //appId: '<appId>',
-      //measurementId: '<measurementId>'
+      apiKey: "AIzaSyC6Vj36jf4TfeP2QBS6ojGzKS9ru2ojG7I",
+      authDomain: "my-cards-2021.firebaseapp.com",
+      databaseURL: "https://my-cards-2021-default-rtdb.firebaseio.com",
+      projectId: "my-cards-2021",
+      storageBucket: "my-cards-2021.appspot.com",
+      messagingSenderId: "887974511029",
+      appId: "1:887974511029:web:0a89d121d758121ffdd9fc",
+      measurementId: "G-6HL1RWP89X"
     },
     services: {
       storage: true,
