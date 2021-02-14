@@ -83,7 +83,7 @@ export default {
   asyncData() {
     return {
       title: 'Collections',
-      description: 'Lorem ipsum',
+      description: 'My Cards Collections',
     }
   },
   data() {

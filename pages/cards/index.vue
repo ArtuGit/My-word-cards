@@ -25,7 +25,7 @@ export default {
   asyncData() {
     return {
       title: 'Cards',
-      description: 'Lorem ipsum 2', // ToDo
+      description: 'My Word Cards',
     }
   },
   computed: {
