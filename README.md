@@ -1,20 +1,18 @@
-# My-word-cards
+# My Word Cards
 
-## Build Setup
+## Easy to use, simple word cards like paper ones, but eco-friendly, fast in turnover, and free. 
 
-```bash
-# install dependencies
-$ npm install
+### Use Case Examples:
+- Languages (New Words) Learning
+- New Terms Learning
+- People Cards
+- Lists of Books
+- Lists of Movies
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+Card Sets for any simple data
 
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
-```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+### Capabilities:
+- Visualization: Add related images automatically or upload your images.
+- Organization: Consider Collections as folders or tags
+- Annotation: Multiline text field
+- Full-text search and sorting
