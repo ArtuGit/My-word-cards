@@ -185,8 +185,8 @@ export const actions = {
     vuexContext.commit('setAuth', auth)
   },
   async logout(vuexContext, payload = {}) {
-    await initAppData.call(this, vuexContext)
     vuexContext.commit('clearAuth')
+    await initAppData.call(this, vuexContext)
     if (payload.message) {
       this.$notifier.showMessage({
         content: 'You are logged out',

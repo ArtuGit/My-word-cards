@@ -1,3 +1,8 @@
+<!--
+  - Developed by Artu, https://github.com/ArtuGit
+  - Copyleft 2020-2021.
+  -->
+
 <template>
   <v-list>
     <v-list-item>
@@ -49,7 +54,7 @@ export default {
     },
     logout() {
       this.$store.dispatch('auth/logout', {
-        redirectTo: 'index',
+        // redirectTo: 'index',
         message: true,
       })
       this.dialogReverse()
