@@ -54,9 +54,7 @@
         <nuxt />
       </v-container>
     </v-main>
-    <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    <a-footer></a-footer>
   </v-app>
 </template>
 
@@ -65,6 +63,7 @@ import AuthLinks from '@/components/auth/AuthLinks'
 import DevPanel from '@/components/DevPanel'
 import Snackbar from '@/components/UI/Snackbar'
 import UserBar from '@/components/UI/UserBar'
+import AFooter from '@/components/UI/Footer'
 import { mapGetters } from 'vuex'
 export default {
   middleware: ['check-auth'],
@@ -73,6 +72,7 @@ export default {
     Snackbar,
     AuthLinks,
     DevPanel,
+    AFooter,
   },
   data() {
     return {
