@@ -5,6 +5,7 @@
 
 <template>
   <div>
+    <warning-demo v-if="!isAuthenticated"></warning-demo>
     <v-container>
       <v-row>
         <v-col>
@@ -66,6 +67,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import WarningDemo from '@/components/UI/WarningDemo'
 import Collection from '@/components/collections/Collection'
 import AddButton from '@/components/UI/AddButton'
 import orderBy from 'lodash.orderby'
@@ -73,6 +75,7 @@ import Meta from '~/mixins/meta'
 
 export default {
   components: {
+    WarningDemo,
     Collection,
     AddButton,
   },
