@@ -4,16 +4,21 @@
   -->
 
 <template>
-  <banner></banner>
+  <div>
+    <use-cases></use-cases>
+    <banner></banner>
+  </div>
 </template>
 
 <script>
 import Banner from '~/components/home/Banner'
+import UseCases from '~/components/home/UseCases'
 import Meta from '~/mixins/meta'
 
 export default {
   components: {
     Banner,
+    UseCases,
   },
   mixins: [Meta],
   asyncData() {

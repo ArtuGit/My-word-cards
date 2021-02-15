@@ -2,12 +2,10 @@
 
 ## Easy to use, simple word cards like paper ones, but eco-friendly, fast in turnover, and free. 
 
-### Use Case Examples:
-- Languages (New Words) Learning
+### Use Cases:
+- Languages Learning
 - New Terms Learning
-- People Cards
-- Lists of Books
-- Lists of Movies
+- Inventories and Collections
 
 Card Sets for any simple data
 
