@@ -16,10 +16,11 @@
         lg="4"
         xl="4"
       >
-        <v-card class="mx-auto" max-width="344" height="100%">
+        <v-card class="mx-auto" max-width="350" height="100%">
           <v-img
+            contain
             :src="require('@/static/images/tmp/' + caseCurr.image)"
-            :aspect-ratio="undefined"
+            :aspect-ratio="1.7778"
           ></v-img>
           <v-card-title>{{ caseCurr.title }}</v-card-title>
           <v-card-subtitle> {{ caseCurr.subTitle }}</v-card-subtitle>
