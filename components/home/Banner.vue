@@ -1,38 +1,19 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  - Copyleft 2020-2021.
+  -  Copyleft, 2020-2021.
   -->
 
 <template>
   <div>
-    <v-container fluid class="grey lighten-5">
-      <v-row class="mb-6" no-gutters>
-        <v-col
-          v-for="n in 2"
-          :key="n"
-          :lg="cols[n - 1]"
-          :md="6"
-          :sm="cols[n - 1]"
-        >
-          <v-card class="pa-2" outlined tile> col-{{ cols[n - 1] }} </v-card>
-        </v-col>
-      </v-row>
-      <v-row no-gutters>
-        <v-col v-for="n in 3" :key="n" cols="sm">
-          <v-card class="pa-2" outlined tile> col </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-
     <v-container fluid>
       <video
         playsinline
         autoplay
         muted
         loop
-        poster="@/static/images/banner.jpg"
+        poster="~/static/images/banner.jpg"
       >
-        <source :src="require('@/static/videos/banner.mp4')" type="video/mp4" />
+        <source :src="require('~/static/videos/banner.mp4')" type="video/mp4" />
       </video>
     </v-container>
 
@@ -68,10 +49,6 @@ export default {
 </script>
 
 <style>
-#v-banner {
-  width: 100vw;
-  height: 35rem;
-}
 video {
   object-fit: cover;
 }

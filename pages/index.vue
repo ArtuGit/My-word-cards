@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  - Copyleft 2020-2021.
+  -  Copyleft, 2020-2021.
   -->
 
 <template>
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Banner from '~/components/UI/Banner'
+import Banner from '~/components/home/Banner'
 import Meta from '~/mixins/meta'
 
 export default {

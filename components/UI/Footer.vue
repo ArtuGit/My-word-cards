@@ -1,12 +1,12 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  - Copyleft 2020-2021.
+  -  Copyleft, 2020-2021.
   -->
 
 <template>
   <v-footer dark padless>
     <v-container fluid>
-      <v-row no-gutters class="d-flex">
+      <v-row no-gutters align="center" justify="center">
         <v-col
           id="slogan"
           cols="12"
@@ -33,7 +33,7 @@
           </div>
         </v-col>
       </v-row>
-      <v-row no-gutters>
+      <v-row id="sub-footer" no-gutters>
         <v-col cols="12" class="pa-2 text-center">
           {{ new Date().getFullYear() }}
         </v-col>
@@ -50,17 +50,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.f-section {
+  text-align: center;
+}
 .logo img {
   max-height: 50px;
 }
-.f-section {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+
 #slogan {
   letter-spacing: 2px;
+}
+
+#sub-footer {
+  background-color: #31572c;
 }
 </style>
