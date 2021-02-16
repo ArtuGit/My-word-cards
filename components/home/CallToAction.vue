@@ -12,15 +12,16 @@
         :key="action.title"
         cols="12"
         sm="6"
-        md="4"
-        lg="4"
-        xl="3"
+        md="6"
+        lg="6"
+        xl="6"
       >
-        <v-card dark class="mx-auto" max-width="350" height="100%">
+        <v-card dark class="mx-auto" height="100%">
           <div class="d-flex flex-no-wrap justify-space-between">
             <v-avatar height="125" width="300" tile>
               <v-img
                 :src="require('@/static/images/cards/' + action.image)"
+                :aspect-ratio="1.7778"
               ></v-img>
             </v-avatar>
             <div>
