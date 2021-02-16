@@ -16,7 +16,7 @@
         lg="4"
         xl="3"
       >
-        <v-card class="mx-auto" max-width="350" height="100%">
+        <v-card elevation="20" class="mx-auto" max-width="350" height="100%">
           <v-img
             contain
             :src="require('@/static/images/cards/' + caseCurr.image)"

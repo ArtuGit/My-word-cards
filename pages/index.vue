@@ -5,20 +5,23 @@
 
 <template>
   <div>
-    <use-cases></use-cases>
     <!--    <banner></banner>-->
+    <use-cases></use-cases>
+    <capabilities></capabilities>
   </div>
 </template>
 
 <script>
 // import Banner from '~/components/home/Banner'
 import UseCases from '~/components/home/UseCases'
+import Capabilities from '~/components/home/Capabilities'
 import Meta from '~/mixins/meta'
 
 export default {
   components: {
     //    Banner,
     UseCases,
+    Capabilities,
   },
   mixins: [Meta],
   asyncData() {

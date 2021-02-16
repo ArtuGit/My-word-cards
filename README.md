@@ -12,4 +12,4 @@
 - Visualization: Add related images automatically or upload your images
 - Organization: Consider Collections as folders or tags
 - Annotation: Multiline text field
-- Full-text search and sorting
+- Search: Full-text search and sorting
