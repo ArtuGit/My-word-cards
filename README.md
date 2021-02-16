@@ -6,8 +6,7 @@
 - Languages Learning
 - New Terms Learning
 - Inventories and Collections
-
-Card Sets for any simple data
+- Card Sets for any simple data
 
 ### Capabilities:
 - Visualization: Add related images automatically or upload your images.

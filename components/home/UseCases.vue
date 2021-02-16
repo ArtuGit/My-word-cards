@@ -14,12 +14,12 @@
         sm="6"
         md="4"
         lg="4"
-        xl="4"
+        xl="3"
       >
         <v-card class="mx-auto" max-width="350" height="100%">
           <v-img
             contain
-            :src="require('@/static/images/tmp/' + caseCurr.image)"
+            :src="require('@/static/images/cards/' + caseCurr.image)"
             :aspect-ratio="1.7778"
           ></v-img>
           <v-card-title>{{ caseCurr.title }}</v-card-title>
@@ -37,18 +37,23 @@ export default {
       cases: [
         {
           title: 'Languages Learning',
-          subTitle: '1,000 miles of wonder',
-          image: 'undraw_professional_card_otb4.svg',
+          subTitle: 'New words and phrases with translations',
+          image: 'undraw_work_from_anywhere_7sdx.svg',
         },
         {
           title: 'New Terms Learning',
-          subTitle: '2,000 miles of wonder',
+          subTitle: 'Economics, technology, science, etc.',
           image: 'undraw_Modern_life_re_8pdp.svg',
         },
         {
           title: 'Inventories and Collections',
-          subTitle: '3,000 miles of wonder',
+          subTitle: 'Books, movies, people, etc.',
           image: 'undraw_preferences_popup_wbfw.svg',
+        },
+        {
+          title: 'Other',
+          subTitle: 'Card Sets for any simple data',
+          image: 'undraw_click_here_2li1.svg',
         },
       ],
     }
