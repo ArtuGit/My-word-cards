@@ -8,6 +8,7 @@
     <banner></banner>
     <use-cases></use-cases>
     <capabilities></capabilities>
+    <call-to-action></call-to-action>
   </div>
 </template>
 
@@ -15,6 +16,7 @@
 import Banner from '~/components/home/Banner'
 import UseCases from '~/components/home/UseCases'
 import Capabilities from '~/components/home/Capabilities'
+import CallToAction from '~/components/home/CallToAction'
 import Meta from '~/mixins/meta'
 
 export default {
@@ -22,6 +24,7 @@ export default {
     Banner,
     UseCases,
     Capabilities,
+    CallToAction,
   },
   mixins: [Meta],
   asyncData() {
