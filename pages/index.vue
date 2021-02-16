@@ -6,39 +6,40 @@
 <template>
   <div>
     <use-cases></use-cases>
-    <banner></banner>
+    <!--    <banner></banner>-->
   </div>
 </template>
 
 <script>
-import Banner from '~/components/home/Banner'
+// import Banner from '~/components/home/Banner'
 import UseCases from '~/components/home/UseCases'
-import Meta from '~/mixins/meta'
 
 export default {
   components: {
-    Banner,
+    //    Banner,
     UseCases,
   },
-  mixins: [Meta],
-  asyncData() {
-    return {
-      title: 'My Word Cards',
-      description: 'Lorem ipsum 0', // ToDo
-    }
-  },
   head: {
-    titleTemplate: 'Word Cards',
+    titleTemplate: 'My Word Cards',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
         hid: 'description',
         name: 'description',
-        content: '[to be specified2]', // ToDo
+        content: 'Simple Word Cards',
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 }
 </script>
+
+<style lang="scss">
+h2 {
+  text-align: center;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+  font-size: 2rem;
+}
+</style>

@@ -5,7 +5,7 @@
 
 <template>
   <div>
-    <div class="text-h3 text-center py-12">Use Cases</div>
+    <h2>Use Cases</h2>
     <v-row>
       <v-col
         v-for="caseCurr in cases"

@@ -26,11 +26,6 @@
               ><img src="@/static/images/logos/Pixabay.svg"
             /></a>
           </div>
-          <div class="logo">
-            <a href="https://firebase.google.com/" target="_blank"
-              ><img src="@/static/images/logos/Firebase.svg"
-            /></a>
-          </div>
         </v-col>
       </v-row>
       <v-row id="sub-footer" no-gutters>
