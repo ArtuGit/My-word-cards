@@ -11,43 +11,34 @@
         v-for="action in actions"
         :key="action.title"
         cols="12"
-        sm="6"
-        md="6"
+        sm="12"
+        md="12"
         lg="6"
         xl="6"
       >
-        <v-card dark class="mx-auto" height="100%">
-          <div class="d-flex flex-no-wrap justify-space-between">
-            <v-avatar height="125" width="300" tile>
-              <v-img
-                :src="require('@/static/images/cards/' + action.image)"
-                :aspect-ratio="1.7778"
-              ></v-img>
-            </v-avatar>
-            <div>
-              <v-card-title
-                class="headline"
-                v-text="action.title"
-              ></v-card-title>
+        <v-card
+          dark
+          class="mx-auto d-flex flex-no-wrap justify-space-between align-stretch"
+          height="100%"
+        >
+          <div class="flex-grow-0 flex-shrink-1" style="border: 1px solid gold">
+            <v-img
+              :style="imgWidth"
+              :src="require('@/static/images/cards/' + action.image)"
+              :aspect-ratio="1.5"
+            ></v-img>
+          </div>
+          <div class="flex-grow-1" style="border: 1px solid gold">
+            <v-card-title class="headline" v-text="action.title"></v-card-title>
+            <v-card-subtitle v-text="action.subTitle"></v-card-subtitle>
 
-              <v-card-subtitle v-text="action.subTitle"></v-card-subtitle>
+            <v-card-actions>
+              <v-btn fab icon> </v-btn>
 
-              <v-card-actions>
-                <v-btn
-                  class="mr-2 mt-3"
-                  fab
-                  icon
-                  height="40px"
-                  right
-                  width="40px"
-                >
-                </v-btn>
-
-                <v-btn class="mr-2 mt-5" outlined rounded small>
-                  {{ action.call }}
-                </v-btn>
-              </v-card-actions>
-            </div>
+              <v-btn color="primary">
+                {{ action.call }}
+              </v-btn>
+            </v-card-actions>
           </div>
         </v-card>
       </v-col>
@@ -76,6 +67,29 @@ export default {
         },
       ],
     }
+  },
+  computed: {
+    imgWidth() {
+      let width
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          width = '180px'
+          break
+        case 'sm':
+          width = '250px'
+          break
+        case 'md':
+          width = '300px'
+          break
+        case 'lg':
+          width = '200px'
+          break
+        default:
+          width = '300px'
+          break
+      }
+      return 'width: ' + width
+    },
   },
 }
 </script>
