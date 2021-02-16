@@ -58,6 +58,6 @@ export default {
 }
 
 #sub-footer {
-  background-color: #31572c;
+  background-color: #006400;
 }
 </style>
