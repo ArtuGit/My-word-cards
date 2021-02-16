@@ -5,21 +5,21 @@
 
 <template>
   <div>
-    <!--    <banner></banner>-->
+    <banner></banner>
     <use-cases></use-cases>
     <capabilities></capabilities>
   </div>
 </template>
 
 <script>
-// import Banner from '~/components/home/Banner'
+import Banner from '~/components/home/Banner'
 import UseCases from '~/components/home/UseCases'
 import Capabilities from '~/components/home/Capabilities'
 import Meta from '~/mixins/meta'
 
 export default {
   components: {
-    //    Banner,
+    Banner,
     UseCases,
     Capabilities,
   },
