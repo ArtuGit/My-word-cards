@@ -5,16 +5,28 @@
 
 <template>
   <v-container fluid class="m-0 p-0">
-    <v-parallax
+    <v-img
       dark
-      src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+      :src="require('@/static/images/cards/undraw_Analysis_re_w2vd.png')"
     >
-      <v-row align="center" justify="center">
-        <v-col class="text-center" cols="12">
-          <h1 class="display-1 font-weight-thin mb-4">Vuetify</h1>
-          <h4 class="subheading">Build your application today!</h4>
+      <v-row class="title-card">
+        <v-col class="text-center mx-auto" cols="7">
+          <h1 class="text-h4 text-md-h2 text-xl-h1 font-weight-thin mb-4">
+            My Word Cards
+          </h1>
+          <h4 class="subtitle-1 text-md-h4">
+            Easy to use, simple word cards like paper ones, but eco-friendly,
+            fast in turnover, and free.
+          </h4>
         </v-col>
       </v-row>
-    </v-parallax>
+    </v-img>
   </v-container>
 </template>
+
+<style>
+.title-card {
+  height: 100%;
+  padding-top: 40%;
+}
+</style>
