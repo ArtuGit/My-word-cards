@@ -9,7 +9,7 @@
 - Card Sets for any simple data
 
 ### Capabilities:
-- Visualization: Add related images automatically or upload your images.
+- Visualization: Add related images automatically or upload your images
 - Organization: Consider Collections as folders or tags
 - Annotation: Multiline text field
 - Full-text search and sorting

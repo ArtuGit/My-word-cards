@@ -13,11 +13,18 @@
 <script>
 // import Banner from '~/components/home/Banner'
 import UseCases from '~/components/home/UseCases'
+import Meta from '~/mixins/meta'
 
 export default {
   components: {
     //    Banner,
     UseCases,
+  },
+  mixins: [Meta],
+  asyncData() {
+    return {
+      title: 'My Word Cards',
+    }
   },
   head: {
     titleTemplate: 'My Word Cards',
