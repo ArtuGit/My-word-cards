@@ -21,14 +21,14 @@
           class="mx-auto d-flex flex-no-wrap justify-space-between align-stretch"
           height="100%"
         >
-          <div class="flex-grow-0 flex-shrink-1" style="border: 1px solid gold">
+          <div class="flex-grow-0 flex-shrink-1">
             <v-img
               :style="imgWidth"
               :src="require('@/static/images/cards/' + action.image)"
-              :aspect-ratio="1.5"
+              :aspect-ratio="1.7"
             ></v-img>
           </div>
-          <div class="flex-grow-1" style="border: 1px solid gold">
+          <div class="flex-grow-1">
             <v-card-title class="headline" v-text="action.title"></v-card-title>
             <v-card-subtitle v-text="action.subTitle"></v-card-subtitle>
 
