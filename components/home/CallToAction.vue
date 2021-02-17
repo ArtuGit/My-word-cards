@@ -39,7 +39,7 @@
             ></v-card-subtitle>
 
             <v-card-actions>
-              <v-btn nuxt link :href="action.link" color="primary">
+              <v-btn nuxt link :href="action.link" color="secondary">
                 {{ action.call }}
               </v-btn>
             </v-card-actions>
