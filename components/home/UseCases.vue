@@ -52,7 +52,7 @@ export default {
         },
         {
           title: 'Other',
-          subTitle: 'Card Sets for any simple data',
+          subTitle: 'Cards for any simple data with images',
           image: 'undraw_click_here_2li1.svg',
         },
       ],
