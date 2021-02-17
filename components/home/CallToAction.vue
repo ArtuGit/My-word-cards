@@ -18,24 +18,28 @@
       >
         <v-card
           dark
-          class="mx-auto d-flex flex-no-wrap justify-space-between align-stretch"
+          class="mx-auto d-flex flex-column flex-md-row flex-no-wrap justify-space-between align-stretch"
           height="100%"
+          :max-width="cardWidth"
         >
-          <div class="flex-grow-0 flex-shrink-1">
+          <div class="flex-grow-0 flex-shrink-1 mx-auto">
             <v-img
               :style="imgWidth"
               :src="require('@/static/images/cards/' + action.image)"
-              :aspect-ratio="1.7"
+              :aspect-ratio="1.5"
             ></v-img>
           </div>
-          <div class="flex-grow-1">
+          <div
+            class="flex-grow-1 d-flex flex-column justify-space-around align-center"
+          >
             <v-card-title class="headline" v-text="action.title"></v-card-title>
-            <v-card-subtitle v-text="action.subTitle"></v-card-subtitle>
+            <v-card-subtitle
+              class="text-center"
+              v-text="action.subTitle"
+            ></v-card-subtitle>
 
             <v-card-actions>
-              <v-btn fab icon> </v-btn>
-
-              <v-btn color="primary">
+              <v-btn nuxt link :href="action.link" color="primary">
                 {{ action.call }}
               </v-btn>
             </v-card-actions>
@@ -56,19 +60,27 @@ export default {
           subTitle: 'You can manage cards within an specific Collection',
           call: 'Go to Collections',
           link: '/collections',
-          image: 'undraw_work_from_anywhere_7sdx.svg',
+          image: 'undraw_folder_39kl.svg',
         },
         {
           title: 'Cards',
           subTitle: 'You can manage all cards',
           call: 'Go to All Cards',
           link: '/cards',
-          image: 'undraw_Modern_life_re_8pdp.svg',
+          image: 'undraw_body_text_l3ld.svg',
         },
       ],
     }
   },
   computed: {
+    cardWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return '350'
+        default:
+          return null
+      }
+    },
     imgWidth() {
       let width
       switch (this.$vuetify.breakpoint.name) {
