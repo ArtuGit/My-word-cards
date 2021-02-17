@@ -7,7 +7,7 @@
   <v-container fluid class="m-0 p-0">
     <v-img
       dark
-      :src="require('@/static/images/cards/undraw_Analysis_re_w2vd.png')"
+      :src="require('@/static/images/cards/undraw_Analysis_re_w2vd.svg')"
     >
       <v-row class="title-card">
         <v-col class="text-center mx-auto" cols="7">
