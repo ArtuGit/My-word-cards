@@ -6,7 +6,7 @@
 <template>
   <div>
     <h2>Capabilities</h2>
-    <v-row>
+    <v-row justify="center">
       <v-col
         v-for="capability in capabilities"
         :key="capability.title"

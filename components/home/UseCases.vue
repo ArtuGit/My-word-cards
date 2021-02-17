@@ -6,7 +6,7 @@
 <template>
   <div>
     <h2>Use Cases</h2>
-    <v-row>
+    <v-row justify="center">
       <v-col
         v-for="caseCurr in cases"
         :key="caseCurr.title"
