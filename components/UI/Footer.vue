@@ -4,7 +4,7 @@
   -->
 
 <template>
-  <v-footer dark padless>
+  <v-footer class="mt-15" dark padless>
     <v-container fluid>
       <v-row no-gutters align="center" justify="center">
         <v-col

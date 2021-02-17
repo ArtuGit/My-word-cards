@@ -7,8 +7,8 @@
   <div>
     <banner></banner>
     <use-cases></use-cases>
-    <capabilities></capabilities>
-    <call-to-action></call-to-action>
+    <capabilities class="mt-15"></capabilities>
+    <call-to-action class="mt-15"></call-to-action>
   </div>
 </template>
 
