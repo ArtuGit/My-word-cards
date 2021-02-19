@@ -1,6 +1,6 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- * Copyleft 2020-2021.
+ *  Copyleft, 2020-2021.
  */
 
 import { authenticate } from 'pixabay-api'
@@ -119,6 +119,7 @@ function getStorageDirName() {
   else return 'demo'
 }
 
+// ToDo: consider https://github.com/nodeca/image-blob-reduce
 function uploadURLToStorage(url) {
   const that = this
   const dirName = getStorageDirName.call(this)
