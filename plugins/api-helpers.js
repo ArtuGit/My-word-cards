@@ -119,7 +119,7 @@ function getStorageDirName() {
   else return 'demo'
 }
 
-// ToDo: consider https://github.com/nodeca/image-blob-reduce
+// ToDo: Resize an uploaded image
 function uploadURLToStorage(url) {
   const that = this
   const dirName = getStorageDirName.call(this)
