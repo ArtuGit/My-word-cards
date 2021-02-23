@@ -1,6 +1,6 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- * Copyleft 2020-2021.
+ *  Copyleft, 2020-2021.
  */
 
 import Cookie from 'js-cookie'
@@ -204,9 +204,7 @@ export const actions = {
     }
   },
   setLogoutTimer(vuexContext, duration) {
-    console.log('Duration: ', duration)
     setTimeout(() => {
-      console.log('Exit!')
       vuexContext.dispatch('logout', { message: true })
     }, duration)
   },
