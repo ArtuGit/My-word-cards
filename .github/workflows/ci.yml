@@ -15,5 +15,5 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
-          script: cd ${{ secrets.SERVER_PATH }} && git pull
+          script: cd ${{ secrets.SERVER_PATH }} && sh scripts/deploy.sh
 
