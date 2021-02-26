@@ -4,5 +4,5 @@
 #
 
 git pull
-pwd
-ls -la
+npm run build
+pm2 restart "My Word Cards"
