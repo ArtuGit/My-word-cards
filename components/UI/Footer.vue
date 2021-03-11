@@ -17,14 +17,15 @@
           Enjoy your word cards!
         </v-col>
         <v-col cols="12" lg="4" md="6" class="f-section pa-2">
-          Developed by <a href="https://github.com/ArtuGit">Artu</a>
+          Developed by
+          <a href="https://github.com/ArtuGit" rel="noopener">Artu</a>
         </v-col>
         <v-col cols="12" lg="4" md="12" class="f-section pa-2">
           <div>Powered by</div>
           <div class="logo">
-            <a href="https://pixabay.com/" target="_blank"
-              ><img src="@/static/images/logos/Pixabay.svg"
-            /></a>
+            <a href="https://pixabay.com/" rel="noopener" target="_blank">
+              <img src="@/static/images/logos/Pixabay.svg" alt="" />
+            </a>
           </div>
         </v-col>
       </v-row>
