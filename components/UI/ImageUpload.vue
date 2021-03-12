@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  - Copyleft 2020-2021.
+  -  Copyleft, 2020-2021.
   -->
 <template>
   <div class="mt-4">
@@ -24,6 +24,8 @@
             label="Image file"
             type="file"
             accept="image/*"
+            :hint="hint"
+            :persistent-hint="hint"
             @change="processImage"
           ></v-file-input>
         </v-col>
@@ -51,6 +53,15 @@ export default {
       imageDialogURLTemp: null,
       imageDialogObj: null,
     }
+  },
+  computed: {
+    hint() {
+      if (this.imageDialogObj) {
+        return ''
+      } else {
+        return 'Leave blank to get an image automatically'
+      }
+    },
   },
   watch: {
     async imageExisted(newVal, oldVal) {
