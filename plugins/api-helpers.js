@@ -4,7 +4,10 @@
  */
 
 import { authenticate } from 'pixabay-api'
+
+import imageBlobReduce from 'image-blob-reduce'
 const { searchImages } = authenticate(process.env.pixabayKey)
+const reduce = imageBlobReduce()
 
 const fakeRequestPromise = (delay = 1000) => {
   return new Promise((resolve, reject) => {
@@ -119,7 +122,7 @@ function getStorageDirName() {
   else return 'demo'
 }
 
-// ToDo: Resize an uploaded image
+// ToDo: Improve readability and error handling
 function uploadURLToStorage(url) {
   const that = this
   const dirName = getStorageDirName.call(this)
@@ -127,14 +130,21 @@ function uploadURLToStorage(url) {
   return new Promise(function (resolve, reject) {
     getFileBlob(url, (blob) => {
       try {
-        const path = `${dirName}/${fileName}`
-        const storageRef = that.$fire.storage.ref().child(path)
-        storageRef.put(blob).then(function (snapshot) {
-          storageRef.getDownloadURL().then(function (url) {
-            const res = { imagePath: path, url }
-            resolve(res)
+        reduce
+          .toBlob(blob, { max: 400 })
+          .then((blob) => {
+            return blob
           })
-        })
+          .then((blobResized) => {
+            const path = `${dirName}/${fileName}`
+            const storageRef = that.$fire.storage.ref().child(path)
+            storageRef.put(blobResized).then(function (snapshot) {
+              storageRef.getDownloadURL().then(function (url) {
+                const res = { imagePath: path, url }
+                resolve(res)
+              })
+            })
+          })
       } catch (e) {
         alert(e.message)
       }
