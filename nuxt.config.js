@@ -1,16 +1,16 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- * Copyleft 2020-2021.
+ *  Copyleft 2020-2021.
  */
 
 import colors from 'vuetify/es5/util/colors'
-import bodyParser from 'body-parser'
+require('dotenv').config()
 
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'server',
 
-  // Global page headers (https://go.nuxtjs.dev/config-head)
+  // Global page headers (https://go.nuxtjs.dev/cRemove the Express Backendonfig-head)
   head: {
     titleTemplate: '%s | My Word Cards',
     title: 'My Word Cards',
@@ -49,24 +49,25 @@ export default {
   modules: [
     'nuxt-client-init-module',
     '@nuxtjs/axios',
-    '@nuxtjs/firebase'
+    '@nuxtjs/firebase',
+    '@nuxtjs/dotenv'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
-    baseURL: process.env.BASE_URL || 'https://my-cards-2021-default-rtdb.firebaseio.com',
+    baseURL: process.env.databaseURL,
   },
 
   firebase: {
     config: {
-      apiKey: "AIzaSyC6Vj36jf4TfeP2QBS6ojGzKS9ru2ojG7I",
-      authDomain: "my-cards-2021.firebaseapp.com",
-      databaseURL: "https://my-cards-2021-default-rtdb.firebaseio.com",
-      projectId: "my-cards-2021",
-      storageBucket: "my-cards-2021.appspot.com",
-      messagingSenderId: "887974511029",
-      appId: "1:887974511029:web:0a89d121d758121ffdd9fc",
-      measurementId: "G-6HL1RWP89X"
+      apiKey: process.env.firebaseKey,
+      authDomain: process.env.authDomain,
+      databaseURL: process.env.databaseURL,
+      projectId: process.env.projectId,
+      storageBucket: process.env.storageBucket,
+      messagingSenderId: process.env.messagingSenderId,
+      appId: process.env.appId,
+      measurementId: process.env.measurementId
     },
     services: {
       storage: true,
@@ -106,13 +107,7 @@ export default {
       })
     }
   },
-  env: {
-    pixabayKey: '19446257-b0025af71a07915d6889c5664',
-    firebaseKey: 'AIzaSyC6Vj36jf4TfeP2QBS6ojGzKS9ru2ojG7I',
-  },
 
-  serverMiddleware: [
-    bodyParser.json(),
-    '~/api'
-  ]
+  serverMiddleware: []
+
 }
