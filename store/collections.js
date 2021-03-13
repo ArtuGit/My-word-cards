@@ -1,6 +1,6 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- * Copyleft 2020-2021.
+ *  Copyleft 2020-2021.
  */
 
 import {
@@ -135,6 +135,9 @@ export const actions = {
           content: 'No image returned for this title',
           color: 'warning',
         })
+        delete collection.state
+        delete collection.params
+        vuexContext.commit('saveCollection', collection)
         return
       }
       if (collection.params.imagePathOld) {

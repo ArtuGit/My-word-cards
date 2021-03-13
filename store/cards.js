@@ -1,6 +1,6 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- * Copyleft 2020-2021.
+ *  Copyleft 2020-2021.
  */
 
 import {
@@ -89,6 +89,9 @@ export const actions = {
           content: 'No image returned for this word',
           color: 'warning',
         })
+        delete card.state
+        delete card.params
+        vuexContext.commit('saveCard', card)
         return
       }
       if (card.params.imagePathOld) {
