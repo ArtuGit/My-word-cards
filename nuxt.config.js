@@ -1,10 +1,9 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- * Copyleft 2020-2021.
+ *  Copyleft 2020-2021.
  */
 
 import colors from 'vuetify/es5/util/colors'
-import bodyParser from 'body-parser'
 
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
@@ -111,8 +110,6 @@ export default {
     firebaseKey: 'AIzaSyC6Vj36jf4TfeP2QBS6ojGzKS9ru2ojG7I',
   },
 
-  serverMiddleware: [
-    bodyParser.json(),
-    '~/api'
-  ]
+  serverMiddleware: []
+
 }
