@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  -  Copyleft, 2020-2021.
+  -  Copyleft 2020-2021.
   -->
 
 <template>
@@ -24,7 +24,7 @@
           <div>Powered by</div>
           <div class="logo">
             <a href="https://pixabay.com/" rel="noopener" target="_blank">
-              <img src="@/static/images/logos/Pixabay.svg" alt="" />
+              <img src="@/static/images/logos/Pixabay.svg" width="" alt="" />
             </a>
           </div>
         </v-col>
@@ -51,7 +51,7 @@ export default {
   text-align: center;
 }
 .logo img {
-  max-height: 50px;
+  max-height: 33px;
 }
 
 #slogan {
