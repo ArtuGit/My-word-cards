@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  -  Copyleft, 2020-2021.
+  - Copyleft 2020-2021.
   -->
 <template>
   <div class="mt-4">
@@ -25,7 +25,7 @@
             type="file"
             accept="image/*"
             :hint="hint"
-            :persistent-hint="hint"
+            :persistent-hint="!!hint"
             @change="processImage"
           ></v-file-input>
         </v-col>
