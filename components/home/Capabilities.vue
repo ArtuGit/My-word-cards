@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  -  Copyleft, 2020-2021.
+  -  Copyleft 2020-2021.
   -->
 
 <template>
@@ -65,3 +65,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.v-icon {
+  padding-top: 1.5rem;
+}
+</style>

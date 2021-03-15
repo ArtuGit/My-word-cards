@@ -214,6 +214,9 @@ export default {
 </script>
 
 <style scoped>
+.headline {
+  word-break: normal;
+}
 .active.headline:hover {
   cursor: pointer;
 }

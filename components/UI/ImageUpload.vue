@@ -1,22 +1,21 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  -  Copyleft, 2020-2021.
+  - Copyleft 2020-2021.
   -->
 <template>
   <div class="mt-4">
     <v-sheet>
       <v-row>
-        <v-col cols="2" class="d-flex flex-column">
+        <v-col cols="3" class="d-flex flex-column">
           <v-img
             v-if="imageDialogURLTemp"
             class="d-block"
             :lazy-src="imageDialogURLTemp"
             :src="imageDialogURLTemp"
             max-height="225"
-            max-width="200"
           ></v-img>
         </v-col>
-        <v-col cols="10">
+        <v-col cols="9">
           <v-file-input
             ref="input1"
             v-model="imageDialogObj"
@@ -24,8 +23,6 @@
             label="Image file"
             type="file"
             accept="image/*"
-            :hint="hint"
-            :persistent-hint="hint"
             @change="processImage"
           ></v-file-input>
         </v-col>
@@ -53,15 +50,6 @@ export default {
       imageDialogURLTemp: null,
       imageDialogObj: null,
     }
-  },
-  computed: {
-    hint() {
-      if (this.imageDialogObj) {
-        return ''
-      } else {
-        return 'Leave blank to get an image automatically'
-      }
-    },
   },
   watch: {
     async imageExisted(newVal, oldVal) {

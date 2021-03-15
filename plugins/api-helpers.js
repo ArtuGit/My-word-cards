@@ -1,6 +1,6 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- *  Copyleft, 2020-2021.
+ * Copyleft 2020-2021.
  */
 
 import { authenticate } from 'pixabay-api'
@@ -153,17 +153,19 @@ function uploadURLToStorage(url) {
 }
 
 function deleteFileOnStorage(path) {
-  const fileRef = this.$fire.storage.ref().child(path)
-  // Delete the file
-  return fileRef
-    .delete()
-    .then(() => {
-      // File deleted successfully
-    })
-    .catch((error) => {
-      // eslint-disable-next-line
-      console.error(error)
-    })
+  if (path) {
+    const fileRef = this.$fire.storage.ref().child(path)
+    // Delete the file
+    return fileRef
+      .delete()
+      .then(() => {
+        // File deleted successfully
+      })
+      .catch((error) => {
+        // eslint-disable-next-line
+        console.error(error)
+      })
+  }
 }
 
 async function getBlobFromURL(url) {
