@@ -9,10 +9,10 @@
       <template v-slot:activator="{ on: title, attrs2 }">
         <v-card-title>
           <div v-if="isAuthenticated" v-bind="attrs2" v-on="{ ...title }">
-            <span class="active headline">{{ word }}</span>
+            <div class="active headline">{{ word }}</div>
           </div>
           <div v-else>
-            <span class="headline">{{ word }}</span>
+            <div class="headline">{{ word }}</div>
           </div>
           <v-spacer></v-spacer>
           <v-menu
@@ -178,6 +178,9 @@ export default {
 </script>
 
 <style scoped>
+.headline {
+  word-break: normal;
+}
 .active.headline:hover {
   cursor: pointer;
 }
