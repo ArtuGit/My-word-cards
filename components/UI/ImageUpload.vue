@@ -6,17 +6,16 @@
   <div class="mt-4">
     <v-sheet>
       <v-row>
-        <v-col cols="2" class="d-flex flex-column">
+        <v-col cols="3" class="d-flex flex-column">
           <v-img
             v-if="imageDialogURLTemp"
             class="d-block"
             :lazy-src="imageDialogURLTemp"
             :src="imageDialogURLTemp"
             max-height="225"
-            max-width="200"
           ></v-img>
         </v-col>
-        <v-col cols="10">
+        <v-col cols="9">
           <v-file-input
             ref="input1"
             v-model="imageDialogObj"
