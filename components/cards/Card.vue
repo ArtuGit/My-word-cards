@@ -4,59 +4,70 @@
   -->
 
 <template>
-  <v-card :loading="loading || loadingProp" height="100%">
-    <v-dialog v-model="dialog" persistent max-width="600px">
-      <template v-slot:activator="{ on: title, attrs2 }">
-        <v-card-title>
-          <div v-if="isAuthenticated" v-bind="attrs2" v-on="{ ...title }">
-            <div class="active headline">{{ word }}</div>
-          </div>
-          <div v-else>
-            <div class="headline">{{ word }}</div>
-          </div>
-          <v-spacer></v-spacer>
-          <v-menu
-            v-if="isAuthenticated && !loading && !loadingProp"
-            bottom
-            left
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn dark icon v-bind="attrs" v-on="on">
-                <v-icon>mdi-dots-vertical</v-icon>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item
-                v-for="item in menuItems"
-                :key="item.id"
-                class="menu-item"
+  <v-lazy
+    :options="{
+      threshold: 0.5,
+    }"
+    min-height="200"
+    transition="fade-transition"
+  >
+    <v-card :loading="loading || loadingProp" height="100%">
+      <v-dialog v-model="dialog" persistent max-width="600px">
+        <template v-slot:activator="{ on: title, attrs2 }">
+          <v-card-title>
+            <v-col cols="10">
+              <div v-if="isAuthenticated" v-bind="attrs2" v-on="{ ...title }">
+                <div class="active headline">{{ word }}</div>
+              </div>
+              <div v-else>
+                <div class="headline">{{ word }}</div>
+              </div>
+            </v-col>
+            <v-col cols="2">
+              <v-menu
+                v-if="isAuthenticated && !loading && !loadingProp"
+                bottom
+                left
               >
-                <v-list-item-title @click="menuHandler(item)">
-                  {{ item.title }}
-                </v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </v-card-title>
-      </template>
-      <card-form
-        :id="id"
-        :word="word"
-        :annotation="annotation"
-        :image="image"
-        :image-path="imagePath"
-        :collections="collections"
-        @dialog-reverse="dialogReverse"
-        @toggle-loading="toggleLoading"
-      >
-      </card-form>
-    </v-dialog>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn dark icon v-bind="attrs" v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item
+                    v-for="item in menuItems"
+                    :key="item.id"
+                    class="menu-item"
+                  >
+                    <v-list-item-title @click="menuHandler(item)">
+                      {{ item.title }}
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </v-col>
+          </v-card-title>
+        </template>
+        <card-form
+          :id="id"
+          :word="word"
+          :annotation="annotation"
+          :image="image"
+          :image-path="imagePath"
+          :collections="collections"
+          @dialog-reverse="dialogReverse"
+          @toggle-loading="toggleLoading"
+        >
+        </card-form>
+      </v-dialog>
 
-    <v-card-subtitle v-if="trimmedAnnotation">
-      {{ trimmedAnnotation }}
-    </v-card-subtitle>
-    <v-img v-if="image" :src="image"></v-img>
-  </v-card>
+      <v-card-subtitle v-if="trimmedAnnotation">
+        {{ trimmedAnnotation }}
+      </v-card-subtitle>
+      <v-img v-if="image" :src="image"></v-img>
+    </v-card>
+  </v-lazy>
 </template>
 
 <script>
