@@ -2,14 +2,15 @@
 
 ## Easy to use, simple word cards like paper ones, but eco-friendly, fast in turnover, and free. 
 
-### Use Cases:
-- Languages Learning
-- New Terms Learning
-- Inventories and Collections
-- Cards for any simple data with images
+## Features:
+- Managing cards and collections
+- Filtering and sorting
+- Automatic getting a relevant image from Pixabay
+- Images uploading
+- Automatic images resizing
+- Firebase Realtime Database
+- Firebase Authentication
+- Firebase Storage
 
-### Capabilities:
-- Visualization: Add related images automatically or upload your images
-- Organization: Consider Collections as folders or tags
-- Annotation: Multiline text field
-- Search: Full-text search and sorting
+## Website:
+https://my-word-cards.itcross.org
