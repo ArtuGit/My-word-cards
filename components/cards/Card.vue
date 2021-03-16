@@ -1,6 +1,6 @@
 <!--
   - Developed by Artu, https://github.com/ArtuGit
-  - Copyleft 2020-2021.
+  -  Copyleft 2020-2021.
   -->
 
 <template>
@@ -8,7 +8,7 @@
     :options="{
       threshold: 0.5,
     }"
-    min-height="200"
+    height="100%"
     transition="fade-transition"
   >
     <v-card :loading="loading || loadingProp" height="100%">
