@@ -9,7 +9,6 @@ import {
   uploadURLToStorage,
   deleteFileOnStorage,
 } from '@/plugins/api-helpers'
-export const strict = false
 
 export const state = () => ({
   myCollections: [],
@@ -80,7 +79,7 @@ export const actions = {
         index = item.collections.indexOf(collection.params.titleBefore)
         if (index !== -1) {
           item.collections.splice(index, 1, collection.title)
-          await vuexContext.dispatch('cards/rewriteCard', item, { root: true })
+          vuexContext.dispatch('cards/rewriteCard', item, { root: true })
         }
       }
       delete collection.params
@@ -165,8 +164,10 @@ export const actions = {
       return collection
     }
   },
-  async test(vuexContext) {
-    await vuexContext.dispatch('auth/setLogoutTimer', 15000, { root: true })
+  async test(vuexContext, collection) {
+    const imageUploaded = await uploadURLToStorage.call(this, collection.image)
+    // eslint-disable-next-line
+    console.log(imageUploaded)
   },
 }
 
