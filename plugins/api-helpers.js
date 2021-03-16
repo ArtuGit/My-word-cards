@@ -1,13 +1,11 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- * Copyleft 2020-2021.
+ *  Copyleft 2020-2021.
  */
 
 import { authenticate } from 'pixabay-api'
-
-import imageBlobReduce from 'image-blob-reduce'
+import imageCompression from 'browser-image-compression'
 const { searchImages } = authenticate(process.env.pixabayKey)
-const reduce = imageBlobReduce()
 
 const fakeRequestPromise = (delay = 1000) => {
   return new Promise((resolve, reject) => {
@@ -99,16 +97,6 @@ function makeFBQuery(context, pStr) {
   return rStr
 }
 
-function getFileBlob(url, cb) {
-  const xhr = new XMLHttpRequest()
-  xhr.open('GET', url)
-  xhr.responseType = 'blob'
-  xhr.addEventListener('load', function () {
-    cb(xhr.response)
-  })
-  xhr.send()
-}
-
 function getStorageDirName() {
   let isAdmin, uuid
   if (this.getters) {
@@ -131,7 +119,15 @@ async function uploadURLToStorage(url) {
       baseURL: null,
       responseType: 'blob',
     })
-    blob = await reduce.toBlob(blob, { max: 400 })
+    // eslint-disable-next-line
+    console.log('Blob before:',blob)
+    blob = await imageCompression(blob, {
+      maxSizeMB: 0.33,
+      maxWidthOrHeight: 200,
+      useWebWorker: true,
+    })
+    // eslint-disable-next-line
+    console.log('Blob after:',blob)
     const storageRef = await this.$fire.storage.ref().child(path)
     await storageRef.put(blob)
     const urlRet = await storageRef.getDownloadURL()
@@ -140,36 +136,6 @@ async function uploadURLToStorage(url) {
     // eslint-disable-next-line
       console.error('Error in the image handling ', error)
   }
-}
-
-// ToDo: Get rid of this version and only its own dependencies
-function uploadURLToStorageOld(url) {
-  const that = this
-  const dirName = getStorageDirName.call(this)
-  const fileName = url.split('/').slice(-1)[0]
-  return new Promise(function (resolve, reject) {
-    getFileBlob(url, (blob) => {
-      try {
-        reduce
-          .toBlob(blob, { max: 400 })
-          .then((blob) => {
-            return blob
-          })
-          .then((blobResized) => {
-            const path = `${dirName}/${fileName}`
-            const storageRef = that.$fire.storage.ref().child(path)
-            storageRef.put(blobResized).then(function (snapshot) {
-              storageRef.getDownloadURL().then(function (url) {
-                const res = { imagePath: path, url }
-                resolve(res)
-              })
-            })
-          })
-      } catch (e) {
-        alert(e.message)
-      }
-    })
-  })
 }
 
 function deleteFileOnStorage(path) {
@@ -204,7 +170,6 @@ export {
   initAppData,
   makeFBQuery,
   uploadURLToStorage,
-  uploadURLToStorageOld,
   getBlobFromURL,
   deleteFileOnStorage,
 }
