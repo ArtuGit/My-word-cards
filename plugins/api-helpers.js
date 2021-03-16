@@ -119,15 +119,11 @@ async function uploadURLToStorage(url) {
       baseURL: null,
       responseType: 'blob',
     })
-    // eslint-disable-next-line
-    console.log('Blob before:',blob)
     blob = await imageCompression(blob, {
       maxSizeMB: 0.33,
-      maxWidthOrHeight: 200,
+      maxWidthOrHeight: 400,
       useWebWorker: true,
     })
-    // eslint-disable-next-line
-    console.log('Blob after:',blob)
     const storageRef = await this.$fire.storage.ref().child(path)
     await storageRef.put(blob)
     const urlRet = await storageRef.getDownloadURL()
