@@ -1,6 +1,6 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- * Copyleft 2020-2021.
+ *  Copyleft 2020-2021.
  */
 
 import {
@@ -79,7 +79,7 @@ export const actions = {
         index = item.collections.indexOf(collection.params.titleBefore)
         if (index !== -1) {
           item.collections.splice(index, 1, collection.title)
-          await vuexContext.dispatch('cards/rewriteCard', item, { root: true })
+          vuexContext.dispatch('cards/rewriteCard', item, { root: true })
         }
       }
       delete collection.params
