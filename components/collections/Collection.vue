@@ -203,7 +203,7 @@ export default {
           break
         case 'test':
           this.toggleLoading()
-          this.$store.dispatch('collections/test').then(() => {
+          this.$store.dispatch('collections/test', this.collection).then(() => {
             this.toggleLoading()
           })
           break

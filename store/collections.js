@@ -1,15 +1,15 @@
 /*
  * Developed by Artu, https://github.com/ArtuGit
- *  Copyleft 2020-2021.
+ * Copyleft 2020-2021.
  */
 
 import {
   getPixabayImage,
   makeFBQuery,
   uploadURLToStorage,
+  uploadURLToStorage2,
   deleteFileOnStorage,
 } from '@/plugins/api-helpers'
-export const strict = false
 
 export const state = () => ({
   myCollections: [],
@@ -165,8 +165,10 @@ export const actions = {
       return collection
     }
   },
-  async test(vuexContext) {
-    await vuexContext.dispatch('auth/setLogoutTimer', 15000, { root: true })
+  async test(vuexContext, collection) {
+    const imageUploaded = await uploadURLToStorage2.call(this, collection.image)
+    // eslint-disable-next-line
+    console.log(imageUploaded)
   },
 }
 

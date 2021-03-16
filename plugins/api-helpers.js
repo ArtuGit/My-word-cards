@@ -122,6 +122,25 @@ function getStorageDirName() {
   else return 'demo'
 }
 
+async function uploadURLToStorage2(url) {
+  try {
+    const dirName = '!test'
+    const fileName = '!test'
+    const path = `${dirName}/${fileName}`
+    let blob = await this.$axios.$get(url, {
+      responseType: 'blob',
+    })
+    blob = await reduce.toBlob(blob, { max: 100 })
+    const storageRef = await this.$fire.storage.ref().child(path)
+    await storageRef.put(blob)
+    const urlRet = await storageRef.getDownloadURL()
+    return { imagePath: path, url: urlRet }
+  } catch (error) {
+    // eslint-disable-next-line
+      console.error('Error in the image handling ', error)
+  }
+}
+
 // ToDo: Improve readability and error handling
 function uploadURLToStorage(url) {
   const that = this
@@ -184,6 +203,7 @@ export {
   initAppData,
   makeFBQuery,
   uploadURLToStorage,
+  uploadURLToStorage2,
   getBlobFromURL,
   deleteFileOnStorage,
 }
