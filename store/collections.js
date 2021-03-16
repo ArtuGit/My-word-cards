@@ -7,7 +7,6 @@ import {
   getPixabayImage,
   makeFBQuery,
   uploadURLToStorage,
-  uploadURLToStorage2,
   deleteFileOnStorage,
 } from '@/plugins/api-helpers'
 
@@ -166,7 +165,7 @@ export const actions = {
     }
   },
   async test(vuexContext, collection) {
-    const imageUploaded = await uploadURLToStorage2.call(this, collection.image)
+    const imageUploaded = await uploadURLToStorage.call(this, collection.image)
     // eslint-disable-next-line
     console.log(imageUploaded)
   },

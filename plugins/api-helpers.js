@@ -122,15 +122,16 @@ function getStorageDirName() {
   else return 'demo'
 }
 
-async function uploadURLToStorage2(url) {
+async function uploadURLToStorage(url) {
   try {
-    const dirName = '!test'
-    const fileName = '!test'
+    const dirName = getStorageDirName.call(this)
+    const fileName = url.split('/').slice(-1)[0]
     const path = `${dirName}/${fileName}`
     let blob = await this.$axios.$get(url, {
+      baseURL: null,
       responseType: 'blob',
     })
-    blob = await reduce.toBlob(blob, { max: 100 })
+    blob = await reduce.toBlob(blob, { max: 400 })
     const storageRef = await this.$fire.storage.ref().child(path)
     await storageRef.put(blob)
     const urlRet = await storageRef.getDownloadURL()
@@ -141,8 +142,8 @@ async function uploadURLToStorage2(url) {
   }
 }
 
-// ToDo: Improve readability and error handling
-function uploadURLToStorage(url) {
+// ToDo: Get rid of this version and only its own dependencies
+function uploadURLToStorageOld(url) {
   const that = this
   const dirName = getStorageDirName.call(this)
   const fileName = url.split('/').slice(-1)[0]
@@ -203,7 +204,7 @@ export {
   initAppData,
   makeFBQuery,
   uploadURLToStorage,
-  uploadURLToStorage2,
+  uploadURLToStorageOld,
   getBlobFromURL,
   deleteFileOnStorage,
 }
